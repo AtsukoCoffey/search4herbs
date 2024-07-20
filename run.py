@@ -20,3 +20,23 @@ sales = SHEET.worksheet('Sheet1')
 data = sales.get_all_values()
 
 print(data)
+
+class Player:
+    """
+    Player's name, HP, items, location_x, location_y
+    all the status info
+    """
+    def __init__(self, name, hp, lv, items):
+        self.name = name
+        self.hp = hp
+        self.lv = lv
+        self.items = items
+
+    def call_status(self):
+        return f"{player1.name} HP: {player1.hp} Items: {player1.items}"
+
+
+
+player1 = input('Please enter your name ( hero\’s name ) alphabet only, 3 or more letters.\n')
+player1 = Player(player1, 50, 1, "")
+print(player1.call_status())
