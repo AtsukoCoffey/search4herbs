@@ -1,4 +1,53 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# The Search For Herbs  
+  
+Welcome to The Search For Herbs game.  
+This is a text based adventure game that is inspired by 80’s popular RPG game “Dragon Quest”.  
+  
+<!-- Please enter your name ( the game hero’s name ) alphabet only, 3 or more letters-> input -> validation -->
+The hero of this game is going to collect medicinal herbs for their sick sister at the outside of the village; where the animals and monsters exist. Running, fighting or dealing with monsters affects the hero’s status. When your health point (HP) became “0”, the game is over, so try to save your health.  
+The goal of this game is to complete collecting more than 10 medicinal herbs and safely come back home to heal the hero’s sister.  
+  
+> This website is built for academic purpose only.
+  
+  
+## Live site
+[Live site >> https://atsukocoffey.github.io/search4herbs/](https://atsukocoffey.github.io/search4herbs/)
+
+# UX DESIGN  
+  
+## 1. Strategy Plane  
+### Target users  
+1. Intended to target people who like text based games.
+
+### User value
+1.  
+  
+## 2. Scope Plane  
+USER STORIES  
+### First time visitor  
+* As a user, I want to clearly understand what is offered on this website.  
+* As a user, I want to clearly understand how to play this game instinktively.  
+* As a user, I want to see my results clearly.  
+
+### Frequent visitor  
+  
+### The website owner stories  
+* As a site owner, I want to encourage users to play games.  
+  
+
+## 3. Structure Plane  
+  
+* The website should have a clear logo or header.
+* The landing page should show what this site is offering intuitively.  
+  
+## 4. Skeleton Plane  
+
+![Algorithm planning](readme/algorithm-plan.webp)  
+
+# EXISTING FEATURES  
+  
+## Landing and name input  
+
 
 Welcome,
 
