@@ -48,6 +48,14 @@ USER STORIES
   
 ## Landing and name input  
 
+#### Creating Google API Credentials  
+Access to Google Cloud, create a new project. Enable both Google Drive and Google Sheet API. Create credentials with Editor setting.  
+From APIs and services, choose Credentials, click the new mail address that has been created, choose KEYS from top navigations and ADD KEY drop dpwn, Create new key. Key type is JSON, click CREATE. Then the credential json file is automatically down loaded.  
+  
+#### Installing additional dependencies
+The first one is Google-oauth which will use creds.json file to setup the authentication to access Google Cloud. The second one is gspread that we use to access and update data in the spreadsheet. These packages are included in the standard Python library, simply command `pip3 install gspread google-auth`
+
+
 
 Welcome,
 
