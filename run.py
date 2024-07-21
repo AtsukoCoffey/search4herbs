@@ -1,6 +1,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 import json
+import random
 # Every Google account has as an IAM (Identity and Access Management)
 
 
@@ -80,17 +81,32 @@ print(f'-----------------------------------------------------------\n{new_player
 input(f' ----------------------------- Press any key to continue.')
 print(f'-----------------------------------------------------------\nNow {new_player.name} has left their home and walking in the village.\n\nVillager “Hi {new_player.name}, how’s your sister? Where are you going?”\n{new_player.name} “Hi, I’m going to get medicinal herbs. She’s not well again.”\nVillager “Oh I’m sorry to hear that.  Hmm, I heard that they were growing around The Northern Mountain. Or if you want to fight with monsters, The East Woods monsters might have them. But be careful.”\n{new_player.name} “Thanks!”\n')
 input(f' ----------------------------- Press any key to continue.')
+
+
 class Monsters:
     """
-    Monsters and animals status
+    Monsters and animals event
     """
+    instances = []
     def __init__(self, name, hp, attack, items, frequency, zone):
+        """
+        Monsters and animals status
+        """
         self.name = name
         self.hp = hp
         self.attack = attack
         self.items = items
         self.frequency = frequency
         self.zone = zone
+        # class attribute to keep track of class instances
+        Monsters.instances.append(self)
+        
+    # Referenced from Stack Overflow's article --> Credit in README file
+    # class method to access the get method without any instance
+    @classmethod
+    def get(cls, value):
+        return [inst for inst in cls.instances if inst.zone == value]
+        
 
 slime = Monsters("Slime", 3, 6, "stone", 15, "field")
 slime2 = Monsters("She-Slime", 4, 7, "gold", 15, "field")
@@ -121,7 +137,12 @@ yX-6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
 -5 - - - - - - - - - - - - - - - -
 """
 
-# print(new_player.call_status())
+def field_event():
+    """
+    Get field monsters from monster instances
+    """
+    field_monster = [monst.name for monst in Monsters.get("field")]
+    print(field_monster)
 
 
 print(f'-----------------------------------------------------------\nNow {new_player.name} is standing just outside of the village.\n')
@@ -134,11 +155,15 @@ while True:
         print(new_player.call_status())
     elif answer.lower() == "north" or answer.lower() == "n":
         new_player.location_y += 1
+        field_event()
     elif answer.lower() == "east" or answer.lower() == "e":
         new_player.location_x += 1
+        field_event()
     elif answer.lower() == "south" or answer.lower() == "s":
         new_player.location_y -= 1
+        field_event()
     elif answer.lower() == "west" or answer.lower() == "w":
         new_player.location_x -= 1
+        field_event()
     else:
         print("Invalid input. Please try again.")
