@@ -16,27 +16,28 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('search4herbs')
 
-sales = SHEET.worksheet('Sheet1')
-data = sales.get_all_values()
+player = SHEET.worksheet('player')
+player_data = player.get_all_values()
 
-print(data)
+print(player_data[-1])
 
 class Player:
     """
     Player's name, HP, items, location_x, location_y
     all the status info
     """
-    def __init__(self, name, hp, lv, items):
+    def __init__(self, name, hp, items, location_x, location_y):
         self.name = name
         self.hp = hp
-        self.lv = lv
         self.items = items
+        self.location_x = location_x
+        self.location_y = location_y
 
     def call_status(self):
-        return f"{player1.name} HP: {player1.hp} Items: {player1.items}"
+        return f"{new_player.name} HP: {new_player.hp} Items: {new_player.items} Location X: {new_player.location_x} Y: {new_player.location_y}"
 
 
 
-player1 = input('Please enter your name ( hero\’s name ) alphabet only, 3 or more letters.\n')
-player1 = Player(player1, 50, 1, "")
-print(player1.call_status())
+new_player = input('Please enter your name ( hero’s name - alphabet only, 3 or more letters. )\n')
+new_player = Player(new_player, 50, [], 0, 0)
+print(new_player.call_status())
