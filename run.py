@@ -36,8 +36,22 @@ class Player:
     def call_status(self):
         return f"{new_player.name} HP: {new_player.hp} Items: {new_player.items} Location X: {new_player.location_x} Y: {new_player.location_y}"
 
+def validate_name(name):
+    try:
+        if len(name) < 4:
+            raise ValueError(f"Please input more longer name. You input {len(name)} letter(s). - You can use alphabet and some marks and numbers. 4 or more letters. )\n")
+        elif name.isnumeric():
+            raise ValueError(f"Not numbers only please. - You can use alphabet and some marks and numbers. 4 or more letters. )\n")
+    except ValueError as e:
+        print(f"Invalid name. {e} Please try again.")
+        return False
+    return True
 
+while True:
+    new_name = input('Please enter your name ( hero’s name - You can use alphabet and marks. 4 or more letters. )\n')
+    if validate_name(new_name):
+        print(f"Welcome {new_name}")
+        break
 
-new_player = input('Please enter your name ( hero’s name - alphabet only, 3 or more letters. )\n')
-new_player = Player(new_player, 50, [], 0, 0)
+new_player = Player(new_name, 50, [], 0, 0)
 print(new_player.call_status())
