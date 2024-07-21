@@ -107,17 +107,20 @@ class Monsters:
     def get(cls, value):
         return [inst for inst in cls.instances if inst.zone == value]
         
-
-slime = Monsters("Slime", 3, 6, "stone", 15, "field")
-slime2 = Monsters("She-Slime", 4, 7, "gold", 15, "field")
-scorpion = Monsters("Iron-Scorpion", 22, 10, "iron", 15, "field")
-ghost = Monsters("Ghost", 7, 4, "", 15, "woods")
-wolf = Monsters("Bewarewolf", 34, 12, "gold", 10, "field")
-skeleton = Monsters("Skeleton", 30, 15, "bone", 10, "field")
-dracula = Monsters("Dracky", 6, 9, "medicinal herb", 10, "woods")
-dracula2 = Monsters("Drackyma", 10, 15, "medicinal herb", 5, "woods")
-slime3 = Monsters("Metal-Slime", 400, 10, "metal", 4, "field")
-slime4 = Monsters("King-Slime", 500, 20, "gold", 1, "field")
+# Create monsters instances
+# Using capital letter to the python variables is not recomended though
+# These are matching to the name attribute because
+# Identifying from @class method uses name attribute. 
+Slime = Monsters("Slime", 3, 6, "stone", 15, "land")
+She_Slime = Monsters("She_Slime", 4, 7, "gold", 15, "land")
+Iron_Scorpion = Monsters("Iron_Scorpion", 22, 10, "iron", 15, "land")
+Ghost = Monsters("Ghost", 7, 4, "", 15, "woods")
+Bewarewolf = Monsters("Bewarewolf", 34, 12, "gold", 10, "land")
+Skeleton = Monsters("Skeleton", 30, 15, "bone", 10, "land")
+Dracky = Monsters("Dracky", 6, 9, "medicinal herb", 10, "woods")
+Drackyma = Monsters("Drackyma", 10, 15, "medicinal herb", 5, "woods")
+Metal_Slime = Monsters("Metal_Slime", 400, 10, "metal", 4, "land")
+King_Slime = Monsters("King_Slime", 500, 20, "gold", 1, "land")
 
 MAP = """
 @ : Village    M : Mountain 
@@ -129,9 +132,9 @@ yX-6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
  3 L L L L L L L L L L L L L L L L
  2 L L L L L L L L L L L L L L L L
  1 L L L L L L L L L L L L L L L L
- 0 L L L L L L @ L L L L L W W W L
--1 L L L L L L L L L L L W W W W L
--2 L L L L L L L L L L L L W W W L
+ 0 L L L L L L @ L L L L W W W W W
+-1 L L L L L L L L L L L W W W W W
+-2 L L L L L L L L L L L W W W W W
 -3 L L L L L L L L L L L L L L L L
 -4 - - L L L L - - - - - - - L L L
 -5 - - - - - - - - - - - - - - - -
@@ -139,10 +142,28 @@ yX-6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
 
 def field_event():
     """
-    Get field monsters from monster instances
+    Check player's location for pick up monsters
     """
-    field_monster = [monst.name for monst in Monsters.get("field")]
-    print(field_monster)
+    # land_monsters = [monst.name for monst in Monsters.get("land")]
+    # woods_monsters = [monst.name for monst in Monsters.get("woods")]
+
+    if 5 <= new_player.location_x <= 9:
+        if -2 <= new_player.location_y <= 0:
+            pick_monster("woods")
+    else:
+        pick_monster("land")
+
+
+def pick_monster(zone):
+    """
+    Sort the monsters by zones from Monsters instances and pick one
+    This function is Called when player move in any direction at feild area.
+    """
+    monsters_name_list = [monst.name for monst in Monsters.get(zone)]
+    monsters_frequency_list = [monst.frequency for monst in Monsters.get(zone)]
+    monst = random.sample(monsters_name_list, k= 1, counts=monsters_frequency_list)
+
+    print(monst)
 
 
 print(f'-----------------------------------------------------------\nNow {new_player.name} is standing just outside of the village.\n')
