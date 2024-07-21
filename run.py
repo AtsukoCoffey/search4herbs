@@ -35,7 +35,7 @@ class Player:
         self.location_y = location_y
 
     def call_status(self):
-        return f"{new_player.name} HP: {new_player.hp} Items: {new_player.items} Location X: {new_player.location_x} Y: {new_player.location_y}"
+        return f"----------------------------------------\nName: {new_player.name} \nHP:{new_player.hp} | Items:{new_player.items} \nLocation X:{new_player.location_x} | Y:{new_player.location_y}\n----------------------------------------\n"
 
 def validate_name(name):
     """
@@ -60,7 +60,7 @@ while True:
         print(f"Welcome {new_name}")
         break
 
-print("The hero of this game is going to collect medicinal herbs for their sick sister at the outside of the village; where the animals and monsters exist. Running, fighting or dealing with monsters affects the hero’s status. When your health point (HP) became “0”, the game is over, so try to save your health. The goal of this game is to complete collecting more than 10 medicinal herbs and safely come back home to heal the hero’s sister. ")
+print("The hero of this game is going to collect medicinal herbs for their sick sister at the outside of the village; where the animals and monsters exist. Running, fighting or dealing with monsters affects the hero’s status. When your health point (HP) became “0”, the game is over. The goal of this game is to complete collecting more than 10 medicinal herbs and safely come back home to heal the hero’s sister. ")
 
 while True:
     answer = input("Would you like to play?  Type “Yes” or “y” / “No” or “n”\n")
@@ -72,14 +72,14 @@ while True:
         print("Please input valid keys")
 
 new_player = Player(new_name, 50, [], 0, 0)
-# print(new_player.call_status())
 
+input(f'You answered "YES" so the story is begging. Press any key to start.')
 print(f'-----------------------------------------------------------\nSomewhere in the magical world,\nThere was a family whose father passed away a few years ago…\nYoung {new_player.name} and their mother were taking care of their sick younger sister.\n')
-
-print(f'-----------------------------------------------------------\n{new_player.name} “Hi, mother. She is not well again…”\nMother “…. ( sigh ) I know. But we have run out of medicine. I’ll go out of the village to get the medicinal herbs”\n{new_player.name} “No mother, I’ll go. Please look after her. I’ll be back soon.”\n Mother “Please be careful and run away from Monsters…”\n')
-
-print(f'-----------------------------------------------------------\nNow {new_player.name} has left his home and walking in the village.\n\nVillager “Hi {new_player.name}, how’s your sister? Where are you going?”\n{new_player.name} “Hi, I’m going to get medicinal herbs. She’s not well again.”\nVillager “Oh I’m sorry to hear that.  Hmm, I heard that they were growing around The Northern Mountain. Or if you want to fight with monsters, The East Woods monsters might have them. But be careful.”\n{new_player.name} “Thanks!”\n')
-
+input(f' ----------------------------- Press any key to continue.')
+print(f'-----------------------------------------------------------\n{new_player.name} “Hi, mother. She is not well again…”\nMother “…. ( sigh ) I know. But we have run out of medicine. I’ll go out of the village to get the medicinal herbs”\n{new_player.name} “No mother, I’ll go. Please look after her. I’ll be back soon.”\nMother “Please be careful and run away from Monsters…”\n')
+input(f' ----------------------------- Press any key to continue.')
+print(f'-----------------------------------------------------------\nNow {new_player.name} has left their home and walking in the village.\n\nVillager “Hi {new_player.name}, how’s your sister? Where are you going?”\n{new_player.name} “Hi, I’m going to get medicinal herbs. She’s not well again.”\nVillager “Oh I’m sorry to hear that.  Hmm, I heard that they were growing around The Northern Mountain. Or if you want to fight with monsters, The East Woods monsters might have them. But be careful.”\n{new_player.name} “Thanks!”\n')
+input(f' ----------------------------- Press any key to continue.')
 class Monsters:
     """
     Monsters and animals status
@@ -102,3 +102,43 @@ dracula = Monsters("Dracky", 6, 9, "medicinal herb", 10, "woods")
 dracula2 = Monsters("Drackyma", 10, 15, "medicinal herb", 5, "woods")
 slime3 = Monsters("Metal-Slime", 400, 10, "metal", 4, "field")
 slime4 = Monsters("King-Slime", 500, 20, "gold", 1, "field")
+
+MAP = """
+@ : Village    M : Mountain 
+L : Land       W : Woods  - : Water
+
+yX-6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
+ 5 M M M M M M M M M M M M M M M M
+ 4 M M M M L L L L L L M M M M M M 
+ 3 L L L L L L L L L L L L L L L L
+ 2 L L L L L L L L L L L L L L L L
+ 1 L L L L L L L L L L L L L L L L
+ 0 L L L L L L @ L L L L L W W W L
+-1 L L L L L L L L L L L W W W W L
+-2 L L L L L L L L L L L L W W W L
+-3 L L L L L L L L L L L L L L L L
+-4 - - L L L L - - - - - - - L L L
+-5 - - - - - - - - - - - - - - - -
+"""
+
+# print(new_player.call_status())
+
+
+print(f'-----------------------------------------------------------\nNow {new_player.name} is standing just outside of the village.\n')
+while True:
+    answer = input('Which direction do you want to go?: "North" “N” / "South" “S” / "East" “E” / "West" “W”\nIf you want to look at the map: "Map"\nOr if you want to check your status: "Status"\n')
+
+    if answer.lower() == "map":
+        print(MAP)
+    elif answer.lower() == "status":
+        print(new_player.call_status())
+    elif answer.lower() == "north" or answer.lower() == "n":
+        new_player.location_y += 1
+    elif answer.lower() == "east" or answer.lower() == "e":
+        new_player.location_x += 1
+    elif answer.lower() == "south" or answer.lower() == "s":
+        new_player.location_y -= 1
+    elif answer.lower() == "west" or answer.lower() == "w":
+        new_player.location_x -= 1
+    else:
+        print("Invalid input. Please try again.")
