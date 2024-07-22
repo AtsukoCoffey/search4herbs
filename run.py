@@ -23,18 +23,21 @@ player = SHEET.worksheet('player')
 player_data = player.get_all_values()
 
 TITLE = """
- _____ _            _____                     _      ______           _   _           _         
-|_   _| |          /  ___|                   | |     |  ___|         | | | |         | |        
-  | | | |__   ___  \ `--.  ___  __ _ _ __ ___| |__   | |_ ___  _ __  | |_| | ___ _ __| |__  ___ 
-  | | | '_ \ / _ \  `--. \/ _ \/ _` | '__/ __| '_ \  |  _/ _ \| '__| |  _  |/ _ \ '__| '_ \/ __|
-  | | | | | |  __/ /\__/ /  __/ (_| | | | (__| | | | | || (_) | |    | | | |  __/ |  | |_) \__ |
-  \_/ |_| |_|\___| \____/ \___|\__,_|_|  \___|_| |_| \_| \___/|_|    \_| |_/\___|_|  |_.__/|___/
-                                                                                                
-   
+ _____ _
+|_   _| |_  ___
+  | | | ' \/ -_)
+  |_| |_||_\___|
+  _____                     _      ______           _   _           _
+ /  ___|                   | |     |  ___|         | | | |         | |
+ : `--.  ___  __ _ _ __ ___| |__   | |_ ___  _ __  | |_| | ___ _ __| |__  ___
+  `--. \/ _ \/ _` | '__/ __| '_ \  |  _/ _ \| '__| |  _  |/ _ \ '__| '_ \/ __|
+ /\__/ /  __/ (_| | | | (__| | | | | || (_) | |    | | | |  __/ |  | |_) \__ |
+ \____/ \___|\__,_|_|  \___|_| |_| \_| \___/|_|    \_| |_/\___|_|  |_.__/|___/
 """
 
-# Controle Printing speed  
-# Referenced from Stack Overflow and Geeksforgeeks.org --> Credit in README file
+
+# Controle Printing speed
+# Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README file
 def print_slow(sentence, speed=0.05):
     '''
     The sentence will be printed out letter by letter, adjust speed argument
@@ -44,10 +47,12 @@ def print_slow(sentence, speed=0.05):
         sys.stdout.flush()
         time.sleep(speed)
 
+
 print(TITLE)
 print_slow("Welcome to The Search For Herbs game.\n\n")
 time.sleep(2)
-print_slow("This is a text based adventure game that is inspired by 80’s popular RPG game “Dragon Quest”.\n\n")
+print_slow("This is a text based adventure game that is inspired by 80’s \
+popular RPG game “Dragon Quest”.\n\n")
 
 
 class Player:
@@ -63,7 +68,12 @@ class Player:
         self.location_y = location_y
 
     def call_status(self):
-        return f"----------------------------------------\nName: {new_player.name} \nHP:{new_player.hp} | Items:{new_player.items} \nLocation X:{new_player.location_x} | Y:{new_player.location_y}\n----------------------------------------\n"
+        return f"----------------------------------------\n \
+        Name: {new_player.name} \nHP:{new_player.hp}\n \
+        Location X:{new_player.location_x} | Y:{new_player.location_y}\n \
+         | Items:{new_player.items} \n \
+         ----------------------------------------\n"
+
 
 def validate_name(name):
     """
@@ -71,48 +81,73 @@ def validate_name(name):
     """
     try:
         if len(name) < 4:
-            raise ValueError(f"Please input more longer name. You input {len(name)} letter(s). - You can use alphabet and some marks and numbers. 4 or more letters. )\n")
+            raise ValueError(f"Please input more longer name. \
+            You input {len(name)} letter(s). 4 or more letters.)\n")
         elif name.isnumeric():
-            raise ValueError(f"Not numbers only please. - You can use alphabet and some marks and numbers. 4 or more letters. )\n")
+            raise ValueError(f"Not numbers only please. 4 or more letters.)\n")
     except ValueError as e:
         print(f"Invalid name. {e} Please try again.")
         return False
     return True
 
+
 while True:
     """
     Asking player the valid name and loop. Use valid_name function
     """
-    print_slow("Please enter your name ( hero’s name - You can use alphabet and marks. 4 or more letters. )\n")
+    print_slow("Please enter your name. (This game's hero’s name) \
+    4 or more letters. You can use alphabets, marks and numbers.)\n")
     new_name = input("\n")
 
     if validate_name(new_name):
         print(f"Welcome {new_name}!")
         break
 
-print_slow("-----------------------------------------------------------\n\nThis game is going to collect medicinal herbs for their sick sister at the outside of the village; where the animals and monsters exist. \n")
+print("-----------------------------------------------------------\n")
+print_slow("\nThis game is going to collect medicinal herbs for their sick \
+sister at the outside of the village; where the animals and monsters exist.\n")
 input(f' ----------------------------- Press "enter" key to continue.\n')
-print_slow("Running, fighting or dealing with monsters affects the hero’s status. The goal of this game is to complete collecting more than 10 medicinal herbs and safely come back home to heal the hero’s sister. \n\n")
+print_slow("\nRunning, fighting or dealing with monsters affects the hero’s \
+status. The goal of this game is to complete collecting more than 10 medicinal\
+herbs and safely come back home to heal the hero’s sister. \n\n")
 
 while True:
-    print_slow('Would you like to play?  Type “Yes” or “y” / “No” or “n”')
+    print_slow('Would you like to play?  Type “Yes” or “y” / “No” or “n”\n')
     answer = input("\n")
     if answer.lower() == "no" or answer.lower() == "n":
-        print(f"Pity! See you next time {new_name}!")
+        print(f"\nPity! See you next time {new_name}!\n")
     elif answer.lower() == "yes" or answer.lower() == "y":
         break
     else:
-        print("Please input valid keys")
+        print("\nPlease input valid keys.\n")
 
 new_player = Player(new_name, 100, [], 0, 0)
 
-print_slow('\nYou answered "YES" so the story is beggining. Press "enter" key to start.\n')
+print_slow('\nYou answered "YES" so the story is beggining. \
+- Press "enter" key to start.\n')
 input("\n")
-print_slow(f'-----------------------------------------------------------\n\nSomewhere in the magical world,\nThere was a family whose father passed away a few years ago…\nYoung {new_player.name} and their mother were taking care of their sick younger sister.\n')
+print("-----------------------------------------------------------\n")
+print_slow(f'\nSomewhere in the magical world,\n \
+There was a family whose father passed away a few years ago…\n \
+Young {new_player.name} and their mother were taking care of their \
+sick younger sister.\n')
 input(f' ----------------------------- Press "enter" key to continue.\n')
-print_slow(f'-----------------------------------------------------------\n\n{new_player.name} “Hi, mother. She is not well again…”\nMother “…. ( sigh ) I know. But we have run out of medicine. I’ll go out of the village to get the medicinal herbs”\n{new_player.name} “No mother, I’ll go. Please look after her. I’ll be back soon.”\nMother “Please be careful and run away from Monsters…”\n')
+print("-----------------------------------------------------------\n")
+print_slow(f'\n{new_player.name} “Hi, mother. She is not well again…”\n \
+Mother “…. ( sigh ) I know. But we have run out of medicine. \
+I’ll go out of the village to get the medicinal herbs”\n \
+{new_player.name} “No mother, I’ll go. Please look after her. \
+I’ll be back soon.” \n \
+Mother “Oh... Please be careful and run away from Monsters…”\n')
 input(f' ----------------------------- Press "enter" key to continue.\n')
-print_slow(f'-----------------------------------------------------------\n\nNow {new_player.name} has left their home and walking in the village.\n\nVillager “Hi {new_player.name}, how’s your sister? Where are you going?”\n{new_player.name} “Hi, I’m going to get medicinal herbs. She’s not well again.”\nVillager “Oh I’m sorry to hear that.  Hmm, I heard that they were growing around The Northern Mountain. Or if you want to fight with monsters, The East Woods monsters might have them. But be careful.”\n{new_player.name} “Thanks!”\n')
+print("-----------------------------------------------------------\n")
+print_slow(f'\nNow {new_player.name} has left their home and walking in \
+the village.\n\nVillager “Hi {new_player.name}, how’s your sister? \
+Where are you going?”\n\n{new_player.name} “Hi, I’m going to get medicinal \
+herbs. She’s not well again.”\n\nVillager “Oh I’m sorry to hear that. \
+Hmm, I heard that they were growing around The Northern Mountain. \
+Or if you want to fight with monsters, The East Woods monsters might have \
+them. But be careful.”\n\n{new_player.name} “Thanks!”\n')
 input(f' ----------------------------- Press "enter" key to continue.')
 
 
@@ -121,6 +156,7 @@ class Monsters:
     Monsters and animals event
     """
     instances = []
+
     def __init__(self, name, hp, attack, items, frequency, zone):
         """
         Monsters and animals status
@@ -133,17 +169,18 @@ class Monsters:
         self.zone = zone
         # class attribute to keep track of class instances
         Monsters.instances.append(self)
-        
+
     # Referenced from Stack Overflow's article --> Credit in README file
     # class method to access the get method without any instance
     @classmethod
     def get(cls, value):
         return [inst for inst in cls.instances if inst.zone == value]
-        
+
+
 # Create monsters instances
 # Using capital letter to the python variables is not recomended though
 # These are matching to the name attribute because
-# Identifying from @class method uses name attribute. 
+# Identifying from @class method uses name attribute.
 Slime = Monsters("Slime", 3, 6, "stone", 15, "land")
 She_Slime = Monsters("She_Slime", 4, 7, "gold", 15, "land")
 Iron_Scorpion = Monsters("Iron_Scorpion", 22, 10, "iron", 15, "land")
@@ -156,12 +193,12 @@ Metal_Slime = Monsters("Metal_Slime", 400, 10, "metal", 4, "land")
 King_Slime = Monsters("King_Slime", 500, 20, "gold", 1, "land")
 
 MAP = """
-@ : Village    M : Mountain 
+@ : Village    M : Mountain
 L : Land       W : Woods  - : Water
 
 yX-6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
  5 M M M M M M M M M M M M M M M M
- 4 M M M M L L L L L L M M M M M M 
+ 4 M M M M L L L L L L M M M M M M
  3 L L L L L L L L L L L L L L L L
  2 L L L L L L L L L L L L L L L L
  1 L L L L L L L L L L L L L L L L
@@ -172,6 +209,7 @@ yX-6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
 -4 - - L L L L - - - - - - - L L L
 -5 - - - - - - - - - - - - - - - -
 """
+
 
 def field_event():
     """
@@ -190,18 +228,24 @@ def field_event():
 def pick_monster(zone):
     """
     Sort the monsters by zones from Monsters instances and pick one
-    This function is Called when player move in any direction at feild area.
+    This function is called when player move in any direction at feild area.
     """
-    monsters_name_list = [monst.name for monst in Monsters.get(zone)]
-    monsters_frequency_list = [monst.frequency for monst in Monsters.get(zone)]
-    monst = random.sample(monsters_name_list, k= 1, counts=monsters_frequency_list)
+    mons_name_lis = [monst.name for monst in Monsters.get(zone)]
+    mons_frequen_lis = [monst.frequency for monst in Monsters.get(zone)]
+    monst = random.sample(mons_name_lis, k=1, counts=mons_frequen_lis)
 
     print(monst)
 
 
-print(f'-----------------------------------------------------------\nNow {new_player.name} is standing just outside of the village.\n')
+print('-----------------------------------------------------------\n')
+print_slow(f'\nNow {new_player.name} is standing just outside of the \
+village.\n')
 while True:
-    answer = input('Which direction do you want to go?: "North" “N” / "South" “S” / "East" “E” / "West" “W”\nIf you want to look at the map: "Map"\nOr if you want to check your status: "Status"\n')
+    prinst_slow('\nWhich direction do you want to go?: \n \
+    "North" “N” / "South" “S” / "East" “E” / "West" “W”\n \
+    If you want to look at the map: "Map"\n \
+    Or if you want to check your status: "Status"')
+    answer = input('\n')
 
     if answer.lower() == "map":
         print(MAP)
