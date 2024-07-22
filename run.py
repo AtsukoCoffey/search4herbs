@@ -4,6 +4,7 @@ import json
 import random
 import time
 import sys
+from copy import deepcopy
 # Every Google account has as an IAM (Identity and Access Management)
 
 
@@ -110,7 +111,7 @@ print_slow("\nThis game is going to collect medicinal herbs for their sick \
 sister at the outside of the village; where the animals and monsters exist.\n")
 input(f'\n\n----------------------------- Press "enter" key to continue.\n')
 print_slow("\nRunning, fighting or dealing with monsters affects the hero’s \
-status. The goal of this game is to complete collecting more than 10 medicinal\
+status. The goal of this game is to complete collecting more than 10 medicinal \
 herbs and safely come back home to heal the hero’s sister. \n\n")
 
 while True:
@@ -215,16 +216,20 @@ Y _________________________________
 
 def field_event():
     """
-    Check player's location for pick up monsters
+    Check player's location for pick monster function, then start battle
+    function, after the battle validate field achievemt function for exit loop
     """
     # land_monsters = [monst.name for monst in Monsters.get("land")]
     # woods_monsters = [monst.name for monst in Monsters.get("woods")]
 
     if 5 <= new_player.location_x <= 9:
         if -2 <= new_player.location_y <= 0:
-            pick_monster("woods")
+            monst = pick_monster("woods")
     else:
-        pick_monster("land")
+        monst = pick_monster("land")
+    print(monst)
+
+    battle(monst)
 
 
 def pick_monster(zone):
@@ -235,8 +240,25 @@ def pick_monster(zone):
     mons_name_lis = [monst.name for monst in Monsters.get(zone)]
     mons_frequen_lis = [monst.frequency for monst in Monsters.get(zone)]
     monst = random.sample(mons_name_lis, k=1, counts=mons_frequen_lis)
+    # Debug - monst was selected only one but intended to be list -> README file
 
-    print(monst)
+    return monst[0]
+    
+
+def battle(monst):
+    """
+    Field battle event
+    """
+    print_slow(f'{new_player.name} noticed something was appeared...')
+    time.sleep(1)
+    # Deep copy the Monster's instance
+    battle_monst = deepcopy(Monsters(monst.name, monst.hp, monst.attack, monst.items))
+    print(battle_monst)
+    print(f'\n Name: {battle_monst.name}\nHP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\nBelongings: {battle_monst.items}\n')
+    
+
+
+    
 
 
 print('-----------------------------------------------------------\n')
@@ -254,15 +276,23 @@ while True:
     elif answer.lower() == "status":
         print(new_player.call_status())
     elif answer.lower() == "north" or answer.lower() == "n":
+        print_slow(f'{new_player.name} is heading towards north...')
+        time.sleep(1)
         new_player.location_y += 1
         field_event()
     elif answer.lower() == "east" or answer.lower() == "e":
+        print_slow(f'{new_player.name} is heading towards east...')
+        time.sleep(1)
         new_player.location_x += 1
         field_event()
     elif answer.lower() == "south" or answer.lower() == "s":
+        print_slow(f'{new_player.name} is heading towards south...')
+        time.sleep(1)
         new_player.location_y -= 1
         field_event()
     elif answer.lower() == "west" or answer.lower() == "w":
+        print_slow(f'{new_player.name} is heading towards west...')
+        time.sleep(1)
         new_player.location_x -= 1
         field_event()
     else:
