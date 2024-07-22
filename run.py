@@ -2,6 +2,8 @@ import gspread
 from google.oauth2.service_account import Credentials
 import json
 import random
+import time
+import sys
 # Every Google account has as an IAM (Identity and Access Management)
 
 
@@ -20,8 +22,33 @@ SHEET = GSPREAD_CLIENT.open('search4herbs')
 player = SHEET.worksheet('player')
 player_data = player.get_all_values()
 
-print("Welcome to The Search For Herbs game.")
-print("This is a text based adventure game that is inspired by 80’s popular RPG game “Dragon Quest”.")
+TITLE = """
+ _____ _            _____                     _      ______           _   _           _         
+|_   _| |          /  ___|                   | |     |  ___|         | | | |         | |        
+  | | | |__   ___  \ `--.  ___  __ _ _ __ ___| |__   | |_ ___  _ __  | |_| | ___ _ __| |__  ___ 
+  | | | '_ \ / _ \  `--. \/ _ \/ _` | '__/ __| '_ \  |  _/ _ \| '__| |  _  |/ _ \ '__| '_ \/ __|
+  | | | | | |  __/ /\__/ /  __/ (_| | | | (__| | | | | || (_) | |    | | | |  __/ |  | |_) \__ |
+  \_/ |_| |_|\___| \____/ \___|\__,_|_|  \___|_| |_| \_| \___/|_|    \_| |_/\___|_|  |_.__/|___/
+                                                                                                
+   
+"""
+
+# Controle Printing speed  
+# Referenced from Stack Overflow and Geeksforgeeks.org --> Credit in README file
+def print_slow(sentence, speed=0.05):
+    '''
+    The sentence will be printed out letter by letter, adjust speed argument
+    '''
+    for c in sentence:
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(speed)
+
+print(TITLE)
+print_slow("Welcome to The Search For Herbs game.\n\n")
+time.sleep(2)
+print_slow("This is a text based adventure game that is inspired by 80’s popular RPG game “Dragon Quest”.\n\n")
+
 
 class Player:
     """
@@ -56,15 +83,20 @@ while True:
     """
     Asking player the valid name and loop. Use valid_name function
     """
-    new_name = input("Please enter your name ( hero’s name - You can use alphabet and marks. 4 or more letters. )\n")
+    print_slow("Please enter your name ( hero’s name - You can use alphabet and marks. 4 or more letters. )\n")
+    new_name = input("\n")
+
     if validate_name(new_name):
-        print(f"Welcome {new_name}")
+        print(f"Welcome {new_name}!")
         break
 
-print("The hero of this game is going to collect medicinal herbs for their sick sister at the outside of the village; where the animals and monsters exist. Running, fighting or dealing with monsters affects the hero’s status. When your health point (HP) became “0”, the game is over. The goal of this game is to complete collecting more than 10 medicinal herbs and safely come back home to heal the hero’s sister. ")
+print_slow("-----------------------------------------------------------\n\nThis game is going to collect medicinal herbs for their sick sister at the outside of the village; where the animals and monsters exist. \n")
+input(f' ----------------------------- Press "enter" key to continue.\n')
+print_slow("Running, fighting or dealing with monsters affects the hero’s status. The goal of this game is to complete collecting more than 10 medicinal herbs and safely come back home to heal the hero’s sister. \n\n")
 
 while True:
-    answer = input("Would you like to play?  Type “Yes” or “y” / “No” or “n”\n")
+    print_slow('Would you like to play?  Type “Yes” or “y” / “No” or “n”')
+    answer = input("\n")
     if answer.lower() == "no" or answer.lower() == "n":
         print(f"Pity! See you next time {new_name}!")
     elif answer.lower() == "yes" or answer.lower() == "y":
@@ -72,15 +104,16 @@ while True:
     else:
         print("Please input valid keys")
 
-new_player = Player(new_name, 50, [], 0, 0)
+new_player = Player(new_name, 100, [], 0, 0)
 
-input(f'You answered "YES" so the story is begging. Press any key to start.')
-print(f'-----------------------------------------------------------\nSomewhere in the magical world,\nThere was a family whose father passed away a few years ago…\nYoung {new_player.name} and their mother were taking care of their sick younger sister.\n')
-input(f' ----------------------------- Press any key to continue.')
-print(f'-----------------------------------------------------------\n{new_player.name} “Hi, mother. She is not well again…”\nMother “…. ( sigh ) I know. But we have run out of medicine. I’ll go out of the village to get the medicinal herbs”\n{new_player.name} “No mother, I’ll go. Please look after her. I’ll be back soon.”\nMother “Please be careful and run away from Monsters…”\n')
-input(f' ----------------------------- Press any key to continue.')
-print(f'-----------------------------------------------------------\nNow {new_player.name} has left their home and walking in the village.\n\nVillager “Hi {new_player.name}, how’s your sister? Where are you going?”\n{new_player.name} “Hi, I’m going to get medicinal herbs. She’s not well again.”\nVillager “Oh I’m sorry to hear that.  Hmm, I heard that they were growing around The Northern Mountain. Or if you want to fight with monsters, The East Woods monsters might have them. But be careful.”\n{new_player.name} “Thanks!”\n')
-input(f' ----------------------------- Press any key to continue.')
+print_slow('\nYou answered "YES" so the story is beggining. Press "enter" key to start.\n')
+input("\n")
+print_slow(f'-----------------------------------------------------------\n\nSomewhere in the magical world,\nThere was a family whose father passed away a few years ago…\nYoung {new_player.name} and their mother were taking care of their sick younger sister.\n')
+input(f' ----------------------------- Press "enter" key to continue.\n')
+print_slow(f'-----------------------------------------------------------\n\n{new_player.name} “Hi, mother. She is not well again…”\nMother “…. ( sigh ) I know. But we have run out of medicine. I’ll go out of the village to get the medicinal herbs”\n{new_player.name} “No mother, I’ll go. Please look after her. I’ll be back soon.”\nMother “Please be careful and run away from Monsters…”\n')
+input(f' ----------------------------- Press "enter" key to continue.\n')
+print_slow(f'-----------------------------------------------------------\n\nNow {new_player.name} has left their home and walking in the village.\n\nVillager “Hi {new_player.name}, how’s your sister? Where are you going?”\n{new_player.name} “Hi, I’m going to get medicinal herbs. She’s not well again.”\nVillager “Oh I’m sorry to hear that.  Hmm, I heard that they were growing around The Northern Mountain. Or if you want to fight with monsters, The East Woods monsters might have them. But be careful.”\n{new_player.name} “Thanks!”\n')
+input(f' ----------------------------- Press "enter" key to continue.')
 
 
 class Monsters:
