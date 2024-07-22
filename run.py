@@ -195,19 +195,21 @@ King_Slime = Monsters("King_Slime", 500, 20, "gold", 1, "land")
 MAP = """
 @ : Village    M : Mountain
 L : Land       W : Woods  - : Water
+Check player's location X, Y
 
-yX-6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
- 5 M M M M M M M M M M M M M M M M
- 4 M M M M L L L L L L M M M M M M
- 3 L L L L L L L L L L L L L L L L
- 2 L L L L L L L L L L L L L L L L
- 1 L L L L L L L L L L L L L L L L
- 0 L L L L L L @ L L L L W W W W W
--1 L L L L L L L L L L L W W W W W
--2 L L L L L L L L L L L W W W W W
--3 L L L L L L L L L L L L L L L L
--4 - - L L L L - - - - - - - L L L
--5 - - - - - - - - - - - - - - - -
+ X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
+Y _________________________________
+ 5| M M M M M M M M M M M M M M M M
+ 4| M M M M L L L L L L M M M M M M
+ 3| L L L L L L L L L L L L L L L L
+ 2| L L L L L L L L L L L L L L L L
+ 1| L L L L L L L L L L L L L L L L
+ 0| L L L L L L @ L L L L W W W W W
+-1| L L L L L L L L L L L W W W W W
+-2| L L L L L L L L L L L W W W W W
+-3| L L L L L L L L L L L L L L L L
+-4| - - L L L L - - - - - - - L L L
+-5| - - - - - - - - - - - - - - - -
 """
 
 
