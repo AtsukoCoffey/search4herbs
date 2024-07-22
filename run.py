@@ -38,8 +38,8 @@ TITLE = """
 
 
 # Controle Printing speed
-# Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README file
-def print_slow(sentence, speed=0.05):
+# Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
+def print_slow(sentence, speed=0.04):
     '''
     The sentence will be printed out letter by letter, adjust speed argument
     '''
@@ -47,13 +47,6 @@ def print_slow(sentence, speed=0.05):
         sys.stdout.write(c)
         sys.stdout.flush()
         time.sleep(speed)
-
-
-print(TITLE)
-print_slow("Welcome to The Search For Herbs game.\n\n")
-time.sleep(2)
-print_slow("This is a text based adventure game that is inspired by 80’s \
-popular RPG game “Dragon Quest”.\n\n")
 
 
 class Player:
@@ -94,12 +87,19 @@ def validate_name(name):
     return True
 
 
+print(TITLE)
+print_slow("Welcome to The Search For Herbs game.\n\n")
+time.sleep(1)
+print_slow("This is a text based adventure game that is inspired by 80’s \
+popular RPG game “Dragon Quest”.\n\n")
+
+
 while True:
     """
     Asking player the valid name and loop. Use valid_name function
     """
     print_slow("Please enter your name. (This game's hero’s name) \n\
-    4 or more letters. You can use alphabets, marks and numbers.)\n")
+4 or more letters. You can use alphabets, marks and numbers.)\n")
     new_name = input("\n")
 
     if validate_name(new_name):
@@ -107,11 +107,13 @@ while True:
         break
 
 print("-----------------------------------------------------------\n")
-print_slow("\nThis game is going to collect medicinal herbs for their sick \
-sister at the outside of the village; where the animals and monsters exist.\n")
+print_slow("\n\
+This game is going to collect medicinal herbs for their sick sister \
+at the outside of the village; where the animals and monsters exist.\n")
 input(f'\n\n----------------------------- Press "enter" key to continue.\n')
-print_slow("\nRunning, fighting or dealing with monsters affects the hero’s \
-status. The goal of this game is to complete collecting more than 10 medicinal \
+print_slow("\n\
+Running, fighting or dealing with monsters affects the hero’s status. \
+The goal of this game is to complete collecting more than 10 medicinal \
 herbs and safely come back home to heal the hero’s sister. \n\n")
 
 while True:
@@ -126,14 +128,13 @@ while True:
 
 new_player = Player(new_name, 100, [], 0, 0)
 
-print_slow('\nYou answered "YES" so the story is beggining.\
-- Press "enter" key to start.\n')
-input("\n")
+print_slow('\nYou answered "YES" so the story is beggining...\n')
+time.sleep(1)
 print("-----------------------------------------------------------\n")
 print_slow(f'\nSomewhere in the magical world,\n\
 There was a family whose father passed away a few years ago…\n\
-Young {new_player.name} and their mother were taking care of their \
-sick younger sister.\n')
+Young {new_player.name} and their mother were taking care of \
+their sick younger sister.\n')
 input(f'\n----------------------------- Press "enter" key to continue.\n')
 print_slow(f'\n{new_player.name} “Hi, mother. She is not well again…” \n\
 Mother “…. ( sigh ) I know. But we have run out of medicine. \
@@ -144,11 +145,12 @@ Mother “Oh... Please be careful and run away from Monsters…”\n')
 input(f'\n----------------------------- Press "enter" key to continue.\n')
 print_slow(f'\nNow {new_player.name} has left their home and walking in \
 the village.\n\nVillager “Hi {new_player.name}, how’s your sister? \
-Where are you going?”\n\n{new_player.name} “Hi, I’m going to get medicinal \
-herbs. She’s not well again.”\n\nVillager “Oh I’m sorry to hear that. \
+Where are you going?”\n\n{new_player.name} “Hi, I’m going to get \
+medicinal herbs. She’s not well again.”\n\n\
+Villager “Oh I’m sorry to hear that. \n\
 Hmm, I heard that they were growing around The Northern Mountain. \
-Or if you want to fight with monsters, The East Woods monsters might have \
-them. But be careful.”\n\n{new_player.name} “Thanks!”\n\n')
+Or if you want to fight with monsters, The East Woods monsters might have\
+ them."\n\n{new_player.name} “Thanks!”\n\n')
 input('\n----------------------------- Press "enter" key to continue.\n')
 
 
@@ -227,7 +229,6 @@ def field_event():
             monst = pick_monster("woods")
     else:
         monst = pick_monster("land")
-    print(monst)
 
     battle(monst)
 
@@ -240,30 +241,33 @@ def pick_monster(zone):
     mons_name_lis = [monst.name for monst in Monsters.get(zone)]
     mons_frequen_lis = [monst.frequency for monst in Monsters.get(zone)]
     monst = random.sample(mons_name_lis, k=1, counts=mons_frequen_lis)
-    # Debug - monst was selected only one but intended to be list -> README file
+    # monst was selected only one but still list ->Debug  README
 
     return monst[0]
-    
+
 
 def battle(monst):
     """
     Field battle event
     """
-    print_slow(f'{new_player.name} noticed something was appeared...')
+    print_slow(f'{new_player.name} noticed ' + monst + ' was appeared...')
     time.sleep(1)
+
+    # Parameter string(monst) can't use for calling instance name so
+    # make a new dictionary
+    monst_dict = dict(Monsters.instances)
+    print(monst_dict)
+
     # Deep copy the Monster's instance
-    battle_monst = deepcopy(Monsters(monst.name, monst.hp, monst.attack, monst.items))
-    print(battle_monst)
-    print(f'\n Name: {battle_monst.name}\nHP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\nBelongings: {battle_monst.items}\n')
-    
+    # print(Monsers.instances)
+    # battle_monst = Monsters(monst, monst.hp, monst.attack, monst.items)
+    # print(battle_monst)
+    # print(f'\n Name: {battle_monst.name}\nHP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\nBelongings: {battle_monst.items}\n')
 
 
-    
-
-
-print('-----------------------------------------------------------\n')
 print_slow(f'\nNow {new_player.name} is standing just outside of the \
 village.\n')
+
 while True:
     print_slow('\nWhich direction do you want to go?: \n ')
     print('"North" “N” / "South" “S” / "East" “E” / "West" “W”\n \
