@@ -68,11 +68,13 @@ class Player:
         self.location_y = location_y
 
     def call_status(self):
-        return f"----------------------------------------\n \
-        Name: {new_player.name} \nHP:{new_player.hp}\n \
-        Location X:{new_player.location_x} | Y:{new_player.location_y}\n \
-         | Items:{new_player.items} \n \
-         ----------------------------------------\n"
+        return f"\n\
+        ----------------------------------------\n\
+        Name: {new_player.name} \n\
+        HP:{new_player.hp} \n\
+        Location X:{new_player.location_x} | Y:{new_player.location_y} \n\
+        Items:{new_player.items} \n\
+        ----------------------------------------\n"
 
 
 def validate_name(name):
@@ -95,18 +97,18 @@ while True:
     """
     Asking player the valid name and loop. Use valid_name function
     """
-    print_slow("Please enter your name. (This game's hero’s name) \
+    print_slow("Please enter your name. (This game's hero’s name) \n\
     4 or more letters. You can use alphabets, marks and numbers.)\n")
     new_name = input("\n")
 
     if validate_name(new_name):
-        print(f"Welcome {new_name}!")
+        print(f"\n\nWelcome {new_name}!")
         break
 
 print("-----------------------------------------------------------\n")
 print_slow("\nThis game is going to collect medicinal herbs for their sick \
 sister at the outside of the village; where the animals and monsters exist.\n")
-input(f' ----------------------------- Press "enter" key to continue.\n')
+input(f'\n\n----------------------------- Press "enter" key to continue.\n')
 print_slow("\nRunning, fighting or dealing with monsters affects the hero’s \
 status. The goal of this game is to complete collecting more than 10 medicinal\
 herbs and safely come back home to heal the hero’s sister. \n\n")
@@ -123,32 +125,30 @@ while True:
 
 new_player = Player(new_name, 100, [], 0, 0)
 
-print_slow('\nYou answered "YES" so the story is beggining. \
+print_slow('\nYou answered "YES" so the story is beggining.\
 - Press "enter" key to start.\n')
 input("\n")
 print("-----------------------------------------------------------\n")
-print_slow(f'\nSomewhere in the magical world,\n \
-There was a family whose father passed away a few years ago…\n \
+print_slow(f'\nSomewhere in the magical world,\n\
+There was a family whose father passed away a few years ago…\n\
 Young {new_player.name} and their mother were taking care of their \
 sick younger sister.\n')
-input(f' ----------------------------- Press "enter" key to continue.\n')
-print("-----------------------------------------------------------\n")
-print_slow(f'\n{new_player.name} “Hi, mother. She is not well again…”\n \
+input(f'\n----------------------------- Press "enter" key to continue.\n')
+print_slow(f'\n{new_player.name} “Hi, mother. She is not well again…” \n\
 Mother “…. ( sigh ) I know. But we have run out of medicine. \
-I’ll go out of the village to get the medicinal herbs”\n \
+I’ll go out of the village to get the medicinal herbs” \n\
 {new_player.name} “No mother, I’ll go. Please look after her. \
-I’ll be back soon.” \n \
+I’ll be back soon.” \n\
 Mother “Oh... Please be careful and run away from Monsters…”\n')
-input(f' ----------------------------- Press "enter" key to continue.\n')
-print("-----------------------------------------------------------\n")
+input(f'\n----------------------------- Press "enter" key to continue.\n')
 print_slow(f'\nNow {new_player.name} has left their home and walking in \
 the village.\n\nVillager “Hi {new_player.name}, how’s your sister? \
 Where are you going?”\n\n{new_player.name} “Hi, I’m going to get medicinal \
 herbs. She’s not well again.”\n\nVillager “Oh I’m sorry to hear that. \
 Hmm, I heard that they were growing around The Northern Mountain. \
 Or if you want to fight with monsters, The East Woods monsters might have \
-them. But be careful.”\n\n{new_player.name} “Thanks!”\n')
-input(f' ----------------------------- Press "enter" key to continue.')
+them. But be careful.”\n\n{new_player.name} “Thanks!”\n\n')
+input('\n----------------------------- Press "enter" key to continue.\n')
 
 
 class Monsters:
@@ -243,8 +243,8 @@ print('-----------------------------------------------------------\n')
 print_slow(f'\nNow {new_player.name} is standing just outside of the \
 village.\n')
 while True:
-    prinst_slow('\nWhich direction do you want to go?: \n \
-    "North" “N” / "South" “S” / "East" “E” / "West" “W”\n \
+    print_slow('\nWhich direction do you want to go?: \n ')
+    print('"North" “N” / "South" “S” / "East" “E” / "West" “W”\n \
     If you want to look at the map: "Map"\n \
     Or if you want to check your status: "Status"')
     answer = input('\n')
