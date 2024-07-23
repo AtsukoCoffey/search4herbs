@@ -281,14 +281,13 @@ def battle(monst):
         print(f'\n{battle_monst.name} was running away.\n')
     elif first_move == "attack":
         attack_probability = attack()
-        print(attack_probability)
         if attack_probability == "success":
             print(f'\n{battle_monst.name} attacked you!!')
             input('\n----------------------------- Press "enter" key to continue.\n')
             print_slow(f'You got {battle_monst.attack} points dameged..\n')
             new_player.hp -= battle_monst.attack
             print(f'{new_player.name} HP : {new_player.hp}')
-            if new_player.hp.is_integer() is False:
+            if new_player.hp < 0:
                 print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
         else:
             print(f'\n{battle_monst.name} attacked you!! But failed..\n')
@@ -307,21 +306,19 @@ def battle_loop(battle_monst):
         player_op = input('"Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\n')
         if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
-            print(attack_probability)
             if attack_probability == "success":
                 print(f'\n{new_player.name} attacked {battle_monst.name}!!\n\
                 {battle_monst.name} got {battle_monst.damege} points dameged..\n')
                 battle_monst.hp -= battle_monst.damege
-                print(battle_monst.hp)
-                if battle_monst.hp.is_integer():
+                print(f'{battle_monst.name} HP become {battle_monst.hp}')
+                if battle_monst.hp > 0:
                     attack_probability = attack()
-                    print(attack_probability)
                     if attack_probability == "success":
                         print(f'\n{battle_monst.name} attacked you!!\n\
                         You got {battle_monst.attack} points dameged..\n')
                         new_player.hp -= battle_monst.attack
                         print(f'{new_player.name} HP : {new_player.hp}')
-                        if new_player.hp.is_integer() is False:
+                        if new_player.hp < 0:
                             print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
                     else:
                         print(f'\n{battle_monst.name} attacked you!! But failed..\n')
@@ -329,8 +326,36 @@ def battle_loop(battle_monst):
                     continue
                 else:
                     print(f'{new_player.name} was defeated {battle_monst.name}! ')
-                    False
-        False
+                    print_slow(f'{new_player.name} got {battle_monst.items}')
+                    new_player.items.append(battle_monst.items)
+                    break
+            else:
+                print_slow('\nOuch!! Missed the attack..\n')
+                input(f'{battle_monst.name} is about to attack {new_player.name} ....... \n\
+                Press "enter" key to continue.\n')
+                attack_probability = attack()
+                if attack_probability == "success":
+                    print(f'\n{battle_monst.name} attacked you!!\n\
+                    You got {battle_monst.attack} points dameged..\n')
+                    new_player.hp -= battle_monst.attack
+                    print(f'{new_player.name} HP : {new_player.hp}')
+                    if new_player.hp < 0:
+                        print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
+                else:
+                    print(f'\n{battle_monst.name} attacked you!! But failed..\n')
+                    continue
+        if player_op.lower() == "run" or player_op.lower() == "r":
+            attack_probability = attack()
+            if attack_probability == "success":
+                print_slow("Escaped successfully!!")
+                break
+            else:
+                print_slow("Unfortunately, couldn't escape successfully..")
+                continue
+
+
+                
+        
 
 
 
