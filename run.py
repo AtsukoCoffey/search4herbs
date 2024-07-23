@@ -249,11 +249,15 @@ def pick_monster(zone):
     """
     mons_name_lis = [monst.name for monst in Monsters.get(zone)]
     mons_frequen_lis = [monst.frequency for monst in Monsters.get(zone)]
-    monst = random.sample(mons_name_lis, counts=mons_frequen_lis, k=1)
+    monst = random.choices(mons_name_lis, weights=mons_frequen_lis, k=1)
     # monst was selected only one but still list ->Debug  README
 
     return monst[0]
 
+def move():
+    return random.choices(("run", "attack", "falter"), weights=[1, 1, 3], k=1)[0]
+def attack():
+    return random.choices(["success", "fail"], weights=[5, 1], k=1)[0]
 
 def battle(monst):
     """
@@ -273,23 +277,32 @@ def battle(monst):
 
     # Battle loop start
     while True:
-
-        def move():
-            return random.sample(("run", "attack", "falter"), counts=[1, 1, 3], k=1)
-        def attack():
-            return random.sample([success, fail], counts=[5, 1], k=1)
-
         first_move = move()
+        print(first_move)
         if first_move == "run":
-            print(f'{battle_mons.name} was runaway.')
+            print(f'\n{battle_monst.name} was runaway.\n')
             break
         elif first_move == "attack":
             attack_probability = attack()
+            print(attack_probability)
             if attack_probability == "success":
-                print(f'{battle_monst.name} attacked you!!\n\
-                You got {battle_monst.attack} points dameged..')
+                print(f'\n{battle_monst.name} attacked you!!\n\
+                You got {battle_monst.attack} points dameged..\n')
                 new_player.hp -= battle_monst.attack
-                print(f'{new_player.name} : {new_player.hp}')
+                print(f'{new_player.name} HP : {new_player.hp}')
+                break
+            else:
+                print(f'\n{battle_monst.name} was runaway.\n')
+                break
+        elif first_move == "falter":
+            print_slow(f'\n{battle_monst.name} is faltering..\n')
+            print("What do you want to do?\n")
+            input('"Attack"/"A", "Run/"R", \n')
+            break
+        else:
+            print("else")
+            break
+        False
 
 
 
