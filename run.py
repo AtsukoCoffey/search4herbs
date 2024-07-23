@@ -39,7 +39,7 @@ TITLE = """
 
 # Controle Printing speed
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
-def print_slow(sentence, speed=0.0000000000000001):
+def print_slow(sentence, speed=0.01):
     '''
     The sentence will be printed out letter by letter, adjust speed argument
     '''
@@ -190,13 +190,13 @@ class Monsters:
 Slime = Monsters("Slime", 3, 6, 6, "stone", 15, "land")
 She_Slime = Monsters("She_Slime", 4, 7, 6, "gold", 15, "land")
 Iron_Scorpion = Monsters("Iron_Scorpion", 22, 10, 6, "iron", 15, "land")
-Ghost = Monsters("Ghost", 7, 4, 6, "", 15, "woods")
-Bewarewolf = Monsters("Bewarewolf", 34, 12, 7, "gold", 10, "land")
+Ghost = Monsters("Ghost", 7, 4, 6, "medicinal herb", 15, "woods")
+Bewarewolf = Monsters("Bewarewolf", 34, 12, 7, "medicinal herb", 10, "land")
 Skeleton = Monsters("Skeleton", 30, 15, 6, "bone", 10, "land")
 Dracky = Monsters("Dracky", 6, 9, 6, "medicinal herb", 10, "woods")
 Drackyma = Monsters("Drackyma", 10, 15, 6, "medicinal herb", 5, "woods")
 Metal_Slime = Monsters("Metal_Slime", 400, 10, 10, "metal", 4, "land")
-King_Slime = Monsters("King_Slime", 500, 20, 5, "gold", 1, "land")
+King_Slime = Monsters("King_Slime", 500, 20, 5, "crown", 1, "land")
 
 
 
@@ -223,11 +223,8 @@ Y _________________________________
 
 def field_event():
     """
-    Check player's location for pick monster function, then start battle
-    function, after the battle validate field achievemt function for exit loop
+    Check player's location for pick monster function, and send the monster to battle function. 
     """
-    # land_monsters = [monst.name for monst in Monsters.get("land")]
-    # woods_monsters = [monst.name for monst in Monsters.get("woods")]
 
     if 5 <= new_player.location_x <= 9:
         if -2 <= new_player.location_y <= 0:
@@ -238,10 +235,21 @@ def field_event():
     battle(monst)
 
 
+def vali_field_achi():
+    """
+    This validation to check the achievement whether get the items 
+    and came back to the village
+    """
+    if any(item == "medicinal herb" for item in new_player.items):
+        if new_player.location_x == 0:
+            if new_player.location_y == 0:
+                return False
+
+
 def pick_monster(zone):
     """
     Sort the monsters by zones from Monsters instances and pick one
-    This function is called when player move in any direction at feild area.
+    This function is called from field_event function.
     """
     mons_name_lis = [monst.name for monst in Monsters.get(zone)]
     mons_frequen_lis = [monst.frequency for monst in Monsters.get(zone)]
@@ -250,18 +258,27 @@ def pick_monster(zone):
 
     return monst[0]
 
+
 def move():
+    """
+    Only first move, monster might have a chance to run or attack
+    random choice with weights - run=1, attack=1, falter=3
+    """
     return random.choices(("run", "attack", "falter"), weights=[1, 1, 3], k=1)[0]
+
+
 def attack():
+    """
+    Attack might not success all the time. Randomly 1 / 6 fail
+    """
     return random.choices(["success", "fail"], weights=[5, 1], k=1)[0]
-def ending():
-    print_slow("Thank you for playing this game. See you next time!")
-    False
 
 
 def battle(monst):
     """
-    Field battle event
+    Field battle start. Received argument is only instance's name
+    To get the instance call the @classmethod again
+    After the first move action send the monster to the battle loop function
     """
     print_slow(f'{new_player.name} noticed ' + monst + ' was appeared...\n\n')
     time.sleep(1)
@@ -269,17 +286,15 @@ def battle(monst):
     # Take the monster's instance out of the instances list using class method
     battle_monst = deepcopy(Monsters.get_n(Monsters, monst)[0])
     # Deep copy the Monster's instance
-
-    # print(battle_monst)
     print(f'\nName: {battle_monst.name} ------------------\n\
-        HP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\n\
-        Belongings: {battle_monst.items}\n')
+HP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\n\
+Belongings: {battle_monst.items}\n')
     input('\n----------------------------- Press "enter" key to continue.\n')
     
     # First move
     first_move = move()
     if first_move == "run":
-        print(f'\n{battle_monst.name} was running away.\n')
+        print_slow(f'\n{battle_monst.name} was running away.\n')
     elif first_move == "attack":
         attack_probability = attack()
         if attack_probability == "success":
@@ -288,10 +303,11 @@ def battle(monst):
             print_slow(f'You got {battle_monst.attack} points damege..\n')
             new_player.hp -= battle_monst.attack
             print(f'{new_player.name} HP : {new_player.hp}')
+
             if new_player.hp < 0:
+                input('\n----------------------------- Press "enter" key to continue.\n')
                 print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
                 time.sleep(3)
-                ending()
             battle_loop(battle_monst)
         else:
             print(f'\n{battle_monst.name} attacked you!! But failed..\n')
@@ -305,6 +321,10 @@ def battle(monst):
 
 # Battle loop function
 def battle_loop(battle_monst):
+    """
+    This loop starts just after the first move action. Iterate until
+    player's HP is run out or defeating the monster.
+    """
     while True:
         print("What do you want to do?\n")
         player_op = input('"Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\n')
@@ -327,12 +347,10 @@ def battle_loop(battle_monst):
                         if new_player.hp < 0:
                             print_slow(f'I am so sorry, {new_player.name} was lost the battle...\n\n')
                             time.sleep(3)
-                            ending()
                             break
                     else:
-                        print_slow(f'\n{battle_monst.name} attacked you!! But failed..\n')
+                        print_slow(f'\n{battle_monst.name} attacked on you!! But failed...Lucky!\n')
                         continue
-                    continue
                 else:
                     print_slow(f'{new_player.name} was defeated {battle_monst.name}! \n\n')
                     print_slow(f'{new_player.name} got {battle_monst.items}')
@@ -344,17 +362,16 @@ def battle_loop(battle_monst):
                 Press "enter" key to continue.\n')
                 attack_probability = attack()
                 if attack_probability == "success":
-                    print(f'\n{battle_monst.name} attacked you!!\n\
+                    print(f'\n{battle_monst.name} attacked on you!!\n\
                     You got {battle_monst.attack} points dameged..\n')
                     new_player.hp -= battle_monst.attack
                     print(f'{new_player.name} HP : {new_player.hp}')
                     if new_player.hp < 0:
                         print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
                         time.sleep(3)
-                        ending()
                         break
                 else:
-                    print(f'\n{battle_monst.name} attacked you!! But failed..\n')
+                    print(f'\n{battle_monst.name} attacked on you!! But failed...Lucky!\n')
                     continue
         if player_op.lower() == "run" or player_op.lower() == "r":
             attack_probability = attack()
@@ -366,17 +383,16 @@ def battle_loop(battle_monst):
                 continue
 
 
-                
-        
-
-
-
-
-
 print_slow(f'\nNow {new_player.name} is standing just outside of the \
 village.\n')
 
-while True:
+while new_player.hp > 0:
+    """
+    Field event loop. Ask player what's the next move and send to
+    field event function. Until player HP runs out.
+    Before run Validate_field_achievement() for check and exit loop
+    """
+    vali_field_achi()
     print_slow('\nWhich direction do you want to go?: \n ')
     print('"North" “N” / "South" “S” / "East" “E” / "West" “W”\n \
     If you want to look at the map: "Map"\n \
@@ -409,3 +425,6 @@ while True:
         field_event()
     else:
         print("Invalid input. Please try again.")
+        False
+
+print_slow(f'Thank you for playing this game {new_player.name}\n\n\n')
