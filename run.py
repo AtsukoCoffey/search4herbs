@@ -160,13 +160,14 @@ class Monsters:
     """
     instances = []
 
-    def __init__(self, name, hp, attack, items, frequency, zone):
+    def __init__(self, name, hp, attack, damege, items, frequency, zone):
         """
         Monsters and animals status
         """
         self.name = name
         self.hp = hp
         self.attack = attack
+        self.damege = damege
         self.items = items
         self.frequency = frequency
         self.zone = zone
@@ -186,23 +187,18 @@ class Monsters:
 # Using capital letter to the python variables is not recomended though
 # These are matching to the name attribute because
 # Identifying from @class method uses name attribute.
-Slime = Monsters("Slime", 3, 6, "stone", 15, "land")
-She_Slime = Monsters("She_Slime", 4, 7, "gold", 15, "land")
-Iron_Scorpion = Monsters("Iron_Scorpion", 22, 10, "iron", 15, "land")
-Ghost = Monsters("Ghost", 7, 4, "", 15, "woods")
-Bewarewolf = Monsters("Bewarewolf", 34, 12, "gold", 10, "land")
-Skeleton = Monsters("Skeleton", 30, 15, "bone", 10, "land")
-Dracky = Monsters("Dracky", 6, 9, "medicinal herb", 10, "woods")
-Drackyma = Monsters("Drackyma", 10, 15, "medicinal herb", 5, "woods")
-Metal_Slime = Monsters("Metal_Slime", 400, 10, "metal", 4, "land")
-King_Slime = Monsters("King_Slime", 500, 20, "gold", 1, "land")
+Slime = Monsters("Slime", 3, 6, 6, "stone", 15, "land")
+She_Slime = Monsters("She_Slime", 4, 7, 6, "gold", 15, "land")
+Iron_Scorpion = Monsters("Iron_Scorpion", 22, 10, 6, "iron", 15, "land")
+Ghost = Monsters("Ghost", 7, 4, 6, "", 15, "woods")
+Bewarewolf = Monsters("Bewarewolf", 34, 12, 7, "gold", 10, "land")
+Skeleton = Monsters("Skeleton", 30, 15, 6, "bone", 10, "land")
+Dracky = Monsters("Dracky", 6, 9, 6, "medicinal herb", 10, "woods")
+Drackyma = Monsters("Drackyma", 10, 15, 6, "medicinal herb", 5, "woods")
+Metal_Slime = Monsters("Metal_Slime", 400, 10, 10, "metal", 4, "land")
+King_Slime = Monsters("King_Slime", 500, 20, 5, "gold", 1, "land")
 
-# This dictionary is going to be used for battle data
-# I couldn't find out to create the Monsters dictionary within class object
-print(Monsters.__dict__)
-# monst_dict = {{Slime.__dict__}, {She_Slime.__dict__}, {Iron_Scorpion.__dict__}, 
-# {Ghost.__dict__}, {Bewarewolf.__dict__}, {Skeleton.__dict__}, {Dracky.__dict__}, 
-# {Drackyma.__dict__}, {Metal_Slime.__dict__}, {King_Slime.__dict__}}
+
 
 MAP = """
 @ : Village    M : Mountain
@@ -258,6 +254,9 @@ def move():
     return random.choices(("run", "attack", "falter"), weights=[1, 1, 3], k=1)[0]
 def attack():
     return random.choices(["success", "fail"], weights=[5, 1], k=1)[0]
+def validate_hp(num):
+    return 
+
 
 def battle(monst):
     """
@@ -274,35 +273,65 @@ def battle(monst):
     print(f'\nName: {battle_monst.name} ------------------\n\
         HP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\n\
         Belongings: {battle_monst.items}\n')
+    input('\n----------------------------- Press "enter" key to continue.\n')
+    
+    # First move
+    first_move = move()
+    if first_move == "run":
+        print(f'\n{battle_monst.name} was running away.\n')
+    elif first_move == "attack":
+        attack_probability = attack()
+        print(attack_probability)
+        if attack_probability == "success":
+            print(f'\n{battle_monst.name} attacked you!!')
+            input('\n----------------------------- Press "enter" key to continue.\n')
+            print_slow(f'You got {battle_monst.attack} points dameged..\n')
+            new_player.hp -= battle_monst.attack
+            print(f'{new_player.name} HP : {new_player.hp}')
+            if new_player.hp.is_integer() is False:
+                print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
+        else:
+            print(f'\n{battle_monst.name} attacked you!! But failed..\n')
+            input('\n----------------------------- Press "enter" key to continue.\n')
+            battle_loop(battle_monst)
+    elif first_move == "falter":
+        print_slow(f'\n{battle_monst.name} is faltering..\n')
+        input('\n----------------------------- Press "enter" key to continue.\n')
+        battle_loop(battle_monst)
+    input('\n----------------------------- Press "enter" key to continue.\n')
 
-    # Battle loop start
+# Battle loop function
+def battle_loop(battle_monst):
     while True:
-        first_move = move()
-        print(first_move)
-        if first_move == "run":
-            print(f'\n{battle_monst.name} was runaway.\n')
-            break
-        elif first_move == "attack":
+        print("What do you want to do?\n")
+        player_op = input('"Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\n')
+        if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
             print(attack_probability)
             if attack_probability == "success":
-                print(f'\n{battle_monst.name} attacked you!!\n\
-                You got {battle_monst.attack} points dameged..\n')
-                new_player.hp -= battle_monst.attack
-                print(f'{new_player.name} HP : {new_player.hp}')
-                break
-            else:
-                print(f'\n{battle_monst.name} was runaway.\n')
-                break
-        elif first_move == "falter":
-            print_slow(f'\n{battle_monst.name} is faltering..\n')
-            print("What do you want to do?\n")
-            input('"Attack"/"A", "Run/"R", \n')
-            break
-        else:
-            print("else")
-            break
+                print(f'\n{new_player.name} attacked {battle_monst.name}!!\n\
+                {battle_monst.name} got {battle_monst.damege} points dameged..\n')
+                battle_monst.hp -= battle_monst.damege
+                print(battle_monst.hp)
+                if battle_monst.hp.is_integer():
+                    attack_probability = attack()
+                    print(attack_probability)
+                    if attack_probability == "success":
+                        print(f'\n{battle_monst.name} attacked you!!\n\
+                        You got {battle_monst.attack} points dameged..\n')
+                        new_player.hp -= battle_monst.attack
+                        print(f'{new_player.name} HP : {new_player.hp}')
+                        if new_player.hp.is_integer() is False:
+                            print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
+                    else:
+                        print(f'\n{battle_monst.name} attacked you!! But failed..\n')
+                        continue
+                    continue
+                else:
+                    print(f'{new_player.name} was defeated {battle_monst.name}! ')
+                    False
         False
+
 
 
 
