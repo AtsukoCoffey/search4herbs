@@ -249,7 +249,7 @@ def pick_monster(zone):
     """
     mons_name_lis = [monst.name for monst in Monsters.get(zone)]
     mons_frequen_lis = [monst.frequency for monst in Monsters.get(zone)]
-    monst = random.sample(mons_name_lis, k=1, counts=mons_frequen_lis)
+    monst = random.sample(mons_name_lis, counts=mons_frequen_lis, k=1)
     # monst was selected only one but still list ->Debug  README
 
     return monst[0]
@@ -259,18 +259,39 @@ def battle(monst):
     """
     Field battle event
     """
-    print_slow(f'{new_player.name} noticed ' + monst + ' was appeared...')
+    print_slow(f'{new_player.name} noticed ' + monst + ' was appeared...\n\n')
     time.sleep(1)
 
     # Take the monster's instance out of the instances list using class method
-    battle_monst = deepcopy(Monsters.get_n(Monsters, monst))
-    
+    battle_monst = deepcopy(Monsters.get_n(Monsters, monst)[0])
     # Deep copy the Monster's instance
 
-    # print(Monsers.instances)
-    # battle_monst = Monsters(monst, monst.hp, monst.attack, monst.items)
     # print(battle_monst)
-    print(f'\n Name: {battle_monst[0].name}\nHP: {battle_monst[0].hp}\nAttack power: {battle_monst[0].attack}\nBelongings: {battle_monst[0].items}\n')
+    print(f'\nName: {battle_monst.name} ------------------\n\
+        HP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\n\
+        Belongings: {battle_monst.items}\n')
+
+    # Battle loop start
+    while True:
+
+        def move():
+            return random.sample(("run", "attack", "falter"), counts=[1, 1, 3], k=1)
+        def attack():
+            return random.sample([success, fail], counts=[5, 1], k=1)
+
+        first_move = move()
+        if first_move == "run":
+            print(f'{battle_mons.name} was runaway.')
+            break
+        elif first_move == "attack":
+            attack_probability = attack()
+            if attack_probability == "success":
+                print(f'{battle_monst.name} attacked you!!\n\
+                You got {battle_monst.attack} points dameged..')
+                new_player.hp -= battle_monst.attack
+                print(f'{new_player.name} : {new_player.hp}')
+
+
 
 
 print_slow(f'\nNow {new_player.name} is standing just outside of the \
@@ -288,22 +309,22 @@ while True:
     elif answer.lower() == "status":
         print(new_player.call_status())
     elif answer.lower() == "north" or answer.lower() == "n":
-        print_slow(f'{new_player.name} is heading towards north...')
+        print_slow(f'{new_player.name} is heading towards north...\n\n')
         time.sleep(1)
         new_player.location_y += 1
         field_event()
     elif answer.lower() == "east" or answer.lower() == "e":
-        print_slow(f'{new_player.name} is heading towards east...')
+        print_slow(f'{new_player.name} is heading towards east...\n\n')
         time.sleep(1)
         new_player.location_x += 1
         field_event()
     elif answer.lower() == "south" or answer.lower() == "s":
-        print_slow(f'{new_player.name} is heading towards south...')
+        print_slow(f'{new_player.name} is heading towards south...\n\n')
         time.sleep(1)
         new_player.location_y -= 1
         field_event()
     elif answer.lower() == "west" or answer.lower() == "w":
-        print_slow(f'{new_player.name} is heading towards west...')
+        print_slow(f'{new_player.name} is heading towards west...\n\n')
         time.sleep(1)
         new_player.location_x -= 1
         field_event()
