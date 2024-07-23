@@ -39,7 +39,7 @@ TITLE = """
 
 # Controle Printing speed
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
-def print_slow(sentence, speed=0.04):
+def print_slow(sentence, speed=0.0000000000000001):
     '''
     The sentence will be printed out letter by letter, adjust speed argument
     '''
@@ -87,7 +87,7 @@ def validate_name(name):
     return True
 
 
-print(TITLE)
+# print(TITLE)
 print_slow("Welcome to The Search For Herbs game.\n\n")
 time.sleep(1)
 print_slow("This is a text based adventure game that is inspired by 80’s \
@@ -178,6 +178,8 @@ class Monsters:
     @classmethod
     def get(cls, value):
         return [inst for inst in cls.instances if inst.zone == value]
+    def get_n(cls, value):
+        return [inst for inst in cls.instances if inst.name == value]
 
 
 # Create monsters instances
@@ -194,6 +196,13 @@ Dracky = Monsters("Dracky", 6, 9, "medicinal herb", 10, "woods")
 Drackyma = Monsters("Drackyma", 10, 15, "medicinal herb", 5, "woods")
 Metal_Slime = Monsters("Metal_Slime", 400, 10, "metal", 4, "land")
 King_Slime = Monsters("King_Slime", 500, 20, "gold", 1, "land")
+
+# This dictionary is going to be used for battle data
+# I couldn't find out to create the Monsters dictionary within class object
+print(Monsters.__dict__)
+# monst_dict = {{Slime.__dict__}, {She_Slime.__dict__}, {Iron_Scorpion.__dict__}, 
+# {Ghost.__dict__}, {Bewarewolf.__dict__}, {Skeleton.__dict__}, {Dracky.__dict__}, 
+# {Drackyma.__dict__}, {Metal_Slime.__dict__}, {King_Slime.__dict__}}
 
 MAP = """
 @ : Village    M : Mountain
@@ -253,16 +262,15 @@ def battle(monst):
     print_slow(f'{new_player.name} noticed ' + monst + ' was appeared...')
     time.sleep(1)
 
-    # Parameter string(monst) can't use for calling instance name so
-    # make a new dictionary
-    monst_dict = dict(Monsters.instances)
-    print(monst_dict)
-
+    # Take the monster's instance out of the instances list using class method
+    battle_monst = deepcopy(Monsters.get_n(Monsters, monst))
+    
     # Deep copy the Monster's instance
+
     # print(Monsers.instances)
     # battle_monst = Monsters(monst, monst.hp, monst.attack, monst.items)
     # print(battle_monst)
-    # print(f'\n Name: {battle_monst.name}\nHP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\nBelongings: {battle_monst.items}\n')
+    print(f'\n Name: {battle_monst[0].name}\nHP: {battle_monst[0].hp}\nAttack power: {battle_monst[0].attack}\nBelongings: {battle_monst[0].items}\n')
 
 
 print_slow(f'\nNow {new_player.name} is standing just outside of the \
