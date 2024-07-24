@@ -82,12 +82,12 @@ def validate_name(name):
     """
     try:
         if len(name) < 3:
-            raise ValueError(f"Please input more longer name. \
-            You input {len(name)} letter(s). 3 or more letters.)\n")
+            raise ValueError(f" Please input more longer name. \
+            You input {len(name)} letter(s). 3 or more letters.\n")
         elif name.isnumeric():
-            raise ValueError(f"Not numbers only please. 3 or more letters.)\n")
+            raise ValueError(f" Not numbers only please. 3 or more letters.)\n")
     except ValueError as e:
-        print(f"Invalid name. {e} Please try again.")
+        print(f" Invalid name. {e} Please try again.")
         return False
     return True
 
@@ -109,7 +109,7 @@ while True:
     new_name = input("\n")
 
     if validate_name(new_name):
-        print(f"\n\nWelcome {new_name}!")
+        print(f"\n\n Welcome {new_name}!")
         break
 
 print(hr)
@@ -136,27 +136,27 @@ while True:
 player = Player(new_name, 100, {}, 0, 0)
 
 print_slow('\n You answered "YES" so the story is beggining...\n')
-time.sleep(1)
+time.sleep(0.5)
 print(hr)
-print_slow(f'\n Somewhere in the magical world,\n \
-There was a family whose father passed away a few years ago…\n \
+print_slow(f'\n Somewhere in the magical world,\n\n \
+There was a family whose father passed away a few years ago…\n\n \
 Young {player.name} and their mother were taking care of \
 their sick younger sister.\n\n')
 input(hr_enter)
-print_slow(f'\n {player.name}: “Hi, mother. She is not well again…” \n \
-Mother: “…. ( sigh ) I know. But we have run out of medicine.\n \
-I’ll go out of the village to get the medicinal herbs” \n \
+print_slow(f'\n {player.name}: “Hi, mother. She is not well again…” \n\n \
+Mother: “…. ( sigh ) I know. But we have run out of medicine.\n\n \
+I’ll go out of the village to get the medicinal herbs” \n\n \
 {player.name}: “No mother, I’ll go. Please look after her. \
-I’ll be back soon.” \n \
+I’ll be back soon.” \n\n \
 Mother: “Oh... Please be careful and run away from Monsters…”\n')
 input(hr_enter)
 print_slow(f'\n Now {player.name} has left their home and walking in \
 the village.\n\n Villager: “Hi {player.name}, how’s your sister? \
 Where are you going?”\n\n {player.name}: “Hi, I’m going to get \
 medicinal herbs. She’s not well again.”\n\n\
-Villager “Oh I’m sorry to hear that. \n \
-Hmm, I heard that they were growing around The Northern Mountain.\n \
-Or if you want to try,\n The East Woods monsters might have them."\n\n \
+Villager “Oh I’m sorry to hear that. \n\n \
+Hmm, I heard that they were growing around The Northern Mountain.\n\n \
+Or if you want to try,\n\n The East Woods monsters might have them."\n\n \
 {player.name}: “Thanks!”\n\n')
 input(hr_enter)
 
@@ -304,37 +304,37 @@ def battle(monst):
     # Take the monster's instance out of the instances list using class method
     b_monst = deepcopy(Monsters.get_n(Monsters, monst)[0])
     # Deep copy the Monster's instance
-    print(f'\nName: {b_monst.name} ------------------\n\
-HP: {b_monst.hp}\nAttack power: {b_monst.attack}\n\
-Belongings: {b_monst.items}\n')
+    print(f'\n Name: {b_monst.name} ------------------\n \
+        HP: {b_monst.hp}\nAttack power: {b_monst.attack}\n \
+            Belongings: {b_monst.items}')
     input(hr_enter)
 
     # First move
     first_move = move()
     if first_move == "run":
-        print_slow(f'\n!! Quickly {b_monst.name} was running away.\n')
+        print_slow(f'\n !! Quickly {b_monst.name} was running away.\n')
     elif first_move == "attack":
         attack_probability = attack()
         if attack_probability == "success":
-            print(f'\nSuddenly, {b_monst.name} attacked on you!!\n\n')
+            print(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n')
             input(hr_enter)
-            print_slow(f'You got {b_monst.attack} points damege..\n\n')
+            print_slow(f' You got {b_monst.attack} points damege..\n\n')
             player.hp -= b_monst.attack
-            print(f'{player.name} HP : {player.hp}\n\n')
+            print(f' {player.name} HP : {player.hp}\n\n')
 
             if player.hp < 1:
                 input(hr_enter)
-                print_slow(f'\nI am so sorry, \
+                print_slow(f'\n I am so sorry, \
                     {player.name} was lost the battle...\n\n')
                 time.sleep(3)
             else:
                 battle_loop(b_monst)
         else:
-            print(f'\n{b_monst.name} attacked you!! But failed...Lucky!\n\n')
+            print(f'\n {b_monst.name} attacked you!! But failed...Lucky!\n\n')
             input(hr_enter)
             battle_loop(b_monst)
     elif first_move == "falter":
-        print_slow(f'\n{b_monst.name} is faltering..\n')
+        print_slow(f'\n {b_monst.name} is faltering..\n')
         input(hr_enter)
         battle_loop(b_monst)
     input(hr_enter)
@@ -347,55 +347,55 @@ def battle_loop(b_monst):
     player's HP is run out or defeating the monster.
     """
     while True:
-        print("What do you want to do?\n")
-        player_op = input('"Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\
+        print(" What do you want to do?\n")
+        player_op = input(' "Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\
             \n')
         if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
             if attack_probability == "success":
-                print_slow(f'\n{player.name} attacked {b_monst.name}!\n\n\
+                print_slow(f'\n {player.name} attacked {b_monst.name}!\n\n \
                     {b_monst.name} got {b_monst.damege} points damege..\
                     \n\n')
                 b_monst.hp -= b_monst.damege
-                print_slow(f'{b_monst.name} HP become {b_monst.hp}')
+                print_slow(f' {b_monst.name} HP become {b_monst.hp}')
                 input(hr_enter)
                 if b_monst.hp > 0:
                     attack_probability = attack()
                     if attack_probability == "success":
-                        print_slow(f'\n{b_monst.name} attacked on you!!\n\
-                        You got {b_monst.attack} points damege..\n')
+                        print_slow(f'\n {b_monst.name} attacked on you!!\n \
+                            You got {b_monst.attack} points damege..\n')
                         player.hp -= b_monst.attack
                         print_slow(f'{player.name} HP: {player.hp}\n')
                         input(hr_enter)
                         if player.hp < 1:
-                            print_slow(f'I am so sorry, {player.name} \
+                            print_slow(f' I am so sorry, {player.name} \
                                 was lost the battle...\n\n')
                             time.sleep(3)
                             break
                     else:
-                        print_slow(f'\n{b_monst.name} attacked on you!! \
-                            But failed...Lucky!\n')
+                        print_slow(f'\n {b_monst.name} attacked on you!! \n\
+                             But failed...Lucky!\n')
                         continue
                 else:
-                    print_slow(f'\n\
+                    print_slow(f'\n \
                         {player.name} was defeated {b_monst.name}!\
                         \n\n')
-                    print_slow(f'{player.name} got {b_monst.items}')
+                    print_slow(f' {player.name} got {b_monst.items}')
                     player.items.setdefault(b_monst.items)
                     break
             else:
-                print_slow(f'Ouch!! {player.name} missed the attack..\n\n')
-                print_slow(f'{b_monst.name} is about to attack {player.name}')
+                print_slow(f' Ouch!! {player.name} missed the attack..\n\n')
+                print_slow(f' {b_monst.name} is about to attack {player.name}')
                 input(hr_enter)
                 attack_probability = attack()
                 if attack_probability == "success":
                     print(hr)
-                    print(f'{b_monst.name} attacked on you!!\n\n \
+                    print(f' {b_monst.name} attacked on you!!\n\n \
                     You got {b_monst.attack} points damege..\n\n')
                     player.hp -= b_monst.attack
-                    print(f'{player.name} HP : {player.hp}')
+                    print(f' {player.name} HP : {player.hp}')
                     if player.hp < 1:
-                        print_slow(f'\nI am so sorry, \n\
+                        print_slow(f'\n I am so sorry, \n \
                             {player.name} was lost the battle...\n\n')
                         time.sleep(3)
                         break
@@ -406,15 +406,11 @@ def battle_loop(b_monst):
         if player_op.lower() == "run" or player_op.lower() == "r":
             attack_probability = attack()
             if attack_probability == "success":
-                print_slow("Escaped successfully!!\n\n")
+                print_slow(" Escaped successfully!!\n")
                 break
             else:
-                print_slow("Unfortunately, couldn't escape successfully..\n\n")
+                print_slow(" Unfortunately, couldn't escape successfully..\n\n")
                 continue
-
-
-print_slow(f'\nNow {player.name} is standing just outside of the \
-village.\n')
 
 
 def record():
@@ -422,56 +418,60 @@ def record():
     Access the spread sheet and record the player's data
     calculate the average hp point last 5 players 
     """
-    print_slow("Now let's record your data.\n\n")
+    print_slow(" Now let's record your data.\n\n")
     print(player.call_status())
-    print_slow("Accessing the data...\n\n")
+    print_slow(" Accessing the data...\n\n")
     current_time = datetime.datetime.now()
     data = str(player.name), str(player.hp), str(player.items)
     # spread sheet can use append_row but not list can use      , current_time
     sp_player.append_row(data)
-    print_slow("Record the data successfully!!...\n\n")
-    player.hp = 0
+    print_slow(" Record the data successfully!!...\n\n")
+    return False
 
+print_slow(f'\n Now {player.name} is standing just outside of the \
+village.\n')
 
-while player.hp > 0:
+while True:
     """
     Field event loop. Ask player what's the next move and send to
     field event function. Until player HP runs out.
     Before run Validate_field_achievement() for check and exit loop
     """
     vali_field_achi()
-    print_slow('\nWhich direction do you want to go?: \n ')
-    print('"North" “N” / "South" “S” / "East" “E” / "West" “W”\n \
-    If you want to look at the map: "Map"\n \
-    Or if you want to check your status: "Status"')
-    answer = input('\n')
 
-    if answer.lower() == "map":
-        print(MAP)
-    elif answer.lower() == "status":
-        print(player.call_status())
-    elif answer.lower() == "north" or answer.lower() == "n":
-        print_slow(f'{player.name} is heading towards north...\n\n')
-        time.sleep(1)
-        player.location_y += 1
-        field_event()
-    elif answer.lower() == "east" or answer.lower() == "e":
-        print_slow(f'{player.name} is heading towards east...\n\n')
-        time.sleep(1)
-        player.location_x += 1
-        field_event()
-    elif answer.lower() == "south" or answer.lower() == "s":
-        print_slow(f'{player.name} is heading towards south...\n\n')
-        time.sleep(1)
-        player.location_y -= 1
-        field_event()
-    elif answer.lower() == "west" or answer.lower() == "w":
-        print_slow(f'{player.name} is heading towards west...\n\n')
-        time.sleep(1)
-        player.location_x -= 1
-        field_event()
-    else:
-        print("Invalid input. Please try again.")
-    continue
+    if player.hp > 0:
+        print_slow("\n Which direction do you want to go? \n\n")
+        print(' Check your status: "Status" or Look at Map: "Map"?\n\n\
+            " North" “N” / "South" “S” / "East" "E" / "West" "W"\n')
+        
+        answer = input('\n')
 
-print_slow(f'Thank you for playing this game {player.name}\n\n\n')
+        if answer.lower() == "map":
+            print(MAP)
+        elif answer.lower() == "status":
+            print(player.call_status())
+        elif answer.lower() == "north" or answer.lower() == "n":
+            print_slow(f' {player.name} is heading towards north...\n\n')
+            time.sleep(1)
+            player.location_y += 1
+            field_event()
+        elif answer.lower() == "east" or answer.lower() == "e":
+            print_slow(f' {player.name} is heading towards east...\n\n')
+            time.sleep(1)
+            player.location_x += 1
+            field_event()
+        elif answer.lower() == "south" or answer.lower() == "s":
+            print_slow(f' {player.name} is heading towards south...\n\n')
+            time.sleep(1)
+            player.location_y -= 1
+            field_event()
+        elif answer.lower() == "west" or answer.lower() == "w":
+            print_slow(f' {player.name} is heading towards west...\n\n')
+            time.sleep(1)
+            player.location_x -= 1
+            field_event()
+        else:
+            print(" Invalid input. Please try again.")
+        continue
+
+print_slow(f' Thank you for playing this game {player.name}\n\n\n')
