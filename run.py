@@ -3,6 +3,7 @@ from google.oauth2.service_account import Credentials
 import json
 import random
 import time
+import datetime
 import sys
 from copy import deepcopy
 # Every Google account has as an IAM (Identity and Access Management)
@@ -20,8 +21,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('search4herbs')
 
-player = SHEET.worksheet('player')
-player_data = player.get_all_values()
+sp_player = SHEET.worksheet('player')
+player_data = sp_player.get_all_values()
 
 TITLE = """
  _____ _
@@ -87,7 +88,7 @@ def validate_name(name):
     return True
 
 
-# print(TITLE)
+print(TITLE)
 print_slow("Welcome to The Search For Herbs game.\n\n")
 time.sleep(1)
 print_slow("This is a text based adventure game that is inspired by 80’s \
@@ -126,7 +127,7 @@ while True:
     else:
         print("\nPlease input valid keys.\n")
 
-new_player = Player(new_name, 100, [], 0, 0)
+new_player = Player(new_name, 100, {}, 0, 0)
 
 print_slow('\nYou answered "YES" so the story is beggining...\n')
 time.sleep(1)
@@ -179,6 +180,8 @@ class Monsters:
     @classmethod
     def get(cls, value):
         return [inst for inst in cls.instances if inst.zone == value]
+
+    # Give back the specified instance from it's name
     def get_n(cls, value):
         return [inst for inst in cls.instances if inst.name == value]
 
@@ -189,15 +192,14 @@ class Monsters:
 # Identifying from @class method uses name attribute.
 Slime = Monsters("Slime", 3, 6, 6, "stone", 15, "land")
 She_Slime = Monsters("She_Slime", 4, 7, 6, "gold", 15, "land")
-Iron_Scorpion = Monsters("Iron_Scorpion", 22, 10, 6, "iron", 15, "land")
-Ghost = Monsters("Ghost", 7, 4, 6, "medicinal herb", 15, "woods")
+Iron_Scorpion = Monsters("Iron_Scorpion", 22, 9, 6, "iron", 15, "land")
+Ghost = Monsters("Ghost", 13, 4, 6, "medicinal herb", 15, "woods")
 Bewarewolf = Monsters("Bewarewolf", 34, 12, 7, "medicinal herb", 10, "land")
-Skeleton = Monsters("Skeleton", 30, 15, 6, "bone", 10, "land")
+Skeleton = Monsters("Skeleton", 30, 9, 6, "bone", 10, "land")
 Dracky = Monsters("Dracky", 6, 9, 6, "medicinal herb", 10, "woods")
-Drackyma = Monsters("Drackyma", 10, 15, 6, "medicinal herb", 5, "woods")
-Metal_Slime = Monsters("Metal_Slime", 400, 10, 10, "metal", 4, "land")
-King_Slime = Monsters("King_Slime", 500, 20, 5, "crown", 1, "land")
-
+Drackyma = Monsters("Drackyma", 10, 10, 6, "medicinal herb", 5, "woods")
+Metal_Slime = Monsters("Metal_Slime", 100, 9, 10, "metal", 4, "land")
+King_Slime = Monsters("King_Slime", 120, 20, 5, "crown", 1, "land")
 
 
 MAP = """
@@ -223,7 +225,8 @@ Y _________________________________
 
 def field_event():
     """
-    Check player's location for pick monster function, and send the monster to battle function. 
+    Check player's location for pick monster function,
+    and send the monster to battle function.
     """
 
     if 5 <= new_player.location_x <= 9:
@@ -237,13 +240,19 @@ def field_event():
 
 def vali_field_achi():
     """
-    This validation to check the achievement whether get the items 
+    This validation to check the achievement whether get the items
     and came back to the village
     """
     if any(item == "medicinal herb" for item in new_player.items):
         if new_player.location_x == 0:
             if new_player.location_y == 0:
-                return False
+                print_slow("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\
+                    Congratulations!! You came back safely!\n\n")
+                print_slow(f'---------------------------------------\n\
+                    Mother "Ohh! Thank you {new_player.name}! \n\n\
+                    So glad safly came back. She will be fine now!\n')
+                break
+
 
 
 def pick_monster(zone):
@@ -264,7 +273,8 @@ def move():
     Only first move, monster might have a chance to run or attack
     random choice with weights - run=1, attack=1, falter=3
     """
-    return random.choices(("run", "attack", "falter"), weights=[1, 1, 3], k=1)[0]
+    move = random.choices(("run", "attack", "falter"), weights=[1, 1, 3], k=1)
+    return move[0]
 
 
 def attack():
@@ -290,7 +300,7 @@ def battle(monst):
 HP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\n\
 Belongings: {battle_monst.items}\n')
     input('\n----------------------------- Press "enter" key to continue.\n')
-    
+
     # First move
     first_move = move()
     if first_move == "run":
@@ -299,25 +309,32 @@ Belongings: {battle_monst.items}\n')
         attack_probability = attack()
         if attack_probability == "success":
             print(f'\nSuddenly, {battle_monst.name} attacked on you!!')
-            input('\n----------------------------- Press "enter" key to continue.\n')
+            input('\n----------------------------- \
+            Press "enter" key to continue.\n')
             print_slow(f'You got {battle_monst.attack} points damege..\n')
             new_player.hp -= battle_monst.attack
             print(f'{new_player.name} HP : {new_player.hp}')
 
-            if new_player.hp < 0:
-                input('\n----------------------------- Press "enter" key to continue.\n')
-                print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
+            if new_player.hp < 1:
+                input('\n----------------------------- \
+                    Press "enter" key to continue.\n')
+                print_slow(f'I am so sorry, \
+                    {new_player.name} was lost the battle...')
                 time.sleep(3)
-            battle_loop(battle_monst)
+            else:
+                battle_loop(battle_monst)
         else:
             print(f'\n{battle_monst.name} attacked you!! But failed..\n')
-            input('\n----------------------------- Press "enter" key to continue.\n')
+            input('\n----------------------------- \
+                Press "enter" key to continue.\n')
             battle_loop(battle_monst)
     elif first_move == "falter":
         print_slow(f'\n{battle_monst.name} is faltering..\n')
-        input('\n----------------------------- Press "enter" key to continue.\n')
+        input('\n----------------------------- \
+            Press "enter" key to continue.\n')
         battle_loop(battle_monst)
     input('\n----------------------------- Press "enter" key to continue.\n')
+
 
 # Battle loop function
 def battle_loop(battle_monst):
@@ -327,51 +344,64 @@ def battle_loop(battle_monst):
     """
     while True:
         print("What do you want to do?\n")
-        player_op = input('"Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\n')
+        player_op = input('"Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\
+            \n')
         if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
             if attack_probability == "success":
-                print_slow(f'\n{new_player.name} attacked {battle_monst.name}!!\n\n\
-                {battle_monst.name} got {battle_monst.damege} points damege..\n\n')
+                print_slow(f'\n\
+                    {new_player.name} attacked {battle_monst.name}!!\
+                    \n\n{battle_monst.name} got {battle_monst.damege} \
+                    points damege..\n\n')
                 battle_monst.hp -= battle_monst.damege
                 print_slow(f'{battle_monst.name} HP become {battle_monst.hp}')
-                input('\n----------------------------- Press "enter" key to continue.\n')
+                input('\n----------------------------- \
+                    Press "enter" key to continue.\n')
                 if battle_monst.hp > 0:
                     attack_probability = attack()
                     if attack_probability == "success":
                         print_slow(f'\n{battle_monst.name} attacked on you!!\n\
                         You got {battle_monst.attack} points damege..\n')
                         new_player.hp -= battle_monst.attack
-                        print_slow(f'{new_player.name} HP : {new_player.hp}\n\n')
-                        input('\n----------------------------- Press "enter" key to continue.\n')
-                        if new_player.hp < 0:
-                            print_slow(f'I am so sorry, {new_player.name} was lost the battle...\n\n')
+                        print_slow(f'{new_player.name} HP: {new_player.hp}\n')
+                        input('\n\n----------------------------- \
+                            Press "enter" key to continue.\n')
+                        if new_player.hp < 1:
+                            print_slow(f'I am so sorry, {new_player.name} \
+                                was lost the battle...\n\n')
                             time.sleep(3)
                             break
                     else:
-                        print_slow(f'\n{battle_monst.name} attacked on you!! But failed...Lucky!\n')
+                        print_slow(f'\n{battle_monst.name} attacked on you!! \
+                            But failed...Lucky!\n')
                         continue
                 else:
-                    print_slow(f'{new_player.name} was defeated {battle_monst.name}! \n\n')
+                    print_slow(f'\n\
+                        {new_player.name} was defeated {battle_monst.name}!\
+                        \n\n')
                     print_slow(f'{new_player.name} got {battle_monst.items}')
-                    new_player.items.append(battle_monst.items)
+                    new_player.items.setdefault(battle_monst.items)
                     break
             else:
-                print_slow('\nOuch!! Missed the attack..\n')
-                input(f'{battle_monst.name} is about to attack {new_player.name} ....... \n\
-                Press "enter" key to continue.\n')
+                print_slow('\nOuch!! Missed the attack..\n\n')
+                input(f'\
+                    {battle_monst.name} is about to attack {new_player.name} \
+                    .......\n\nPress "enter" key to continue.\n')
                 attack_probability = attack()
                 if attack_probability == "success":
                     print(f'\n{battle_monst.name} attacked on you!!\n\
                     You got {battle_monst.attack} points dameged..\n')
                     new_player.hp -= battle_monst.attack
                     print(f'{new_player.name} HP : {new_player.hp}')
-                    if new_player.hp < 0:
-                        print_slow(f'I am so sorry, {new_player.name} was lost the battle...')
+                    if new_player.hp < 1:
+                        print_slow(f'\nI am so sorry, \n\
+                            {new_player.name} was lost the battle...')
                         time.sleep(3)
                         break
                 else:
-                    print(f'\n{battle_monst.name} attacked on you!! But failed...Lucky!\n')
+                    print(f'\n\
+                        {battle_monst.name} attacked on you!! \
+                            But failed...Lucky!\n')
                     continue
         if player_op.lower() == "run" or player_op.lower() == "r":
             attack_probability = attack()
@@ -425,6 +455,11 @@ while new_player.hp > 0:
         field_event()
     else:
         print("Invalid input. Please try again.")
-        False
+    continue
+
+
+
+
+
 
 print_slow(f'Thank you for playing this game {new_player.name}\n\n\n')
