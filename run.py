@@ -106,7 +106,7 @@ while True:
     print_slow(" \
         Please enter your name. (This game's hero’s name)\n \
         3 or more letters.)\n")
-    new_name = input("\n")
+    new_name = input("\n  ")
 
     if validate_name(new_name):
         print(f"\n\n Welcome {new_name}!")
@@ -256,7 +256,7 @@ def vali_field_achi():
                     Congratulations!! You came back safely!\n\n")
                 print_slow(f'-----------------------------\n\
                     Mother "Ohh! Thank you {player.name}! \n\n\
-                    So glad safly came back.\n\n\
+                    So glad you safely came back.\n\n\
                     I will give her the medicine now!')
                 input('\n----------------------------- \n\
                     Press "enter" to record the data.\n')
@@ -298,15 +298,15 @@ def battle(monst):
     To get the instance call the @classmethod again
     After the first move action send the monster to the battle loop function
     """
-    print_slow(f'{player.name} noticed ' + monst + ' was appeared...\n\n')
+    print_slow(f' {player.name} noticed ' + monst + ' was appeared...\n\n')
     time.sleep(0.5)
 
     # Take the monster's instance out of the instances list using class method
     b_monst = deepcopy(Monsters.get_n(Monsters, monst)[0])
     # Deep copy the Monster's instance
     print(f'\n Name: {b_monst.name} ------------------\n \
-        HP: {b_monst.hp}\nAttack power: {b_monst.attack}\n \
-            Belongings: {b_monst.items}')
+        HP: {b_monst.hp}\n Attack power: {b_monst.attack}\n \
+        Belongings: {b_monst.items}')
     input(hr_enter)
 
     # First move
@@ -349,7 +349,7 @@ def battle_loop(b_monst):
     while True:
         print(" What do you want to do?\n")
         player_op = input(' "Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\
-            \n')
+            \n ')
         if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
             if attack_probability == "success":
@@ -422,8 +422,9 @@ def record():
     print(player.call_status())
     print_slow(" Accessing the data...\n\n")
     current_time = datetime.datetime.now()
-    data = str(player.name), str(player.hp), str(player.items)
-    # spread sheet can use append_row but not list can use      , current_time
+    data = str(player.name), str(player.hp), str(player.items), strftime("%x"),
+    # spread sheet can use append_row but not list can use
+    # The datetime object has a method for formatting date objects into readable strings.
     sp_player.append_row(data)
     print_slow(" Record the data successfully!!...\n\n")
     return False
@@ -441,10 +442,10 @@ while True:
 
     if player.hp > 0:
         print_slow("\n Which direction do you want to go? \n\n")
-        print(' Check your status: "Status" or Look at Map: "Map"?\n\n\
+        print(' Check your status: "Status" or Look at Map: "Map"\n\n\
             " North" “N” / "South" “S” / "East" "E" / "West" "W"\n')
         
-        answer = input('\n')
+        answer = input('\n ')
 
         if answer.lower() == "map":
             print(MAP)
