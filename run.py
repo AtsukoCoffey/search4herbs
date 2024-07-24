@@ -21,7 +21,9 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('search4herbs')
 
+# spread sheet
 sp_player = SHEET.worksheet('player')
+# list data
 player_data = sp_player.get_all_values()
 
 TITLE = """
@@ -37,6 +39,8 @@ TITLE = """
  \____/ \___|\__,_|_|  \___|_| |_| \_| \___/|_|    \_| |_/\___|_|  |_.__/|___/
 """
 
+hr = "\n\n---------------------------------------\n"
+hr_enter = '\n\n---------------------------- Press "enter" to continue.\n'
 
 # Controle Printing speed
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
@@ -77,11 +81,11 @@ def validate_name(name):
     Asking player the valid name input and validation
     """
     try:
-        if len(name) < 4:
+        if len(name) < 3:
             raise ValueError(f"Please input more longer name. \
-            You input {len(name)} letter(s). 4 or more letters.)\n")
+            You input {len(name)} letter(s). 3 or more letters.)\n")
         elif name.isnumeric():
-            raise ValueError(f"Not numbers only please. 4 or more letters.)\n")
+            raise ValueError(f"Not numbers only please. 3 or more letters.)\n")
     except ValueError as e:
         print(f"Invalid name. {e} Please try again.")
         return False
@@ -91,7 +95,7 @@ def validate_name(name):
 print(TITLE)
 print_slow("Welcome to The Search For Herbs game.\n\n")
 time.sleep(1)
-print_slow("This is a text based adventure game that is inspired by 80’s \
+print_slow("This is a text based adventure game that is inspired by 80’s\n \
 popular RPG game “Dragon Quest”.\n\n")
 
 
@@ -99,22 +103,23 @@ while True:
     """
     Asking player the valid name and loop. Use valid_name function
     """
-    print_slow("Please enter your name. (This game's hero’s name) \n\
-4 or more letters. You can use alphabets, marks and numbers.)\n")
+    print_slow("Please enter your name. (This game's hero’s name)\n\
+3 or more letters.)\n")
     new_name = input("\n")
 
     if validate_name(new_name):
         print(f"\n\nWelcome {new_name}!")
         break
 
-print("-----------------------------------------------------------\n")
+print(hr)
 print_slow("\n\
-This game is going to collect medicinal herbs for their sick sister \
-at the outside of the village; where the animals and monsters exist.\n")
-input(f'\n\n----------------------------- Press "enter" key to continue.\n')
+This game is going to collect the medicinal herbs \n \
+to the outside of the village; where the animals and \n \
+monsters exist.\n")
+input(hr_enter)
 print_slow("\n\
-Running, fighting or dealing with monsters affects the hero’s status. \
-The goal of this game is to complete collecting more than 10 medicinal \
+Running, fighting or dealing with monsters affects the hero’s status.\n \
+The goal of this game is to complete collecting more than 4 medicinal\n \
 herbs and safely come back home to heal the hero’s sister. \n\n")
 
 while True:
@@ -131,28 +136,28 @@ new_player = Player(new_name, 100, {}, 0, 0)
 
 print_slow('\nYou answered "YES" so the story is beggining...\n')
 time.sleep(1)
-print("-----------------------------------------------------------\n")
-print_slow(f'\nSomewhere in the magical world,\n\
-There was a family whose father passed away a few years ago…\n\
+print(hr)
+print_slow(f'\nSomewhere in the magical world,\n \
+There was a family whose father passed away a few years ago…\n \
 Young {new_player.name} and their mother were taking care of \
 their sick younger sister.\n')
-input(f'\n----------------------------- Press "enter" key to continue.\n')
-print_slow(f'\n{new_player.name} “Hi, mother. She is not well again…” \n\
-Mother “…. ( sigh ) I know. But we have run out of medicine. \
-I’ll go out of the village to get the medicinal herbs” \n\
-{new_player.name} “No mother, I’ll go. Please look after her. \
+input(hr_enter)
+print_slow(f'\n{new_player.name}: “Hi, mother. She is not well again…” \n\
+Mother: “…. ( sigh ) I know. But we have run out of medicine.\n \
+I’ll go out of the village to get the medicinal herbs” \n \
+{new_player.name}: “No mother, I’ll go. Please look after her. \
 I’ll be back soon.” \n\
-Mother “Oh... Please be careful and run away from Monsters…”\n')
-input(f'\n----------------------------- Press "enter" key to continue.\n')
+Mother: “Oh... Please be careful and run away from Monsters…”\n')
+input(hr_enter)
 print_slow(f'\nNow {new_player.name} has left their home and walking in \
-the village.\n\nVillager “Hi {new_player.name}, how’s your sister? \
-Where are you going?”\n\n{new_player.name} “Hi, I’m going to get \
+the village.\n\nVillager: “Hi {new_player.name}, how’s your sister? \
+Where are you going?”\n\n{new_player.name}: “Hi, I’m going to get \
 medicinal herbs. She’s not well again.”\n\n\
 Villager “Oh I’m sorry to hear that. \n\
-Hmm, I heard that they were growing around The Northern Mountain. \
-Or if you want to fight with monsters, The East Woods monsters might have\
- them."\n\n{new_player.name} “Thanks!”\n\n')
-input('\n----------------------------- Press "enter" key to continue.\n')
+Hmm, I heard that they were growing around The Northern Mountain.\n \
+Or if you want to try,\n The East Woods monsters might have them."\n\n \
+{new_player.name}: “Thanks!”\n\n')
+input(hr_enter)
 
 
 class Monsters:
@@ -190,7 +195,7 @@ class Monsters:
 # Using capital letter to the python variables is not recomended though
 # These are matching to the name attribute because
 # Identifying from @class method uses name attribute.
-Slime = Monsters("Slime", 3, 6, 6, "stone", 15, "land")
+Slime = Monsters("Slime", 3, 6, 6, "medicinal herb", 15, "land")
 She_Slime = Monsters("She_Slime", 4, 7, 6, "gold", 15, "land")
 Iron_Scorpion = Monsters("Iron_Scorpion", 22, 9, 6, "iron", 15, "land")
 Ghost = Monsters("Ghost", 13, 4, 6, "medicinal herb", 15, "woods")
@@ -246,13 +251,15 @@ def vali_field_achi():
     if any(item == "medicinal herb" for item in new_player.items):
         if new_player.location_x == 0:
             if new_player.location_y == 0:
-                print_slow("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\
+                print_slow("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n \
                     Congratulations!! You came back safely!\n\n")
-                print_slow(f'---------------------------------------\n\
+                print_slow(f'-----------------------------\n\
                     Mother "Ohh! Thank you {new_player.name}! \n\n\
-                    So glad safly came back. She will be fine now!\n')
-                break
-
+                    So glad safly came back.\n\n\
+                    I will give her the medicine now!')
+                input('\n----------------------------- \n\
+                    Press "enter" to record the data.\n')
+                record()
 
 
 def pick_monster(zone):
@@ -299,41 +306,37 @@ def battle(monst):
     print(f'\nName: {battle_monst.name} ------------------\n\
 HP: {battle_monst.hp}\nAttack power: {battle_monst.attack}\n\
 Belongings: {battle_monst.items}\n')
-    input('\n----------------------------- Press "enter" key to continue.\n')
+    input(hr_enter)
 
     # First move
     first_move = move()
     if first_move == "run":
-        print_slow(f'\n{battle_monst.name} was running away.\n')
+        print_slow(f'\n!! Quickly {battle_monst.name} was running away.\n')
     elif first_move == "attack":
         attack_probability = attack()
         if attack_probability == "success":
-            print(f'\nSuddenly, {battle_monst.name} attacked on you!!')
-            input('\n----------------------------- \
-            Press "enter" key to continue.\n')
-            print_slow(f'You got {battle_monst.attack} points damege..\n')
+            print(f'\nSuddenly, {battle_monst.name} attacked on you!!\n\n')
+            input(hr_enter)
+            print_slow(f'You got {battle_monst.attack} points damege..\n\n')
             new_player.hp -= battle_monst.attack
-            print(f'{new_player.name} HP : {new_player.hp}')
+            print(f'{new_player.name} HP : {new_player.hp}\n\n')
 
             if new_player.hp < 1:
-                input('\n----------------------------- \
-                    Press "enter" key to continue.\n')
-                print_slow(f'I am so sorry, \
-                    {new_player.name} was lost the battle...')
+                input(hr_enter)
+                print_slow(f'\nI am so sorry, \
+                    {new_player.name} was lost the battle...\n\n')
                 time.sleep(3)
             else:
                 battle_loop(battle_monst)
         else:
-            print(f'\n{battle_monst.name} attacked you!! But failed..\n')
-            input('\n----------------------------- \
-                Press "enter" key to continue.\n')
+            print(f'\n{battle_monst.name} attacked you!! But failed...Lucky!\n\n')
+            input(hr_enter)
             battle_loop(battle_monst)
     elif first_move == "falter":
         print_slow(f'\n{battle_monst.name} is faltering..\n')
-        input('\n----------------------------- \
-            Press "enter" key to continue.\n')
+        input(hr_enter)
         battle_loop(battle_monst)
-    input('\n----------------------------- Press "enter" key to continue.\n')
+    input(hr_enter)
 
 
 # Battle loop function
@@ -349,14 +352,12 @@ def battle_loop(battle_monst):
         if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
             if attack_probability == "success":
-                print_slow(f'\n\
-                    {new_player.name} attacked {battle_monst.name}!!\
-                    \n\n{battle_monst.name} got {battle_monst.damege} \
-                    points damege..\n\n')
+                print_slow(f'\n{new_player.name} attacked {battle_monst.name}!\n\n\
+                    {battle_monst.name} got {battle_monst.damege} points damege..\
+                    \n\n')
                 battle_monst.hp -= battle_monst.damege
                 print_slow(f'{battle_monst.name} HP become {battle_monst.hp}')
-                input('\n----------------------------- \
-                    Press "enter" key to continue.\n')
+                input(hr_enter)
                 if battle_monst.hp > 0:
                     attack_probability = attack()
                     if attack_probability == "success":
@@ -364,8 +365,7 @@ def battle_loop(battle_monst):
                         You got {battle_monst.attack} points damege..\n')
                         new_player.hp -= battle_monst.attack
                         print_slow(f'{new_player.name} HP: {new_player.hp}\n')
-                        input('\n\n----------------------------- \
-                            Press "enter" key to continue.\n')
+                        input(hr_enter)
                         if new_player.hp < 1:
                             print_slow(f'I am so sorry, {new_player.name} \
                                 was lost the battle...\n\n')
@@ -383,38 +383,54 @@ def battle_loop(battle_monst):
                     new_player.items.setdefault(battle_monst.items)
                     break
             else:
-                print_slow('\nOuch!! Missed the attack..\n\n')
-                input(f'\
-                    {battle_monst.name} is about to attack {new_player.name} \
-                    .......\n\nPress "enter" key to continue.\n')
+                print_slow(f'Ouch!! Missed the attack..\n\n')
+                print_slow(f'{battle_monst.name} is about to attack {new_player.name}')
+                input(hr_enter)
                 attack_probability = attack()
                 if attack_probability == "success":
-                    print(f'\n{battle_monst.name} attacked on you!!\n\
-                    You got {battle_monst.attack} points dameged..\n')
+                    print(hr)
+                    print(f'{battle_monst.name} attacked on you!!\n\n \
+                    You got {battle_monst.attack} points damege..\n\n')
                     new_player.hp -= battle_monst.attack
                     print(f'{new_player.name} HP : {new_player.hp}')
                     if new_player.hp < 1:
                         print_slow(f'\nI am so sorry, \n\
-                            {new_player.name} was lost the battle...')
+                            {new_player.name} was lost the battle...\n\n')
                         time.sleep(3)
                         break
                 else:
-                    print(f'\n\
-                        {battle_monst.name} attacked on you!! \
-                            But failed...Lucky!\n')
+                    print(f'{battle_monst.name} attacked on you!!\n\n \
+                        But failed...Lucky!\n\n')
                     continue
         if player_op.lower() == "run" or player_op.lower() == "r":
             attack_probability = attack()
             if attack_probability == "success":
-                print_slow("Escaped successfully!!")
+                print_slow("Escaped successfully!!\n\n")
                 break
             else:
-                print_slow("Unfortunately, couldn't escape successfully..")
+                print_slow("Unfortunately, couldn't escape successfully..\n\n")
                 continue
 
 
 print_slow(f'\nNow {new_player.name} is standing just outside of the \
 village.\n')
+
+
+def record():
+    """
+    Access the spread sheet and record the player's data
+    calculate the average hp point last 5 players 
+    """
+    print_slow("Now let's record your data.\n\n")
+    print(new_player.call_status())
+    print_slow("Accessing the data...\n\n")
+    current_time = datetime.datetime.now()
+    data = str(new_player.name), str(new_player.hp), str(new_player.items)
+    # spread sheet can use append_row but not list can use      , current_time
+    sp_player.append_row(data)
+    print_slow("Record the data successfully!!...\n\n")
+    new_player.hp = 0
+
 
 while new_player.hp > 0:
     """
@@ -456,10 +472,5 @@ while new_player.hp > 0:
     else:
         print("Invalid input. Please try again.")
     continue
-
-
-
-
-
 
 print_slow(f'Thank you for playing this game {new_player.name}\n\n\n')
