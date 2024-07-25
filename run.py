@@ -6,16 +6,14 @@ import time
 import datetime
 import sys
 from copy import deepcopy
+
 # Every Google account has as an IAM (Identity and Access Management)
-
-
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"
     ]
 
-# creds = json.load(open('creds.json'))
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
@@ -82,7 +80,7 @@ def validate_name(name):
     """
     try:
         if len(name) < 3:
-            raise ValueError(f" Please input more longer name. \
+            raise ValueError(f" Please input more longer name. \n \
             You input {len(name)} letter(s). 3 or more letters.\n")
         elif name.isnumeric():
             raise ValueError(f" Not numbers only please. 3 or more letters.)\n")
@@ -90,13 +88,6 @@ def validate_name(name):
         print(f" Invalid name. {e} Please try again.")
         return False
     return True
-
-
-print(TITLE)
-print_slow(" Welcome to The Search For Herbs game.\n\n")
-time.sleep(1)
-print_slow(" This is a text based adventure game that is inspired by 80’s\n \
-popular RPG game “Dragon Quest”.\n\n")
 
 
 while True:
@@ -111,6 +102,13 @@ while True:
     if validate_name(new_name):
         print(f"\n\n Welcome {new_name}!")
         break
+
+
+print(TITLE)
+print_slow(" Welcome to The Search For Herbs game.\n\n")
+time.sleep(1)
+print_slow(" This is a text based adventure game that is inspired by 80’s\n \
+popular RPG game “Dragon Quest”.\n\n")
 
 print(hr)
 print_slow("\n \
@@ -153,11 +151,11 @@ input(hr_enter)
 print_slow(f'\n Now {player.name} has left their home and walking in \
 the village.\n\n Villager: “Hi {player.name}, how’s your sister? \
 Where are you going?”\n\n {player.name}: “Hi, I’m going to get \
-medicinal herbs. She’s not well again.”\n\n\
+medicinal herbs. She’s not well again.”\n\n \
 Villager “Oh I’m sorry to hear that. \n\n \
 Hmm, I heard that they were growing around The Northern Mountain.\n\n \
 Or if you want to try,\n\n The East Woods monsters might have them."\n\n \
-{player.name}: “Thanks!”\n\n')
+{player.name}: “Thanks!”\n')
 input(hr_enter)
 
 
@@ -210,8 +208,7 @@ King_Slime = Monsters("King_Slime", 120, 20, 5, "crown", 1, "land")
 
 MAP = """
 @ : Village    M : Mountain
-L : Land       W : Woods  - : Water
-Check player's location X, Y
+L : Land       W : Woods  - : Water 
 
  X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
 Y _________________________________
@@ -324,7 +321,7 @@ def battle(monst):
 
             if player.hp < 1:
                 input(hr_enter)
-                print_slow(f'\n I am so sorry, \
+                print_slow(f'\n I am so sorry,\n \
                     {player.name} was lost the battle...\n\n')
                 time.sleep(3)
             else:
@@ -354,7 +351,7 @@ def battle_loop(b_monst):
             attack_probability = attack()
             if attack_probability == "success":
                 print_slow(f'\n {player.name} attacked {b_monst.name}!\n\n \
-                    {b_monst.name} got {b_monst.damege} points damege..\
+                {b_monst.name} got {b_monst.damege} points damege..\
                     \n\n')
                 b_monst.hp -= b_monst.damege
                 print_slow(f' {b_monst.name} HP become {b_monst.hp}')
@@ -363,13 +360,13 @@ def battle_loop(b_monst):
                     attack_probability = attack()
                     if attack_probability == "success":
                         print_slow(f'\n {b_monst.name} attacked on you!!\n \
-                            You got {b_monst.attack} points damege..\n')
+                        You got {b_monst.attack} points damege..\n')
                         player.hp -= b_monst.attack
                         print_slow(f'{player.name} HP: {player.hp}\n')
                         input(hr_enter)
                         if player.hp < 1:
-                            print_slow(f' I am so sorry, {player.name} \
-                                was lost the battle...\n\n')
+                            print_slow(f' I am so sorry, \
+                            {player.name} was lost the battle...\n\n')
                             time.sleep(3)
                             break
                     else:
@@ -422,17 +419,18 @@ def record():
     print(player.call_status())
     print_slow(" Accessing the data...\n\n")
     current_time = datetime.datetime.now()
-    data = str(player.name), str(player.hp), str(player.items), strftime("%x"),
+    data = str(player.name), str(player.hp), str(player.items), current_time.strftime("%x")
     # spread sheet can use append_row but not list can use
     # The datetime object has a method for formatting date objects into readable strings.
     sp_player.append_row(data)
+    player.hp = 0
     print_slow(" Record the data successfully!!...\n\n")
-    return False
+
 
 print_slow(f'\n Now {player.name} is standing just outside of the \
 village.\n')
 
-while True:
+while player.hp > 0:
     """
     Field event loop. Ask player what's the next move and send to
     field event function. Until player HP runs out.
@@ -442,32 +440,33 @@ while True:
 
     if player.hp > 0:
         print_slow("\n Which direction do you want to go? \n\n")
-        print(' Check your status: "Status" or Look at Map: "Map"\n\n\
-            " North" “N” / "South" “S” / "East" "E" / "West" "W"\n')
+        print(' Check your status: "Status" or Look at Map: "Map"\n \
+            "North" “N” / "South" “S” / "East" "E" / "West" "W"\n')
         
         answer = input('\n ')
 
         if answer.lower() == "map":
             print(MAP)
+            print(f'Location X:{player.location_x} | Y:{player.location_y}\n\n')
         elif answer.lower() == "status":
             print(player.call_status())
         elif answer.lower() == "north" or answer.lower() == "n":
-            print_slow(f' {player.name} is heading towards north...\n\n')
+            print_slow(f'\n {player.name} is heading towards north...\n\n')
             time.sleep(1)
             player.location_y += 1
             field_event()
         elif answer.lower() == "east" or answer.lower() == "e":
-            print_slow(f' {player.name} is heading towards east...\n\n')
+            print_slow(f'\n {player.name} is heading towards east...\n\n')
             time.sleep(1)
             player.location_x += 1
             field_event()
         elif answer.lower() == "south" or answer.lower() == "s":
-            print_slow(f' {player.name} is heading towards south...\n\n')
+            print_slow(f'\n {player.name} is heading towards south...\n\n')
             time.sleep(1)
             player.location_y -= 1
             field_event()
         elif answer.lower() == "west" or answer.lower() == "w":
-            print_slow(f' {player.name} is heading towards west...\n\n')
+            print_slow(f'\n {player.name} is heading towards west...\n\n')
             time.sleep(1)
             player.location_x -= 1
             field_event()
