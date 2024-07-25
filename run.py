@@ -134,10 +134,6 @@ class Monsters:
     def get(cls, value):
         return [inst for inst in cls.instances if inst.zone == value]
 
-    # Give back the specified instance from it's name
-    def get_n(cls, value):
-        return [inst for inst in cls.instances if inst.name == value]
-
 # Create monsters instances
 # Using capital letter to the python variables is not recomended though
 # These are matching to the name attribute because
@@ -229,7 +225,7 @@ def field_event():
             if player.hp < 1:
                 input(hr_enter)
                 print_slow(f'\n I am so sorry,\n \
-                    {player.name} was lost the battle...\n\n')
+                    {player.name} was lost the battle...\n\n', 0.6)
                 time.sleep(3)
             else:
                 battle_loop(b_monst)
@@ -272,7 +268,7 @@ def battle_loop(b_monst):
                         input(hr_enter)
                         if player.hp < 1:
                             print_slow(f' I am so sorry, \
-                            {player.name} was lost the battle...\n\n')
+                            {player.name} was lost the battle...\n\n', 0.6)
                             time.sleep(3)
                             break
                     else:
@@ -298,7 +294,7 @@ def battle_loop(b_monst):
                     print(f' {player.name} HP : {player.hp}\n\n')
                     if player.hp < 1:
                         print_slow(f'\n I am so sorry, \n \
-                            {player.name} was lost the battle...\n\n')
+                            {player.name} was lost the battle...\n\n', 0.6)
                         time.sleep(3)
                         break
                 else:
