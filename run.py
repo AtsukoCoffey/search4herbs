@@ -250,13 +250,13 @@ def vali_field_achi():
         if player.location_x == 0:
             if player.location_y == 0:
                 print_slow("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n \
-                    Congratulations!! You came back safely!\n\n")
-                print_slow(f'-----------------------------\n\
-                    Mother "Ohh! Thank you {player.name}! \n\n\
-                    So glad you safely came back.\n\n\
-                    I will give her the medicine now!')
-                input('\n----------------------------- \n\
-                    Press "enter" to record the data.\n')
+                Congratulations!! You came back the village safely!\n\n")
+                input(hr_enter)
+                print_slow(f' {player.name} rushed to get back home.\n\n \
+                Mother: "Ohh! Welcomeback {player.name}! \n\n \
+                So glad you safely came back.\n\n \
+                Thank you! I will give her the medicine now!\n\n')
+                input(hr_enter)
                 record()
 
 
@@ -313,7 +313,7 @@ def battle(monst):
     elif first_move == "attack":
         attack_probability = attack()
         if attack_probability == "success":
-            print(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n')
+            print_slow(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n')
             input(hr_enter)
             print_slow(f' You got {b_monst.attack} points damege..\n\n')
             player.hp -= b_monst.attack
@@ -327,7 +327,8 @@ def battle(monst):
             else:
                 battle_loop(b_monst)
         else:
-            print(f'\n {b_monst.name} attacked you!! But failed...Lucky!\n\n')
+            print_slow(f'\n Suddenly, {b_monst.name} attacked on you!!\
+             But failed...Lucky!\n\n')
             input(hr_enter)
             battle_loop(b_monst)
     elif first_move == "falter":
@@ -386,11 +387,10 @@ def battle_loop(b_monst):
                 input(hr_enter)
                 attack_probability = attack()
                 if attack_probability == "success":
-                    print(hr)
-                    print(f' {b_monst.name} attacked on you!!\n\n \
+                    print_slow(f' {b_monst.name} attacked on you!!\n\n \
                     You got {b_monst.attack} points damege..\n\n')
                     player.hp -= b_monst.attack
-                    print(f' {player.name} HP : {player.hp}')
+                    print(f' {player.name} HP : {player.hp}\n\n')
                     if player.hp < 1:
                         print_slow(f'\n I am so sorry, \n \
                             {player.name} was lost the battle...\n\n')
@@ -418,8 +418,8 @@ def record():
     print_slow(" Now let's record your data.\n\n")
     print(player.call_status())
     print_slow(" Accessing the data...\n\n")
-    current_time = datetime.datetime.now()
-    data = str(player.name), str(player.hp), str(player.items), current_time.strftime("%x")
+    now = datetime.datetime.now()
+    data = str(player.name), str(player.hp), str(player.items), now.strftime("%x")
     # spread sheet can use append_row but not list can use
     # The datetime object has a method for formatting date objects into readable strings.
     sp_player.append_row(data)
@@ -439,9 +439,10 @@ while player.hp > 0:
     vali_field_achi()
 
     if player.hp > 0:
-        print_slow("\n Which direction do you want to go? \n\n")
-        print(' Check your status: "Status" or Look at Map: "Map"\n \
-            "North" “N” / "South" “S” / "East" "E" / "West" "W"\n')
+        print_slow("\n Which direction do you want to go?\n")
+        print(' Check your status: "Status" or Look at Map: "Map"\n\n')
+        print(' |"Status"\n |"Map"\n\
+             |"North" “N”\n |"South" “S”\n |"East" "E"\n |"West" "W"\n')
         
         answer = input('\n ')
 
