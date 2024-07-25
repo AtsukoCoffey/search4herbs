@@ -27,31 +27,38 @@ TITLE = """
 |_   _| |_  ___
   | | | ' \/ -_)
   |_| |_||_\___|
-  _____                     _      ______           _   _           _
- /  ___|                   | |     |  ___|         | | | |         | |
- : `--.  ___  __ _ _ __ ___| |__   | |_ ___  _ __  | |_| | ___ _ __| |__  ___
-  `--. \/ _ \/ _` | '__/ __| '_ \  |  _/ _ \| '__| |  _  |/ _ \ '__| '_ \/ __|
- /\__/ /  __/ (_| | | | (__| | | | | || (_) | |    | | | |  __/ |  | |_) \__ |
- \____/ \___|\__,_|_|  \___|_| |_| \_| \___/|_|    \_| |_/\___|_|  |_.__/|___/
+ _____                     _      ______           _   _           _
+/  ___|                   | |     |  ___|         | | | |         | |
+: `--.  ___  __ _ _ __ ___| |__   | |_ ___  _ __  | |_| | ___ _ __| |__  ___
+ `--. \/ _ \/ _` | '__/ __| '_ \  |  _/ _ \| '__| |  _  |/ _ \ '__| '_ \/ __|
+/\__/ /  __/ (_| | | | (__| | | | | || (_) | |    | | | |  __/ |  | |_) \__ |
+\____/ \___|\__,_|_|  \___|_| |_| \_| \___/|_|    \_| |_/\___|_|  |_.__/|___/
 """
 
 MAP = """
-@ : Village    M : Mountain
-L : Land       W : Woods  - : Water 
+  @ : Village    M : Mountain
+  L : Land       W : Woods  - : Water 
 
- X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
-Y _________________________________
- 5| M M M M M M M M M M M M M M M M
- 4| M M M M L L L L L L M M M M M M
- 3| L L L L L L L L L L L L L L L L
- 2| L L L L L L L L L L L L L L L L
- 1| L L L L L L L L L L L L L L L L
- 0| L L L L L L @ L L L L W W W W W
--1| L L L L L L L L L L L W W W W W
--2| L L L L L L L L L L L W W W W W
--3| L L L L L L L L L L L L L L L L
--4| - - L L L L - - - - - - - L L L
--5| - - - - - - - - - - - - - - - -
+   X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
+  Y _________________________________
+   5| M M M M M M M M M M M M M M M M
+   4| M M M M L L L L L L M M M M M M
+   3| L L L L L L L L L L L L L L L L
+   2| L L L L L L L L L L L L L L L L
+   1| L L L L L L L L L L L L L L L L
+   0| L L L L L L @ L L L L W W W W W
+  -1| L L L L L L L L L L L W W W W W
+  -2| L L L L L L L L L L L W W W W W
+  -3| L L L L L L L L L L L L L L L L
+  -4| - - L L L L - - - - - - - L L L
+  -5| - - - - - - - - - - - - - - - -
+"""
+FIELD_OP = """
+  ---------------------------------
+  |"Status"       |"Map"
+  |"North" / “N”  |"South" / “S”
+  |"East" / "E"   |"West" / "W"
+  ---------------------------------
 """
 
 hr = "\n\n---------------------------------------\n"
@@ -221,11 +228,9 @@ def field_event():
             print_slow(f' You got {b_monst.attack} points damege..\n\n')
             player.hp -= b_monst.attack
             print(f' {player.name} HP : {player.hp}\n\n')
-
             if player.hp < 1:
                 input(hr_enter)
-                print_slow(f'\n I am so sorry,\n \
-                    {player.name} was lost the battle...\n\n', 0.6)
+                print_slow(f'\n !!! {player.name} was lost the battle...\n\n', 0.5)
                 time.sleep(3)
             else:
                 battle_loop(b_monst)
@@ -265,10 +270,9 @@ def battle_loop(b_monst):
                         You got {b_monst.attack} points damege..\n')
                         player.hp -= b_monst.attack
                         print_slow(f'{player.name} HP: {player.hp}\n')
-                        input(hr_enter)
                         if player.hp < 1:
-                            print_slow(f' I am so sorry, \
-                            {player.name} was lost the battle...\n\n', 0.6)
+                            input(hr_enter)
+                            print_slow(f' !!! {player.name} was lost the battle...\n\n', 0.5)
                             time.sleep(3)
                             break
                     else:
@@ -293,8 +297,8 @@ def battle_loop(b_monst):
                     player.hp -= b_monst.attack
                     print(f' {player.name} HP : {player.hp}\n\n')
                     if player.hp < 1:
-                        print_slow(f'\n I am so sorry, \n \
-                            {player.name} was lost the battle...\n\n', 0.6)
+                        input(hr_enter)
+                        print_slow(f'\n !!! {player.name} was lost the battle...\n\n', 0.5)
                         time.sleep(3)
                         break
                 else:
@@ -319,12 +323,12 @@ def vali_field_achi():
     if any(item == "medicinal herb" for item in player.items):
         if player.location_x == 0:
             if player.location_y == 0:
-                print_slow("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n \
+                print_slow(" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\
                 Congratulations!! You came back the village safely!\n\n")
                 input(hr_enter)
-                print_slow(f' {player.name} rushed to get back home.\n\n \
-                Mother: "Ohh! Welcome back {player.name}! \n\n \
-                So glad you safely came back.\n\n \
+                print_slow(f' {player.name} rushed to get back home.\n\n\
+                Mother: "Ohh! Welcome back {player.name}! \n\n\
+                So glad you safely came back.\n\n\
                 Thank you! I will give her the medicine now!\n\n')
                 input(hr_enter)
                 record()
@@ -382,6 +386,7 @@ while True:
     answer = input("\n ")
     if answer.lower() == "no" or answer.lower() == "n":
         print(f"\n Pity! See you next time {new_name}!\n")
+        time.sleep(5)
     elif answer.lower() == "yes" or answer.lower() == "y":
         break
     else:
@@ -428,10 +433,8 @@ while player.hp > 0:
     if player.hp > 0:
         print_slow("\n Which direction do you want to go?\n")
         print(' Check your status: "Status" or Look at Map: "Map"\n\n')
-        print(' |"Status"\n |"Map"\n \
-        |"North" “N”\n |"South" “S”\n |"East" "E"\n |"West" "W"\n')
-        
-        answer = input('\n ')
+        print(FIELD_OP)
+        answer = input('\n\n ')
 
         if answer.lower() == "map":
             print(MAP)
