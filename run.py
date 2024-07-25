@@ -13,12 +13,10 @@ SCOPE = [
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"
     ]
-
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('search4herbs')
-
 # spread sheet
 sp_player = SHEET.worksheet('player')
 # list data
@@ -37,6 +35,25 @@ TITLE = """
  \____/ \___|\__,_|_|  \___|_| |_| \_| \___/|_|    \_| |_/\___|_|  |_.__/|___/
 """
 
+MAP = """
+@ : Village    M : Mountain
+L : Land       W : Woods  - : Water 
+
+ X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
+Y _________________________________
+ 5| M M M M M M M M M M M M M M M M
+ 4| M M M M L L L L L L M M M M M M
+ 3| L L L L L L L L L L L L L L L L
+ 2| L L L L L L L L L L L L L L L L
+ 1| L L L L L L L L L L L L L L L L
+ 0| L L L L L L @ L L L L W W W W W
+-1| L L L L L L L L L L L W W W W W
+-2| L L L L L L L L L L L W W W W W
+-3| L L L L L L L L L L L L L L L L
+-4| - - L L L L - - - - - - - L L L
+-5| - - - - - - - - - - - - - - - -
+"""
+
 hr = "\n\n---------------------------------------\n"
 hr_enter = '\n\n---------------------------- Press "enter" to continue.\n'
 
@@ -44,12 +61,29 @@ hr_enter = '\n\n---------------------------- Press "enter" to continue.\n'
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
 def print_slow(sentence, speed=0.02):
     '''
-    The sentence will be printed out letter by letter, adjust speed argument
+    The sentence will be printed out letter by letter, adjustable speed argument
+    c is charactor
     '''
     for c in sentence:
         sys.stdout.write(c)
         sys.stdout.flush()
         time.sleep(speed)
+
+
+def validate_name(name):
+    """
+    Asking player the valid name input and validation
+    """
+    try:
+        if len(name) < 3:
+            raise ValueError(f" Please input more longer name. \n \
+            You input {len(name)} letter(s). 3 or more letters.\n")
+        elif name.isnumeric():
+            raise ValueError(f" Not numbers only please. 3 or more letters.)\n")
+    except ValueError as e:
+        print(f" Invalid name. {e} Please try again.")
+        return False
+    return True
 
 
 class Player:
@@ -74,94 +108,9 @@ class Player:
         ----------------------------------------\n"
 
 
-def validate_name(name):
-    """
-    Asking player the valid name input and validation
-    """
-    try:
-        if len(name) < 3:
-            raise ValueError(f" Please input more longer name. \n \
-            You input {len(name)} letter(s). 3 or more letters.\n")
-        elif name.isnumeric():
-            raise ValueError(f" Not numbers only please. 3 or more letters.)\n")
-    except ValueError as e:
-        print(f" Invalid name. {e} Please try again.")
-        return False
-    return True
-
-
-while True:
-    """
-    Asking player the valid name and loop. Use valid_name function
-    """
-    print_slow(" \
-        Please enter your name. (This game's hero’s name)\n \
-        3 or more letters.)\n")
-    new_name = input("\n  ")
-
-    if validate_name(new_name):
-        print(f"\n\n Welcome {new_name}!")
-        break
-
-
-print(TITLE)
-print_slow(" Welcome to The Search For Herbs game.\n\n")
-time.sleep(1)
-print_slow(" This is a text based adventure game that is inspired by 80’s\n \
-popular RPG game “Dragon Quest”.\n\n")
-
-print(hr)
-print_slow("\n \
-This game is going to collect the medicinal herbs \n \
-to the outside of the village; where the animals and \n \
-monsters exist.\n")
-input(hr_enter)
-print_slow("\n \
-Running, fighting or dealing with monsters affects the hero’s status.\n \
-The goal of this game is to complete collecting more than 4 medicinal\n \
-herbs and safely come back home to heal the hero’s sister. \n\n")
-
-while True:
-    print_slow(' Would you like to play?  Type “Yes” or “y” / “No” or “n”\n')
-    answer = input("\n ")
-    if answer.lower() == "no" or answer.lower() == "n":
-        print(f"\n Pity! See you next time {new_name}!\n")
-    elif answer.lower() == "yes" or answer.lower() == "y":
-        break
-    else:
-        print("\n Please input valid keys.\n")
-
-player = Player(new_name, 100, {}, 0, 0)
-
-print_slow('\n You answered "YES" so the story is beggining...\n')
-time.sleep(0.5)
-print(hr)
-print_slow(f'\n Somewhere in the magical world,\n\n \
-There was a family whose father passed away a few years ago…\n\n \
-Young {player.name} and their mother were taking care of \
-their sick younger sister.\n\n')
-input(hr_enter)
-print_slow(f'\n {player.name}: “Hi, mother. She is not well again…” \n\n \
-Mother: “…. ( sigh ) I know. But we have run out of medicine.\n\n \
-I’ll go out of the village to get the medicinal herbs” \n\n \
-{player.name}: “No mother, I’ll go. Please look after her. \
-I’ll be back soon.” \n\n \
-Mother: “Oh... Please be careful and run away from Monsters…”\n')
-input(hr_enter)
-print_slow(f'\n Now {player.name} has left their home and walking in \
-the village.\n\n Villager: “Hi {player.name}, how’s your sister? \
-Where are you going?”\n\n {player.name}: “Hi, I’m going to get \
-medicinal herbs. She’s not well again.”\n\n \
-Villager “Oh I’m sorry to hear that. \n\n \
-Hmm, I heard that they were growing around The Northern Mountain.\n\n \
-Or if you want to try,\n\n The East Woods monsters might have them."\n\n \
-{player.name}: “Thanks!”\n')
-input(hr_enter)
-
-
 class Monsters:
     """
-    Monsters and animals event
+    Monsters and animals detailed setting
     """
     instances = []
 
@@ -189,7 +138,6 @@ class Monsters:
     def get_n(cls, value):
         return [inst for inst in cls.instances if inst.name == value]
 
-
 # Create monsters instances
 # Using capital letter to the python variables is not recomended though
 # These are matching to the name attribute because
@@ -206,70 +154,28 @@ Metal_Slime = Monsters("Metal_Slime", 100, 9, 10, "metal", 4, "land")
 King_Slime = Monsters("King_Slime", 120, 20, 5, "crown", 1, "land")
 
 
-MAP = """
-@ : Village    M : Mountain
-L : Land       W : Woods  - : Water 
-
- X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
-Y _________________________________
- 5| M M M M M M M M M M M M M M M M
- 4| M M M M L L L L L L M M M M M M
- 3| L L L L L L L L L L L L L L L L
- 2| L L L L L L L L L L L L L L L L
- 1| L L L L L L L L L L L L L L L L
- 0| L L L L L L @ L L L L W W W W W
--1| L L L L L L L L L L L W W W W W
--2| L L L L L L L L L L L W W W W W
--3| L L L L L L L L L L L L L L L L
--4| - - L L L L - - - - - - - L L L
--5| - - - - - - - - - - - - - - - -
-"""
-
-
-def field_event():
+def pick_monster():
     """
-    Check player's location for pick monster function,
-    and send the monster to battle function.
+    Check player's location and send to get_instance function
+    and return the monster to battle function.
     """
-
     if 5 <= player.location_x <= 9:
         if -2 <= player.location_y <= 0:
-            monst = pick_monster("woods")
+            monst = get_instance("woods")
     else:
-        monst = pick_monster("land")
+        monst = get_instance("land")
+    return monst
 
-    battle(monst)
 
-
-def vali_field_achi():
+def get_instance(zone):
     """
-    This validation to check the achievement whether get the items
-    and came back to the village
+    Sort the monsters by zones using @classmethod and pick one
+    This function is called from pick_monster function.
     """
-    if any(item == "medicinal herb" for item in player.items):
-        if player.location_x == 0:
-            if player.location_y == 0:
-                print_slow("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n \
-                Congratulations!! You came back the village safely!\n\n")
-                input(hr_enter)
-                print_slow(f' {player.name} rushed to get back home.\n\n \
-                Mother: "Ohh! Welcomeback {player.name}! \n\n \
-                So glad you safely came back.\n\n \
-                Thank you! I will give her the medicine now!\n\n')
-                input(hr_enter)
-                record()
-
-
-def pick_monster(zone):
-    """
-    Sort the monsters by zones from Monsters instances and pick one
-    This function is called from field_event function.
-    """
-    mons_name_lis = [monst.name for monst in Monsters.get(zone)]
+    mons_inst_lis = [monst for monst in Monsters.get(zone)]
     mons_frequen_lis = [monst.frequency for monst in Monsters.get(zone)]
-    monst = random.choices(mons_name_lis, weights=mons_frequen_lis, k=1)
+    monst = random.choices(mons_inst_lis, weights=mons_frequen_lis, k=1)
     # monst was selected only one but still list ->Debug  README
-
     return monst[0]
 
 
@@ -289,17 +195,18 @@ def attack():
     return random.choices(["success", "fail"], weights=[5, 1], k=1)[0]
 
 
-def battle(monst):
+def field_event():
     """
     Field battle start. Received argument is only instance's name
     To get the instance call the @classmethod again
     After the first move action send the monster to the battle loop function
     """
-    print_slow(f' {player.name} noticed ' + monst + ' was appeared...\n\n')
+    # Take the monster's instance out of the instances list using class method
+    b_monst = deepcopy(pick_monster())
+
+    print_slow(f' {player.name} noticed ' + b_monst.name + ' was appeared...\n\n')
     time.sleep(0.5)
 
-    # Take the monster's instance out of the instances list using class method
-    b_monst = deepcopy(Monsters.get_n(Monsters, monst)[0])
     # Deep copy the Monster's instance
     print(f'\n Name: {b_monst.name} ------------------\n \
         HP: {b_monst.hp}\n Attack power: {b_monst.attack}\n \
@@ -333,12 +240,10 @@ def battle(monst):
             battle_loop(b_monst)
     elif first_move == "falter":
         print_slow(f'\n {b_monst.name} is faltering..\n')
-        input(hr_enter)
         battle_loop(b_monst)
     input(hr_enter)
 
 
-# Battle loop function
 def battle_loop(b_monst):
     """
     This loop starts just after the first move action. Iterate until
@@ -410,6 +315,25 @@ def battle_loop(b_monst):
                 continue
 
 
+def vali_field_achi():
+    """
+    This validation to check the achievement whether get the items
+    and came back to the village
+    """
+    if any(item == "medicinal herb" for item in player.items):
+        if player.location_x == 0:
+            if player.location_y == 0:
+                print_slow("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n \
+                Congratulations!! You came back the village safely!\n\n")
+                input(hr_enter)
+                print_slow(f' {player.name} rushed to get back home.\n\n \
+                Mother: "Ohh! Welcome back {player.name}! \n\n \
+                So glad you safely came back.\n\n \
+                Thank you! I will give her the medicine now!\n\n')
+                input(hr_enter)
+                record()
+
+
 def record():
     """
     Access the spread sheet and record the player's data
@@ -427,6 +351,73 @@ def record():
     print_slow(" Record the data successfully!!...\n\n")
 
 
+############################## Story start from here ##############################
+
+print(TITLE)
+print_slow(" Welcome to The Search For Herbs game.\n\n")
+time.sleep(1)
+print_slow(" This is a text based adventure game that is inspired by 80’s\n \
+popular RPG game “Dragon Quest”.\n\n")
+
+# Asking player the valid name and loop. Use valid_name function
+while True:
+    print_slow(" \
+        Please enter your name. (This game's hero’s name)\n \
+        3 or more letters.)\n")
+    new_name = input("\n  ")
+
+    if validate_name(new_name):
+        print(f"\n\n Welcome {new_name}!")
+        break
+
+print(hr)
+print_slow("\n \
+This game is going to collect the medicinal herbs \n \
+to the outside of the village; where the animals and \n \
+monsters exist.\n")
+input(hr_enter)
+print_slow("\n \
+Running, fighting or dealing with monsters affects the hero’s status.\n \
+The goal of this game is to complete collecting more than 4 medicinal\n \
+herbs and safely come back home to heal the hero’s sister. \n\n")
+
+while True:
+    print_slow(' Would you like to play?  Type “Yes” or “y” / “No” or “n”\n')
+    answer = input("\n ")
+    if answer.lower() == "no" or answer.lower() == "n":
+        print(f"\n Pity! See you next time {new_name}!\n")
+    elif answer.lower() == "yes" or answer.lower() == "y":
+        break
+    else:
+        print("\n Please input valid keys.\n")
+
+player = Player(new_name, 100, {}, 0, 0)
+
+print_slow('\n You answered "YES" so the story is beggining...\n')
+time.sleep(0.5)
+print(hr)
+print_slow(f'\n Somewhere in the magical world,\n\n \
+There was a family whose father passed away a few years ago…\n\n \
+Young {player.name} and their mother were taking care of \
+their sick younger sister.\n\n')
+input(hr_enter)
+print_slow(f'\n {player.name}: “Hi, mother. She is not well again…” \n\n \
+Mother: “…. ( sigh ) I know. But we have run out of medicine.\n\n \
+I’ll go out of the village to get the medicinal herbs” \n\n \
+{player.name}: “No mother, I’ll go. Please look after her. \
+I’ll be back soon.” \n\n \
+Mother: “Oh... Please be careful and run away from Monsters…”\n')
+input(hr_enter)
+print_slow(f'\n Now {player.name} has left their home and walking in \
+the village.\n\n Villager: “Hi {player.name}, how’s your sister? \
+Where are you going?”\n\n {player.name}: “Hi, I’m going to get \
+medicinal herbs. She’s not well again.”\n\n \
+Villager “Oh I’m sorry to hear that. \n\n \
+Hmm, I heard that they were growing around The Northern Mountain.\n\n \
+Or if you want to try,\n\n The East Woods monsters might have them."\n\n \
+{player.name}: “Thanks!”\n')
+input(hr_enter)
+
 print_slow(f'\n Now {player.name} is standing just outside of the \
 village.\n')
 
@@ -434,15 +425,15 @@ while player.hp > 0:
     """
     Field event loop. Ask player what's the next move and send to
     field event function. Until player HP runs out.
-    Before run Validate_field_achievement() for check and exit loop
+    When met the Vali_field_achievement() -> exit loop
     """
     vali_field_achi()
 
     if player.hp > 0:
         print_slow("\n Which direction do you want to go?\n")
         print(' Check your status: "Status" or Look at Map: "Map"\n\n')
-        print(' |"Status"\n |"Map"\n\
-             |"North" “N”\n |"South" “S”\n |"East" "E"\n |"West" "W"\n')
+        print(' |"Status"\n |"Map"\n \
+        |"North" “N”\n |"South" “S”\n |"East" "E"\n |"West" "W"\n')
         
         answer = input('\n ')
 
