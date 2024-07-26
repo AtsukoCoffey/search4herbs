@@ -3,69 +3,133 @@
 Welcome to The Search For Herbs game.  
 This is a text based adventure game that is inspired by 80’s popular RPG game “Dragon Quest”.  
   
-<!-- Please enter your name ( the game hero’s name ) alphabet only, 3 or more letters-> input -> validation -->
-The hero of this game is going to collect medicinal herbs for their sick sister at the outside of the village; where the animals and monsters exist. Running, fighting or dealing with monsters affects the hero’s status. When your health point (HP) became “0”, the game is over, so try to save your health.  
-The goal of this game is to complete collecting more than 10 medicinal herbs and safely come back home to heal the hero’s sister.  
-  
-> This website is built for academic purpose only.
-  
-  
+The hero of this game is going to collect medicinal herbs for their sick sister with running, fighting or dealing with monsters at the outside of the village.   
+    
 ## Live site
-[Live site >> https://atsukocoffey.github.io/search4herbs/](https://atsukocoffey.github.io/search4herbs/)
+[Live site >> https://search-4-herbs-78b993bff664.herokuapp.com/](https://search-4-herbs-78b993bff664.herokuapp.com/)
 
 # UX DESIGN  
   
 ## 1. Strategy Plane  
-### Target users  
-1. Intended to target people who like text based games.
+***Target users***  
+1. Simply who likes to play games specially text based games.
 
-### User value
-1.  
+***User value***  
+1. This game is not difficult but plenty of surporise and unexpectedness in the battle. So any user can enjoy a little bit.
   
 ## 2. Scope Plane  
 USER STORIES  
-### First time visitor  
+***First time visitor***  
 * As a user, I want to clearly understand what is offered on this website.  
-* As a user, I want to clearly understand how to play this game instinktively.  
+* As a user, I want to clearly understand how to play this game instinctively.  
 * As a user, I want to see my results clearly.  
 
-### Frequent visitor  
+***Frequent visitor***  
+* As a Frequent visitor, I want to collect something rare items
   
-### The website owner stories  
-* As a site owner, I want to encourage users to play games.  
-  
+***The website owner stories***  
+* As a site owner, I want to give users positive feelings to play games.
 
 ## 3. Structure Plane  
   
-* The website should have a clear logo or header.
 * The landing page should show what this site is offering intuitively.  
+* Code Institute's gave me the template for access the game program.
   
 ## 4. Skeleton Plane  
 
 ![Algorithm planning](readme/algorithm-plan.webp)  
 
-# EXISTING FEATURES  
+***Algorithm planning***  
+As the planning sheet, this game's main parts are the field loop and the battle loop. So before entering the loop ask users their names, and after the game (end the loop) record the user's data to google spread sheet. 
+
+
+# FEATURES  
   
-## Landing and name input  
-
-#### Creating Google API Credentials  
-Access to Google Cloud, create a new project. Enable both Google Drive and Google Sheet API. Create credentials with Editor setting.  
-From APIs and services, choose Credentials, click the new mail address that has been created, choose KEYS from top navigations and ADD KEY drop dpwn, Create new key. Key type is JSON, click CREATE. Then the credential json file is automatically down loaded.  
+## Existing Features  
   
-#### Installing additional dependencies
-The first one is Google-oauth which will use creds.json file to setup the authentication to access Google Cloud. The second one is gspread that we use to access and update data in the spreadsheet. These packages are included in the standard Python library, simply command `pip3 install gspread google-auth`
+**Titile banner and Introduction**  
+I couldn't use graphical material though I used the ASKII letter for the title banner.
+Also I changed the lead paragraph to a simple short sentence for understanding what this app is.
+
+**Name Input**  
+It is asking user's name. It is used for the hero's name.
+validation is setting more than 3 letter, any charactors can use but not only numbers.  
+
+**Story Summary**  
+Before this fantasy story has begun, I wanted to give the user a little mark time, a preparing for the fantasy setting.
+
+**Play Input**  
+This validation is asking the user to play or not. If User choose "No" then the loop stop for a while though, this loop won't be exit untill user type "Yes".  
+
+**Field Loop**  
+When player went into the field loop, the field option was showed up and asked what is the next player's action.   
+
+**Field Option**  
 
 
+**Status Window**  
 
-Welcome,
+**Map**  
+This map uses player's location information X, Y. I counldn't make automatic position generator
+so the Players have to find out their position by them selves.
+Also without graphical material, I can't say the map's readability is fantastic though when player become get used to it, it's not so bad, I think.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **May 14, 2024**
 
-## Reminders
+## Future Features  
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+**Map**  
+I'd like to have the function that generates the player's position on the map. That will help player to use this map more handy.
+
+**Heal the HP and Level Up System**
+For making this game more interesting, adding HP healing option (e.g. medicine, or magic) and adding level up system might be work.  
+
+  
+
+
+# TECHNOLOGY USED
+
+# TESTING
+
+# BUGS
+
+# DEPLOYMENT  
+First, we make a new repository at Git hub. But Git hub is suitable for front end website and not really good for python apps. So we should make an account for Heroku service to deploy it.  
+
+## Preparation  
+
+***Installing additional dependencies***
+This game is using Google sheet to save user's data.
+To access to Google Cloud, we need to access Google API and create a new project and enable both Google Drive and Google Sheet API. Below is the instraction sentences from Code Institute template document.  
+The first one we need is Google-oauth which will use creds.json file to setup the authentication to access Google Cloud. The second one is gspread that we use to access and update data in the spreadsheet. These packages are included in the standard Python library, simply command `pip3 install gspread google-auth`
+Or we can install this project's requirements using:
+`pip3 install requirements.txt`
+If do you want to check already pip is installed, you can check the installed version in the terminal:
+`pip3 --version`
+If it is installed, you’ll see the version information. 
+Pip is a Python Package Manager.
+We need this requirements.txt file for deploy with Heroku.
+To create this `Pip3 freeze > requirements.txt` and commit this change as "Add: requirement for deployment".
+
+***Creating Google API Credentials***  
+These are how to get the credencials instructions from Code Institute template document.  
+1. Access to Google Cloud, create a new project.  
+2. Enable both Google Drive and Google Sheet API.  
+3. Create new credentials for the new project with Editor setting.  
+4. From "APIs and services", choose "Credentials", click the new mail address that has been created.  
+![Google API Credencial (4)](readme/dep-googleapi-cred-1.png "Google API Credencial (4)")  
+5. Choose "KEYS" from top navigations and "ADD KEY" drop dpwn  
+6. Create new key. Key type is JSON, click "CREATE". Then the credential json file is automatically down loaded.  
+![Google API Credencial (6)](readme/dep-googleapi-cred-2.png "Google API Credencial (6)")  
+
+## Deployment  
+
+## Forking  
+
+
+# CREDITS
+
+# ACKNOWLEDGEMENTS
+
 
 ## Creating the Heroku app
 
