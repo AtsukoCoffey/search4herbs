@@ -93,7 +93,7 @@ For making this game more interesting, adding HP healing option (e.g. medicine, 
 # BUGS
 
 # DEPLOYMENT  
-First, we make a new repository at Git Hub. But that is not really suitable for python apps to deploy there, it suits for front-end web sites. So we should make an account for Heroku service to deploy it.  
+First, we make a new repository at GitHub. But that is not really suitable for python apps to deploy there, it suits for front-end web sites. So we should make an account for Heroku service to deploy it.  
 
 ## Preparation  
 
@@ -110,7 +110,7 @@ If it is installed, you’ll see the version information.
 Pip is a Python Package Manager.  
 
 We need this requirements.txt file for deploy with Heroku.  
-To create this `Pip3 freeze > requirements.txt` and commit this change as "Add: requirement for deployment" then push to the Git Hub.  
+To create this `Pip3 freeze > requirements.txt` and commit this change as "Add: requirement for deployment" then push to the GitHub.  
   
 <hr>
 
@@ -125,7 +125,7 @@ This is how to get the credentials, based on the Code Institute template documen
 6. Create new key. Key type is JSON, click "CREATE". Then the credential json file is automatically down loaded.  
 ![Google API Credencial (6)](readme/dep-googleapi-cred-2.png "Google API Credencial (6)")  
 
-We use this credeincials to access the spread sheet though, we shouldn't push this to the Git Hub. For preventing this file to be added to the stage, add this file name to the ".gitignore" file and update it.  
+We use this credeincials to access the spread sheet though, we shouldn't push this confidential file to the GitHub. For preventing this file to be added to the stage, add this file name to the ".gitignore" file and update it.  
   
 <hr>
 
@@ -153,8 +153,27 @@ We are using confidential credentials, so copy the contents of credentials in js
 
 ## Deployment  
 
+1. When Heroku setting is done, go to "Deploy" page.
+![Heroku deployment (3)](readme/dep-heroku-3.png "Heroku deployment (3)")  
+
+2. We are using GitHub so choose "Deployment method" "GitHub". 
+And input repository's name to connect to it. 
+![Heroku deployment (6)](readme/dep-heroku-6.png "Heroku deployment (6)")  
+
+3. Underneath we can choose the options “Automatic deploys” and “Manual deploy”. I chose “Automatic deploys” but it didn’t provide me the new app’s URL. So I assume that the first time to create the app and the URL, we need to click “Manual deploy” once even chose “Automatic deploys”, then after that it deploys automatically.  
+
 
 ## Forking  
+>A fork is a new repository that shares code and visibility settings with the original “upstream” repository. Forks are often used to iterate on ideas or changes before they are proposed back to the upstream repository, such as in open source projects or when a user does not have write access to the upstream repository. [Quote from GitHub Docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo)  
+
+We can make a copy of the someone's original repository on our GitHub account, so we can make changes without affecting the original repository.  
+
+1. With my GitHub account locate the objective repository ( I can’t fork my own repository ),
+top-right of the Repository (not top of page) just right hand side of the repository title, click the "Fork" Button.  
+![Forking (1)](readme/dep-fork-1.png "Forking (1)") 
+
+2. Input available new repository name and click “Create fork”. Now have a copy of the original repository in my own GitHub account.
+![Forking (2)](readme/dep-fork-2.png "Forking (2)") 
 
 
 # CREDITS
