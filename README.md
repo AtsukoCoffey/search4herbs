@@ -93,25 +93,29 @@ For making this game more interesting, adding HP healing option (e.g. medicine, 
 # BUGS
 
 # DEPLOYMENT  
-First, we make a new repository at Git hub. But Git hub is suitable for front end website and not really good for python apps. So we should make an account for Heroku service to deploy it.  
+First, we make a new repository at Git Hub. But that is not really suitable for python apps to deploy there, it suits for front-end web sites. So we should make an account for Heroku service to deploy it.  
 
 ## Preparation  
 
-***Installing additional dependencies***
-This game is using Google sheet to save user's data.
+***Installing additional dependencies***  
+This game app is using Google sheet to save user's data.
 To access to Google Cloud, we need to access Google API and create a new project and enable both Google Drive and Google Sheet API. Below is the instraction sentences from Code Institute template document.  
-The first one we need is Google-oauth which will use creds.json file to setup the authentication to access Google Cloud. The second one is gspread that we use to access and update data in the spreadsheet. These packages are included in the standard Python library, simply command `pip3 install gspread google-auth`
+> The first one we need is Google-oauth which will use creds.json file to setup the authentication to access Google Cloud. The second one is gspread that we use to access and update data in the spreadsheet. These packages are included in the standard Python library, simply command `pip3 install gspread google-auth`  
+
 Or we can install this project's requirements using:
-`pip3 install requirements.txt`
-If do you want to check already pip is installed, you can check the installed version in the terminal:
+`pip3 install requirements.txt`  
+If you want to check already pip is installed or not, you can check the installed version in the terminal:
 `pip3 --version`
 If it is installed, you’ll see the version information. 
-Pip is a Python Package Manager.
-We need this requirements.txt file for deploy with Heroku.
-To create this `Pip3 freeze > requirements.txt` and commit this change as "Add: requirement for deployment".
+Pip is a Python Package Manager.  
+
+We need this requirements.txt file for deploy with Heroku.  
+To create this `Pip3 freeze > requirements.txt` and commit this change as "Add: requirement for deployment" then push to the Git Hub.  
+  
+<hr>
 
 ***Creating Google API Credentials***  
-These are how to get the credencials instructions from Code Institute template document.  
+This is how to get the credentials, based on the Code Institute template document.  
 1. Access to Google Cloud, create a new project.  
 2. Enable both Google Drive and Google Sheet API.  
 3. Create new credentials for the new project with Editor setting.  
@@ -121,7 +125,34 @@ These are how to get the credencials instructions from Code Institute template d
 6. Create new key. Key type is JSON, click "CREATE". Then the credential json file is automatically down loaded.  
 ![Google API Credencial (6)](readme/dep-googleapi-cred-2.png "Google API Credencial (6)")  
 
+We use this credeincials to access the spread sheet though, we shouldn't push this to the Git Hub. For preventing this file to be added to the stage, add this file name to the ".gitignore" file and update it.  
+  
+<hr>
+
+***Creating the Heroku app***
+1. After we make our own account, select "New" in the top-right corner of drop down list in Dashboard page, and select "Create new app".  
+![Heroku deployment (1)](readme/dep-heroku-1.png "Heroku deployment (1)")  
+
+2. Decide the App name (it must be only lowercase letters, numbers and dashes), and then choose a region "Europe".
+![Heroku deployment (2)](readme/dep-heroku-2.png "Heroku deployment (2)")  
+
+3. Click the "Settings" to go Setting page.
+![Heroku deployment (3)](readme/dep-heroku-3.png "Heroku deployment (3)")  
+
+4. Goes to "Config Vars". 
+We are using confidential credentials, so copy the contents of credentials in json file and past into the Config Variables. Also set the value of KEY to "PORT", and the value to "8000" then select add.
+![Heroku deployment (4)](readme/dep-heroku-4.png "Heroku deployment (4)")  
+
+5. Underneath of "Config Vars" there is "Buildpacks". We will need to add two buildpacks.
+(The order of the buildpacks is important)  
+
+> 1. `heroku/python`
+> 2. `heroku/nodejs`  
+![Heroku deployment (5)](readme/dep-heroku-5.png "Heroku deployment (5)")  
+  
+
 ## Deployment  
+
 
 ## Forking  
 
@@ -131,12 +162,9 @@ These are how to get the credencials instructions from Code Institute template d
 # ACKNOWLEDGEMENTS
 
 
-## Creating the Heroku app
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
 
-1. `heroku/python`
-2. `heroku/nodejs`
+When you create the app, you 
 
 You must then create a _Config Var_ called `PORT`. Set this to `8000`
 
