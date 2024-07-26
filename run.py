@@ -23,24 +23,24 @@ sp_player = SHEET.worksheet('player')
 player_data = sp_player.get_all_values()
 
 TITLE = """
- _____ _
-|_   _| |_  ___
-  | | | ' \/ -_)
-  |_| |_||_\___|
- _____                     _      ______           _   _           _
-/  ___|                   | |     |  ___|         | | | |         | |
-: `--.  ___  __ _ _ __ ___| |__   | |_ ___  _ __  | |_| | ___ _ __| |__  ___
- `--. \/ _ \/ _` | '__/ __| '_ \  |  _/ _ \| '__| |  _  |/ _ \ '__| '_ \/ __|
-/\__/ /  __/ (_| | | | (__| | | | | || (_) | |    | | | |  __/ |  | |_) \__ |
-\____/ \___|\__,_|_|  \___|_| |_| \_| \___/|_|    \_| |_/\___|_|  |_.__/|___/
+ 88888 8
+   8   8d8b. .d88b
+   8   8P Y8 8.dP'
+   8   8   8 `Y88P
+
+ .d88b.                      8        8888               8   8            8
+ YPwww. .d88b .d88 8d8b .d8b 8d8b.    8www .d8b. 8d8b    8www8 .d88b 8d8b 88b. d88b
+     d8 8.dP' 8  8 8P   8    8P Y8    8    8' .8 8P      8   8 8.dP' 8P   8  8 `Yb.
+ `Y88P' `Y88P `Y88 8    `Y8P 8   8    8    `Y8P' 8       8   8 `Y88P 8    88P' Y88P
+
 """
 
 MAP = """
   @ : Village    M : Mountain
-  L : Land       W : Woods  - : Water 
+  L : Land       W : Woods      - : Water 
 
    X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
-  Y _________________________________
+   Y+--------------------------------
    5| M M M M M M M M M M M M M M M M
    4| M M M M L L L L L L M M M M M M
    3| L L L L L L L L L L L L L L L L
@@ -56,8 +56,15 @@ MAP = """
 FIELD_OP = """
   ---------------------------------
   |"Status"       |"Map"
-  |"North" / “N”  |"South" / “S”
+  |"North" / "N"  |"South" / "S"
   |"East" / "E"   |"West" / "W"
+  ---------------------------------
+"""
+
+BATTLE_OP = """
+  ---------------------------------
+  |"Attack"/"A"   |"Run/"R"
+  |"Tame"/"T"     |"Surprise"/"S"
   ---------------------------------
 """
 
@@ -235,7 +242,7 @@ def field_event():
             else:
                 battle_loop(b_monst)
         else:
-            print_slow(f'\n Suddenly, {b_monst.name} attacked on you!!\
+            print_slow(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n\
              But failed...Lucky!\n\n')
             input(hr_enter)
             battle_loop(b_monst)
@@ -252,8 +259,7 @@ def battle_loop(b_monst):
     """
     while True:
         print(" What do you want to do?\n")
-        player_op = input(' "Attack"/"A", "Run/"R", "Tame"/"T", "Surprise"/"S"\
-            \n ')
+        player_op = input(BATTLE_OP)
         if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
             if attack_probability == "success":
@@ -266,8 +272,8 @@ def battle_loop(b_monst):
                 if b_monst.hp > 0:
                     attack_probability = attack()
                     if attack_probability == "success":
-                        print_slow(f'\n {b_monst.name} attacked on you!!\n \
-                        You got {b_monst.attack} points damege..\n')
+                        print_slow(f'\n {b_monst.name} attacked on you!!\n\n \
+                        You got {b_monst.attack} points damege..\n\n')
                         player.hp -= b_monst.attack
                         print_slow(f'{player.name} HP: {player.hp}\n')
                         if player.hp < 1:
@@ -276,8 +282,8 @@ def battle_loop(b_monst):
                             time.sleep(3)
                             break
                     else:
-                        print_slow(f'\n {b_monst.name} attacked on you!! \n\
-                             But failed...Lucky!\n')
+                        print_slow(f'\n {b_monst.name} attacked on you!! \n\n\
+                             But failed...Lucky!\n\n')
                         continue
                 else:
                     print_slow(f'\n \
@@ -356,8 +362,7 @@ def record():
 print(TITLE)
 print_slow(" Welcome to The Search For Herbs game.\n\n")
 time.sleep(1)
-print_slow(" This is a text based adventure game that is inspired by 80’s\n \
-popular RPG game “Dragon Quest”.\n\n")
+print_slow(" This is a text based adventure game.\n\n")
 
 # Asking player the valid name and loop. Use valid_name function
 while True:
@@ -394,7 +399,7 @@ while True:
 
 player = Player(new_name, 100, {}, 0, 0)
 
-print_slow('\n You answered "YES" so the story is beggining...\n')
+print_slow('\n You answered "YES" so the story has begun...\n')
 time.sleep(0.5)
 print(hr)
 print_slow(f'\n Somewhere in the magical world,\n\n \
