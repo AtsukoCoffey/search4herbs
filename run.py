@@ -28,16 +28,16 @@ TITLE = """
    8   8P Y8 8.dP'
    8   8   8 `Y88P
 
- .d88b.                      8        8888               8   8            8
- YPwww. .d88b .d88 8d8b .d8b 8d8b.    8www .d8b. 8d8b    8www8 .d88b 8d8b 88b. d88b
-     d8 8.dP' 8  8 8P   8    8P Y8    8    8' .8 8P      8   8 8.dP' 8P   8  8 `Yb.
- `Y88P' `Y88P `Y88 8    `Y8P 8   8    8    `Y8P' 8       8   8 `Y88P 8    88P' Y88P
+.d88b.                     8        8888             8   8            8
+YPwww. .d88b .d88 8d8b.d8b 8d8b.    8www.d8b. 8d8b   8www8 .d88b 8d8b 88b. d88b
+    d8 8.dP' 8  8 8P  8    8P Y8    8   8' .8 8P     8   8 8.dP' 8P   8  8 `Yb.
+`Y88P' `Y88P `Y88 8   `Y8P 8   8    8   `Y8P' 8      8   8 `Y88P 8    88P' Y88P
 
 """
 
 MAP = """
   @ : Village    M : Mountain
-  L : Land       W : Woods      - : Water 
+  L : Land       W : Woods      - : Water
 
    X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
    Y+--------------------------------
@@ -71,11 +71,12 @@ BATTLE_OP = """
 hr = "\n\n---------------------------------------\n"
 hr_enter = '\n\n---------------------------- Press "enter" to continue.\n'
 
+
 # Controle Printing speed
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
 def print_slow(sentence, speed=0.02):
     '''
-    The sentence will be printed out letter by letter, adjustable speed argument
+    The sentence will be printed out one by one, adjustable speed argument
     c is charactor
     '''
     for c in sentence:
@@ -93,7 +94,7 @@ def validate_name(name):
             raise ValueError(f" Please input more longer name. \n \
             You input {len(name)} letter(s). 3 or more letters.\n")
         elif name.isnumeric():
-            raise ValueError(f" Not numbers only please. 3 or more letters.)\n")
+            raise ValueError(f" Not all numbers please. 3 or more letters.)\n")
     except ValueError as e:
         print(f" Invalid name. {e} Please try again.")
         return False
@@ -147,6 +148,7 @@ class Monsters:
     @classmethod
     def get(cls, value):
         return [inst for inst in cls.instances if inst.zone == value]
+
 
 # Create monsters instances
 # Using capital letter to the python variables is not recomended though
@@ -214,7 +216,8 @@ def field_event():
     # Take the monster's instance out of the instances list using class method
     b_monst = deepcopy(pick_monster())
 
-    print_slow(f' {player.name} noticed ' + b_monst.name + ' was appeared...\n\n')
+    print_slow(f' {player.name} noticed ' + b_monst.name + ' was appeared...\
+        \n\n')
     time.sleep(0.5)
 
     # Deep copy the Monster's instance
@@ -237,7 +240,8 @@ def field_event():
             print(f' {player.name} HP : {player.hp}\n\n')
             if player.hp < 1:
                 input(hr_enter)
-                print_slow(f'\n !!! {player.name} was lost the battle...\n\n', 0.5)
+                print_slow(f'\n !!! {player.name} was lost the battle...\
+                    \n\n', 0.5)
                 time.sleep(3)
             else:
                 battle_loop(b_monst)
@@ -278,7 +282,9 @@ def battle_loop(b_monst):
                         print_slow(f'{player.name} HP: {player.hp}\n')
                         if player.hp < 1:
                             input(hr_enter)
-                            print_slow(f' !!! {player.name} was lost the battle...\n\n', 0.5)
+                            print_slow(
+                                f' !!! {player.name} was lost the battle...\
+                                \n\n', 0.5)
                             time.sleep(3)
                             break
                     else:
@@ -304,7 +310,8 @@ def battle_loop(b_monst):
                     print(f' {player.name} HP : {player.hp}\n\n')
                     if player.hp < 1:
                         input(hr_enter)
-                        print_slow(f'\n !!! {player.name} was lost the battle...\n\n', 0.5)
+                        print_slow(f' !!! {player.name} was lost the battle...\
+                            \n\n', 0.5)
                         time.sleep(3)
                         break
                 else:
@@ -317,7 +324,8 @@ def battle_loop(b_monst):
                 print_slow(" Escaped successfully!!\n")
                 break
             else:
-                print_slow(" Unfortunately, couldn't escape successfully..\n\n")
+                print_slow(" Unfortunately, couldn't escape successfully..\
+                    \n\n")
                 continue
 
 
@@ -343,21 +351,22 @@ def vali_field_achi():
 def record():
     """
     Access the spread sheet and record the player's data
-    calculate the average hp point last 5 players 
+    calculate the average hp point last 5 players
     """
     print_slow(" Now let's record your data.\n\n")
     print(player.call_status())
     print_slow(" Accessing the data...\n\n")
     now = datetime.datetime.now()
-    data = str(player.name), str(player.hp), str(player.items), now.strftime("%x")
+    data = str(player.name), str(player.hp), str(player.items),
+    now.strftime("%x")
     # spread sheet can use append_row but not list can use
-    # The datetime object has a method for formatting date objects into readable strings.
+    # The datetime object has an unique method for readable strings.
     sp_player.append_row(data)
     player.hp = 0
     print_slow(" Record the data successfully!!...\n\n")
 
 
-############################## Story start from here ##############################
+# ==================== Story start from here ====================
 
 print(TITLE)
 print_slow(" Welcome to The Search For Herbs game.\n\n")
@@ -443,7 +452,8 @@ while player.hp > 0:
 
         if answer.lower() == "map":
             print(MAP)
-            print(f'Location X:{player.location_x} | Y:{player.location_y}\n\n')
+            print(f'Location X:{player.location_x} | Y:{player.location_y}\
+                \n\n')
         elif answer.lower() == "status":
             print(player.call_status())
         elif answer.lower() == "north" or answer.lower() == "n":
