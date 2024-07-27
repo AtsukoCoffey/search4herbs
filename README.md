@@ -91,14 +91,40 @@ For making this game more interesting, adding HP healing option (e.g. medicine, 
 # TESTING
 
 # BUGS
+## The bug in the `pick_monster` function
+On the map, there are mountain, woods, field and water area. And depend on the zone habitate monsters are different. To sort out monsters, I used if statement inside the `pick_monster` function. When I got this error, I completely forgot to add else statement to it. I was so lucky to find it coincidently though, I realised that I should test everything with all the options and posibilities.    
+![The bug in the `pick_monster` function (1)](readme/bug-forget-else.png "The bug in the `pick_monster` function (1)")  
+Solution:  
+Add `else` statement  
+
+![The bug in the `pick_monster` function (2)](readme/bug-forget-else-2.png "The bug in the `pick_monster` function (2)")
+
 ## Get instance by the variable that stores chosen instance name
-Luckily, I could find the way to sort out the list of monsters which has specific value attribute, was smoothly. [CREDIT-> Find instance by value](#credit-ins)  
-First save all the instances in the list and using `@classmethod` to sort out by specific value. Then randomly pick up by populations.  
-However, I needed properly extract the chosen monster’s instance for battle function. From my research, It might not possible to use the variable which stores monster’s name that I draw from the random pickup. Some article says If it’s dictionary I might able to use the variable as keyword. So I searched how to make the dictionary from instances. And There are a lot of different way, including using `__dict__` or `dic()` method. But not really success because I didn’t really understand the class object its self. Some web pages explained me those have all the information like system use or doc string etc. It became too complicated to use, it should have more simpler way so finally I went back to the `@classmethod` to make other sort method.  
-What I found from this was `Class` is "Object" so it's not that simple like variable as just stored texts.
+Luckily, I could find the way to sort out the list of monsters which has specific value attribute smoothly. [CREDIT-> Find instance by value](#credit-ins)  
+However, I needed properly extract the chosen monster’s instance for battle function. While I'm searching for the way, I found it might not possible to use the variable which stores monster’s name that I draw from the random pickup. Because it's not just string, it associated to specified instance. Some article says If it’s dictionary I might able to use the variable as string keyword. So I searched how to make the dictionary from instances. And There are a lot of different way, including using `__dict__` or `dic()` method. But not really success because I didn’t really understand the class object its self. Some web pages explained me those have all the information like system use or doc string etc. It became too complicated to use, it should have more simpler way so finally I went back to the `@classmethod` to make other sort method.  
+What I found from this was `Class` is "Object" so it's not that simple like variable as just stored texts.  
+
+Solution:  
+Make another `get_n` `@classmethod` 
 
 ## Refactor get instance by the variable
-From the above bug report, I had two `@classmethods`. One is for randomly picking up monsters that need only the name and zone attributes, and the other is for handling battles. I found that my biggest mistake was that these methods were not practical at all. I thought there were two different purposes, even though they could be combined into a single method.
+From the above bug report, I had two `@classmethods`. One is for randomly picking up monsters that need only the name and the zone attributes, and the other is for handling battles. I found that my biggest mistake was that these methods were not practical at all. I thought there were two different purposes, even though they could be combined into a single method.  
+
+Solution:  
+Simplifyed to extract the instance 
+
+## Add counter for dictionary items
+When player got items, I thought dictionary format is best though, I couldn't figure it out which method is best to adding items.  I tried "setdefault", "update". Those just swaped the value; couldn't count numbers.  
+![Add counter for dictionary items (1)](readme/bug-add-count-dic-1.png "Add counter for dictionary items (1)")  
+So I looked for another way using "get" and "update" or create a method (function) inside the Class object. But when I found this page I realised that I didn't need any method, simply reassigned it.  
+![Add counter for dictionary items (3)](readme/bug-add-count-dic-3.png "Add counter for dictionary items (3)")  
+![Add counter for dictionary items (4)](readme/bug-add-count-dic-4.png "Add counter for dictionary items (4)")  
+
+To implement this I use `try` and `except` for incase of no key exist.  
+![Add counter for dictionary items (2)](readme/bug-add-count-dic-2.png "Add counter for dictionary items (2)")  
+
+Solution:  
+Simply reassigned it with `try` and `except` statement  
 
 ## Title Banner
 Because this project doesn't forcus on graphical aspect, I wanted to add ASCII art at least my favour. However I got the error of the "SyntaxWarning: invalid escape sequence '\/'"   
@@ -143,7 +169,7 @@ We use this credeincials to access the spread sheet though, we shouldn't push th
   
 <hr>
 
-***Creating the Heroku app***
+***Creating the Heroku app***  
 1. After we make our own account, select "New" in the top-right corner of drop down list in Dashboard page, and select "Create new app".  
 ![Heroku deployment (1)](readme/dep-heroku-1.png "Heroku deployment (1)")  
 
@@ -196,7 +222,9 @@ top-right of the Repository (not top of page) just right hand side of the reposi
 <a id="credit-ins"></a>
 
 ### Find instance by value
-These monsters' habitats are different; some of them live in the woods, while others are in the fields or mountains. I want to sort them by their specific class attributes. To make this possible, I will use a @classmethod, as referenced in an article on Stack Overflow.
+These monsters' habitats are different; some of them live in the woods, while others are in the fields or mountains. I want to sort them by their specific class attributes. To make this possible, I will use a @classmethod, as referenced in an article on Stack Overflow.  
+First save all the instances in the list and using `@classmethod` to sort out by specific value. Then randomly pick up by populations' weight.    
+
 ![Find instance by value](readme/credit-find-instance-by-value.png "Find instance by value") 
 
 # ACKNOWLEDGEMENTS
