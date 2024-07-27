@@ -67,9 +67,14 @@ BATTLE_OP = """
   |"Tame"/"T"     |"Surprise"/"S"
   ---------------------------------
 """
+CONGRATS = """
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\
+ Congratulations!!\n\n\
+ You came back to the village safely!\n\n
+ """
 
 hr = "\n---------------------------------------\n"
-hr_enter = '\n---------------------------- Press "enter" to continue.\n'
+hr_enter = '\n---------------------------- Press "Enter" to continue.\n'
 
 
 # Controle Printing speed
@@ -132,14 +137,14 @@ class Monsters:
     """
     instances = []
 
-    def __init__(self, name, hp, attack, damege, items, frequency, zone):
+    def __init__(self, name, hp, attack, damage, items, frequency, zone):
         """
         Monsters and animals status
         """
         self.name = name
         self.hp = hp
         self.attack = attack
-        self.damege = damege
+        self.damage = damage
         self.items = items
         self.frequency = frequency
         self.zone = zone
@@ -157,16 +162,16 @@ class Monsters:
 # Using capital letter to the python variables is not recomended though
 # These are matching to the name attribute because
 # Identifying from @class method uses name attribute.
-Slime = Monsters("Slime", 3, 6, 6, "medicinal herb", 15, "land")
-She_Slime = Monsters("She_Slime", 4, 7, 6, "gold", 15, "land")
-Iron_Scorpion = Monsters("Iron_Scorpion", 22, 9, 6, "iron", 15, "land")
-Ghost = Monsters("Ghost", 13, 4, 6, "medicinal herb", 15, "woods")
-Bewarewolf = Monsters("Bewarewolf", 34, 12, 7, "medicinal herb", 10, "land")
-Skeleton = Monsters("Skeleton", 30, 9, 6, "bone", 10, "land")
-Dracky = Monsters("Dracky", 6, 9, 6, "medicinal herb", 10, "woods")
-Drackyma = Monsters("Drackyma", 10, 10, 6, "medicinal herb", 5, "woods")
-Metal_Slime = Monsters("Metal_Slime", 100, 9, 10, "metal", 4, "land")
-King_Slime = Monsters("King_Slime", 120, 20, 5, "crown", 1, "land")
+Slime = Monsters("Slime", 3, 6, 6, "Medicinal herb", 15, "land")
+She_Slime = Monsters("She_Slime", 4, 7, 6, "Gold", 15, "land")
+Iron_Scorpion = Monsters("Iron_Scorpion", 12, 9, 6, "Iron", 15, "land")
+Ghost = Monsters("Ghost", 12, 4, 6, "Medicinal herb", 15, "woods")
+Bewarewolf = Monsters("Bewarewolf", 18, 12, 7, "Medicinal herb", 10, "land")
+Skeleton = Monsters("Skeleton", 18, 9, 6, "Bone", 10, "land")
+Dracky = Monsters("Dracky", 8, 9, 6, "Medicinal herb", 10, "woods")
+Drackyma = Monsters("Drackyma", 10, 10, 7, "Medicinal herb", 5, "woods")
+Metal_Slime = Monsters("Metal_Slime", 100, 6, 3, "Metal", 4, "land")
+King_Slime = Monsters("King_Slime", 120, 20, 5, "Crown", 1, "land")
 
 
 def pick_monster():
@@ -230,7 +235,7 @@ def field_event():
     b_monst = deepcopy(pick_monster())
 
     print_slow(
-        f' {player.name} noticed ' + b_monst.name + ' was appeared...\n\n'
+        f' {player.name} noticed ' + b_monst.name + ' appeared...\n\n'
     )
     time.sleep(0.5)
     print("  ---------------------------------")
@@ -251,7 +256,7 @@ def field_event():
         if attack_probability == "success":
             print_slow(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n')
             input(hr_enter)
-            print_slow(f' You got {b_monst.attack} points damege..\n\n')
+            print_slow(f' You got {b_monst.attack} points damage..\n\n')
             player.hp -= b_monst.attack
             print(f' {player.name} HP : {player.hp}\n\n')
             if player.hp < 1:
@@ -267,7 +272,7 @@ def field_event():
             input(hr_enter)
             battle_loop(b_monst)
     elif first_move == "falter":
-        print_slow(f'\n {b_monst.name} is faltering..\n')
+        print_slow(f'\n {b_monst.name} is hesitating..\n')
         battle_loop(b_monst)
     input(hr_enter)
 
@@ -285,9 +290,9 @@ def battle_loop(b_monst):
             if attack_probability == "success":
                 print_slow(f' {player.name} attacked {b_monst.name}!\n\n')
                 print_slow(
-                    f' {b_monst.name} got {b_monst.damege} points damege..\n')
-                b_monst.hp -= b_monst.damege
-                print_slow(f'\n {b_monst.name} HP become {b_monst.hp}')
+                    f' {b_monst.name} got {b_monst.damage} points damage..\n')
+                b_monst.hp -= b_monst.damage
+                print_slow(f'\n {b_monst.name} HP became {b_monst.hp}')
                 input(hr_enter)
                 if b_monst.hp > 0:
                     attack_probability = attack()
@@ -295,7 +300,7 @@ def battle_loop(b_monst):
                         print_slow(
                             f'\n {b_monst.name} attacked on you!!\n\n')
                         print_slow(
-                            f' You got {b_monst.attack} points damege..\n\n')
+                            f' You got {b_monst.attack} points damage..\n\n')
                         player.hp -= b_monst.attack
                         print_slow(f' {player.name} HP: {player.hp}\n\n')
                         if player.hp < 1:
@@ -326,7 +331,7 @@ def battle_loop(b_monst):
                 attack_probability = attack()
                 if attack_probability == "success":
                     print_slow(f' {b_monst.name} attacked on you!!\n\n')
-                    print_slow(f' You got {b_monst.attack} points damege..\n\n')
+                    print_slow(f' You got {b_monst.attack} points damage..\n\n')
                     player.hp -= b_monst.attack
                     print(f' {player.name} HP : {player.hp}\n\n')
                     if player.hp < 1:
@@ -404,13 +409,12 @@ def vali_field_achi():
     if any(item == "medicinal herb" for item in player.items):
         if player.location_x == 0:
             if player.location_y == 0:
-                print_slow(" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\
-                Congratulations!! You came back the village safely!\n\n")
+                print_slow(CONGRATS)
                 input(hr_enter)
-                print_slow(f' {player.name} rushed to get back home.\n\n\
-                Mother: "Ohh! Welcome back {player.name}! \n\n\
-                So glad you safely came back.\n\n\
-                Thank you! I will give her the medicine now!\n\n')
+                print_slow(f' {player.name} rushed to get back home.\n\n')
+                print_slow(f' Mother: "Ohh! Welcome back {player.name}! \n\n')
+                print_slow(" So glad you safely came back.\n\n")
+                print_slow(' Thank you! I will give her the medicine now!"\n\n')
                 input(hr_enter)
                 record()
 
@@ -424,13 +428,13 @@ def record():
     print(player.call_status())
     print_slow(" Accessing the data...\n\n")
     now = datetime.datetime.now()
-    data = str(player.name), str(player.hp), str(player.items),
+    data = str(player.name), str(player.hp), str(player.items), str(player.friends)
     now.strftime("%x")
     # spread sheet can use append_row but not list can use
     # The datetime object has an unique method for readable strings.
     sp_player.append_row(data)
     player.hp = 0
-    print_slow(" Record the data successfully!!...\n\n")
+    print_slow(" Data recorded successfully!!...\n\n")
 
 
 # ==================== Story start from here ====================
@@ -443,8 +447,8 @@ print_slow(" This is a text based adventure game.\n\n")
 # Asking player the valid name and loop. Use valid_name function
 while True:
     print_slow(
-        " Please enter your name. (This game's hero’s name)\n")
-    print_slow(" 3 or more letters.)\n")
+        " Please enter your name. (You are the Hero!)\n")
+    print_slow(" 3 or more letters.\n")
     new_name = input("\n ")
 
     if validate_name(new_name):
@@ -453,13 +457,13 @@ while True:
 
 print(hr)
 print_slow(
-    "\n This game is going to collect the medicinal herbs to the outside\n\n \
-of the village; where the monsters exist. Through running, fighting or\n\n \
-dealing with monsters complete collecting more than 4 herbs and\n\n \
-safely come back home for the sister. \n\n")
+    "\n In this game you are going to collect medicinal herbs outside the\
+ village; where there are monsters and other scary beasts. You will\
+ have to challenge or escape the monsters to survive. Collect 4 herbs\
+ and bring them safely back home for your sister.  \n\n")
 
 while True:
-    print_slow(' Would you like to play?  Type “Yes” or “y” / “No” or “n”\n')
+    print_slow(' Would you like to play?  Type “Yes” or “Y” / “No” or “N”\n')
     answer = input("\n ")
     if answer.lower() == "no" or answer.lower() == "n":
         print(f"\n Pity! See you next time {new_name}!\n")
@@ -474,26 +478,27 @@ player = Player(new_name, 100, {}, 0, 0, {})
 print_slow('\n You answered "YES" so the story has begun...\n')
 time.sleep(0.5)
 print(hr)
-print_slow(f'\n Somewhere in the magical world,\n\n \
-There was a family whose father passed away a few years ago…\n\n \
-Young {player.name} and their mother were taking care of \
-their sick younger sister.\n\n')
+print_slow(f'\n Somewhere in the magical world,\n\n\
+ There was a family whose father passed away a few years ago…\n\n\
+ Young {player.name} and their mother were taking care of\
+ their sick younger sister.\n\n')
 input(hr_enter)
-print_slow(f'\n {player.name}: “Hi, mother. She is not well again…” \n\n \
-Mother: “…. ( sigh ) I know. But we have run out of medicine.\n\n \
-I’ll go out of the village to get the medicinal herbs” \n\n \
-{player.name}: “No mother, I’ll go. Please look after her. \
-I’ll be back soon.” \n\n \
-Mother: “Oh... Please be careful and run away from Monsters…”\n')
+print_slow(f'\n {player.name}: "Hi, mother. She is not well again…"\n\n\
+ Mother: "…. ( sigh ) I know. But we have run out of medicine.\n\n\
+ I need to go out of the village to get medicinal herbs" \n\n\
+ {player.name}: "No mother, I\’ll go. Please look after her.\
+ I\’ll be back soon."\n\n\
+ Mother: "Oh... Please be careful and stay away from Monsters…"\n')
 input(hr_enter)
-print_slow(f'\n Now {player.name} has left their home and walking in \
-the village.\n\n Villager: “Hi {player.name}, how’s your sister? \
-Where are you going?”\n\n {player.name}: “Hi, I’m going to get \
-medicinal herbs. She’s not well again.”\n\n \
-Villager: “Oh I’m sorry to hear that. \n\n\
-    Hmm, I heard that they were growing around The Northern Mountain.\n\n\
-    Or if you want to try, the East Woods monsters might have them."\n\n \
-{player.name}: “Thanks!”\n')
+print_slow(f'\n Now {player.name} has left their home and is walking in\
+ the village.\n\n Villager: "Hi {player.name}, how\’s your sister?\
+ Where are you going?"\n\n {player.name}: "Hi, I\’m going to get\
+ medicinal herbs. She\’s not well again."\n\n\
+ Villager: "Oh I\’m sorry to hear that.\n\n\
+    Hmm, I heard there were some medicinal herbs growing around The Northern\
+ Mountain.\n\n\
+    Or if you want to try, the East Woods monsters might have them."\n\n\
+ {player.name}: "Thanks!"\n')
 input(hr_enter)
 
 print_slow(
@@ -520,22 +525,22 @@ while player.hp > 0:
         elif answer.lower() == "status":
             print(player.call_status())
         elif answer.lower() == "north" or answer.lower() == "n":
-            print_slow(f'\n {player.name} is heading towards north...\n\n')
+            print_slow(f'\n {player.name} is heading North...\n\n')
             time.sleep(1)
             player.location_y += 1
             field_event()
         elif answer.lower() == "east" or answer.lower() == "e":
-            print_slow(f'\n {player.name} is heading towards east...\n\n')
+            print_slow(f'\n {player.name} is heading East...\n\n')
             time.sleep(1)
             player.location_x += 1
             field_event()
         elif answer.lower() == "south" or answer.lower() == "s":
-            print_slow(f'\n {player.name} is heading towards south...\n\n')
+            print_slow(f'\n {player.name} is heading South...\n\n')
             time.sleep(1)
             player.location_y -= 1
             field_event()
         elif answer.lower() == "west" or answer.lower() == "w":
-            print_slow(f'\n {player.name} is heading towards west...\n\n')
+            print_slow(f'\n {player.name} is heading West...\n\n')
             time.sleep(1)
             player.location_x -= 1
             field_event()
