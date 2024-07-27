@@ -107,12 +107,13 @@ class Player:
     Player's name, HP, items, location_x, location_y
     all the status info
     """
-    def __init__(self, name, hp, items, location_x, location_y):
+    def __init__(self, name, hp, items, location_x, location_y, friends):
         self.name = name
         self.hp = hp
         self.items = items
         self.location_x = location_x
         self.location_y = location_y
+        self.friends = friends
 
     def call_status(self):
         return f"\n\
@@ -121,6 +122,7 @@ class Player:
         HP:{player.hp} \n\
         Location X:{player.location_x} | Y:{player.location_y} \n\
         Items:{player.items} \n\
+        Friends:{player.friends} \n\
         ----------------------------------------\n"
 
 
@@ -175,6 +177,8 @@ def pick_monster():
     if 5 <= player.location_x <= 9:
         if -2 <= player.location_y <= 0:
             monst = get_instance("woods")
+        else:
+            monst = get_instance("land")
     else:
         monst = get_instance("land")
     return monst
@@ -275,7 +279,7 @@ def battle_loop(b_monst):
     """
     while True:
         print(" What do you want to do?\n")
-        player_op = input(BATTLE_OP)
+        player_op = input(BATTLE_OP + " ")
         if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
             if attack_probability == "success":
@@ -293,7 +297,7 @@ def battle_loop(b_monst):
                         print_slow(
                             f' You got {b_monst.attack} points damege..\n\n')
                         player.hp -= b_monst.attack
-                        print_slow(f'{player.name} HP: {player.hp}\n\n')
+                        print_slow(f' {player.name} HP: {player.hp}\n\n')
                         if player.hp < 1:
                             input(hr_enter)
                             print_slow(
@@ -307,10 +311,13 @@ def battle_loop(b_monst):
                         continue
                 else:
                     print_slow(
-                        f'\n {player.name} was defeated {b_monst.name}!\
+                        f'\n {player.name} defeated {b_monst.name}!\
                         \n\n')
                     print_slow(f' {player.name} got {b_monst.items}')
-                    player.items.setdefault(b_monst.items)
+                    try:
+                        player.items[b_monst.items] += 1
+                    except:
+                        player.items[b_monst.items] = 1
                     break
             else:
                 print_slow(f' Ouch!! {player.name} missed the attack..\n\n')
@@ -343,7 +350,7 @@ def battle_loop(b_monst):
                 continue
         elif player_op.lower() == "tame" or player_op.lower() == "t":
             print_slow(f' {player.name} started to tame {b_monst.name}.\n\n')
-            print_slow("Don't worry, I won't hurt you...\n\n")
+            print_slow(" Don't worry, I won't hurt you...\n\n")
             print_slow(
                 f' {b_monst.name} is staring at {player.name} alertly...\n\n')
             print_slow(f' {player.name} sat down and did eye contacting.\n\n')
@@ -353,9 +360,12 @@ def battle_loop(b_monst):
                 print_slow(
                     f' {player.name} found a bisquit in the pocket.\n\
                     and give it to the Monster.\n\n')
-                print_slow(f" {b_monst.name} became the player's friend\n\n")
-                print_slow(f' {player.name} got {b_monst.name}\n\n')
-                player.items.setdefault(b_monst.name)
+                print_slow(
+                    f" {b_monst.name} became {player.name}'s friend\n\n")
+                try:
+                    player.friends[b_monst.name] += 1
+                except:
+                    player.friends[b_monst.name] = 1
                 break
             else:
                 print_slow(
@@ -433,9 +443,9 @@ print_slow(" This is a text based adventure game.\n\n")
 # Asking player the valid name and loop. Use valid_name function
 while True:
     print_slow(
-        "Please enter your name. (This game's hero’s name)\n")
-    print_slow("3 or more letters.)\n")
-    new_name = input("\n  ")
+        " Please enter your name. (This game's hero’s name)\n")
+    print_slow(" 3 or more letters.)\n")
+    new_name = input("\n ")
 
     if validate_name(new_name):
         print(f"\n\n Welcome {new_name}!")
@@ -444,9 +454,9 @@ while True:
 print(hr)
 print_slow(
     "\n This game is going to collect the medicinal herbs to the outside\n\n \
-    of the village; where the monsters exist. Through running, fighting or\n\n \
-    dealing with monsters complete collecting more than 4 herbs and\n\n \
-    safely come back home for the sister. \n\n")
+of the village; where the monsters exist. Through running, fighting or\n\n \
+dealing with monsters complete collecting more than 4 herbs and\n\n \
+safely come back home for the sister. \n\n")
 
 while True:
     print_slow(' Would you like to play?  Type “Yes” or “y” / “No” or “n”\n')
@@ -459,7 +469,7 @@ while True:
     else:
         print("\n Please input valid keys.\n")
 
-player = Player(new_name, 100, {}, 0, 0)
+player = Player(new_name, 100, {}, 0, 0, {})
 
 print_slow('\n You answered "YES" so the story has begun...\n')
 time.sleep(0.5)
