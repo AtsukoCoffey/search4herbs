@@ -208,6 +208,14 @@ def attack():
     return random.choices(["success", "fail"], weights=[5, 1], k=1)[0]
 
 
+def surprise_op():
+    """
+    Dicide how to surprise the monster
+    """
+    return random.choices(["hawl", "dash", "mov", "fail"],
+    weights=[2, 2, 2, 4], k=1)[0]
+
+
 def field_event():
     """
     Field battle start. Received argument is only instance's name
@@ -324,7 +332,7 @@ def battle_loop(b_monst):
                     print_slow(f' {b_monst.name} attacked on you!!\n\n ')
                     print_slow(f' But failed...Lucky!\n\n')
                     continue
-        if player_op.lower() == "run" or player_op.lower() == "r":
+        elif player_op.lower() == "run" or player_op.lower() == "r":
             attack_probability = attack()
             if attack_probability == "success":
                 print_slow(" Escaped successfully!!\n")
@@ -333,7 +341,50 @@ def battle_loop(b_monst):
                 print_slow(
                     " Unfortunately, couldn't escape successfully..\n\n")
                 continue
-
+        elif player_op.lower() == "tame" or player_op.lower() == "t":
+            print_slow(f' {player.name} started to tame {b_monst.name}.\n\n')
+            print_slow("Don't worry, I won't hurt you...\n\n")
+            print_slow(
+                f' {b_monst.name} is staring at {player.name} alertly...\n\n')
+            print_slow(f' {player.name} sat down and did eye contacting.\n\n')
+            attack_probability = attack()
+            if attack_probability == "success":
+                print_slow(f' {b_monst.name} seems to be calmed down.\n\n')
+                print_slow(
+                    f' {player.name} found a bisquit in the pocket.\n\
+                    and give it to the Monster.\n\n')
+                print_slow(f" {b_monst.name} became the player's friend\n\n")
+                print_slow(f' {player.name} got {b_monst.name}\n\n')
+                player.items.setdefault(b_monst.name)
+                break
+            else:
+                print_slow(
+                    " \n\nUnfortunately, It didn't work..\n\n")
+                continue
+        elif player_op.lower() == "surprise" or player_op.lower() == "s":
+            print_slow(f' {player.name} tryed to surprise {b_monst.name}.\n\n')
+            how_surp = surprise_op()
+            if how_surp == "fail":
+                print_slow(
+                    f' ....."Whaaaaaaaa!" {player.name} shouted loudly..\n\n')
+                print_slow(
+                    " \n\nUnfortunately, It didn't work..\n\n")
+                continue
+            elif how_surp == "hawl":
+                print_slow(
+                    f' Suddenly {player.name} howled like a wolf.\n\n')
+                # print_slow(f' {b_monst.name} scared of it\n')
+            elif how_surp == "dash":
+                print_slow(
+                    f' Suddenly {player.name} dashed towards {b_monst.name}.\n\n')
+                # print_slow(f' {b_monst.name} scared of it\n')
+            elif how_surp == "mov":
+                print_slow(
+                    f' Suddenly {player.name} started weird movement...\n\n')
+            
+            print_slow(f' {b_monst.name} was scared!! Quickly run away.\n\n')
+            break
+        
 
 def vali_field_achi():
     """
@@ -392,21 +443,17 @@ while True:
 
 print(hr)
 print_slow(
-    "\n This game is going to collect the medicinal herbs \n \
-to the outside of the village; where the animals and \n \
-monsters exist.\n")
-input(hr_enter)
-print_slow("\n \
-Running, fighting or dealing with monsters affects the hero’s status.\n \
-The goal of this game is to complete collecting more than 4 medicinal\n \
-herbs and safely come back home to heal the hero’s sister. \n\n")
+    "\n This game is going to collect the medicinal herbs to the outside\n\n \
+    of the village; where the monsters exist. Through running, fighting or\n\n \
+    dealing with monsters complete collecting more than 4 herbs and\n\n \
+    safely come back home for the sister. \n\n")
 
 while True:
     print_slow(' Would you like to play?  Type “Yes” or “y” / “No” or “n”\n')
     answer = input("\n ")
     if answer.lower() == "no" or answer.lower() == "n":
         print(f"\n Pity! See you next time {new_name}!\n")
-        time.sleep(5)
+        time.sleep(8)
     elif answer.lower() == "yes" or answer.lower() == "y":
         break
     else:
@@ -433,9 +480,9 @@ print_slow(f'\n Now {player.name} has left their home and walking in \
 the village.\n\n Villager: “Hi {player.name}, how’s your sister? \
 Where are you going?”\n\n {player.name}: “Hi, I’m going to get \
 medicinal herbs. She’s not well again.”\n\n \
-Villager “Oh I’m sorry to hear that. \n\n \
-Hmm, I heard that they were growing around The Northern Mountain.\n\n \
-Or if you want to try,\n\n The East Woods monsters might have them."\n\n \
+Villager: “Oh I’m sorry to hear that. \n\n\
+    Hmm, I heard that they were growing around The Northern Mountain.\n\n\
+    Or if you want to try, the East Woods monsters might have them."\n\n \
 {player.name}: “Thanks!”\n')
 input(hr_enter)
 
