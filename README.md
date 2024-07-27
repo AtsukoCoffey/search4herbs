@@ -91,6 +91,20 @@ For making this game more interesting, adding HP healing option (e.g. medicine, 
 # TESTING
 
 # BUGS
+## Get instance by the variable that stores chosen instance name
+Luckily, I could find the way to sort out the list of monsters which has specific value attribute, was smoothly. [CREDIT-> Find instance by value](#credit-ins)  
+First save all the instances in the list and using `@classmethod` to sort out by specific value. Then randomly pick up by populations.  
+However, I needed properly extract the chosen monster’s instance for battle function. From my research, It might not possible to use the variable which stores monster’s name that I draw from the random pickup. Some article says If it’s dictionary I might able to use the variable as keyword. So I searched how to make the dictionary from instances. And There are a lot of different way, including using `__dict__` or `dic()` method. But not really success because I didn’t really understand the class object its self. Some web pages explained me those have all the information like system use or doc string etc. It became too complicated to use, it should have more simpler way so finally I went back to the `@classmethod` to make other sort method.  
+What I found from this was `Class` is "Object" so it's not that simple like variable as just stored texts.
+
+## Refactor get instance by the variable
+From the above bug report, I had two `@classmethods`. One is for randomly picking up monsters that need only the name and zone attributes, and the other is for handling battles. I found that my biggest mistake was that these methods were not practical at all. I thought there were two different purposes, even though they could be combined into a single method.
+
+## Title Banner
+Because this project doesn't forcus on graphical aspect, I wanted to add ASCII art at least my favour. However I got the error of the "SyntaxWarning: invalid escape sequence '\/'"   
+I couldn't find out how to avoid this error so I changed the ASCII art to not contain any `\/`.
+![Bug title banner (1)](readme/bug-backslush-in-string-1.png "Bug title banner (1)")  
+
 
 # DEPLOYMENT  
 First, we make a new repository at GitHub. But that is not really suitable for python apps to deploy there, it suits for front-end web sites. So we should make an account for Heroku service to deploy it.  
@@ -166,7 +180,7 @@ And input repository's name to connect to it.
 ## Forking  
 >A fork is a new repository that shares code and visibility settings with the original “upstream” repository. Forks are often used to iterate on ideas or changes before they are proposed back to the upstream repository, such as in open source projects or when a user does not have write access to the upstream repository. [Quote from GitHub Docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo)  
 
-We can make a copy of the someone's original repository on our GitHub account, so we can make changes without affecting the original repository.  
+We can make a copy of someone's original repository on our GitHub account, so we can make changes without affecting the original repository.  
 
 1. With my GitHub account locate the objective repository ( I can’t fork my own repository ),
 top-right of the Repository (not top of page) just right hand side of the repository title, click the "Fork" Button.  
@@ -175,8 +189,15 @@ top-right of the Repository (not top of page) just right hand side of the reposi
 2. Input available new repository name and click “Create fork”. Now have a copy of the original repository in my own GitHub account.
 ![Forking (2)](readme/dep-fork-2.png "Forking (2)") 
 
+## Cloning
 
 # CREDITS
+## Code References
+<a id="credit-ins"></a>
+
+### Find instance by value
+These monsters' habitats are different; some of them live in the woods, while others are in the fields or mountains. I want to sort them by their specific class attributes. To make this possible, I will use a @classmethod, as referenced in an article on Stack Overflow.
+![Find instance by value](readme/credit-find-instance-by-value.png "Find instance by value") 
 
 # ACKNOWLEDGEMENTS
 
