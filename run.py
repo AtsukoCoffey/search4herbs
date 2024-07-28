@@ -34,7 +34,6 @@ YPwww. .d88b .d88 8d8b.d8b 8d8b.    8www.d8b. 8d8b   8www8 .d88b 8d8b 88b. d88b
 `Y88P' `Y88P `Y88 8   `Y8P 8   8    8   `Y8P' 8      8   8 `Y88P 8    88P' Y88P
 
 """
-
 MAP = """
   @ : Village    M : Mountain
   L : Land       W : Woods      - : Water
@@ -60,7 +59,6 @@ FIELD_OP = """
   |"East" / "E"   |"West" / "W"
   ---------------------------------
 """
-
 BATTLE_OP = """
   ---------------------------------
   |"Attack"/"A"   |"Run/"R"
@@ -72,7 +70,7 @@ CONGRATS = """
  Congratulations!!\n\n\
  You came back to the village safely!\n\n
  """
-
+play_move = 0
 hr = "\n---------------------------------------\n"
 hr_enter = '\n---------------------------- Press "Enter" to continue.\n'
 
@@ -406,7 +404,8 @@ def vali_field_achi():
     This validation to check the achievement whether get the items
     and came back to the village
     """
-    if any(item == "Medicinal herb" for item in player.items):
+    # Check if the "Medicinal herb" is in the items dictionary before validate
+    if "Medicinal herb" in player.items and player.items["Medicinal herb"] > 3:
         if player.location_x == 0:
             if player.location_y == 0:
                 pri_s(CONGRATS)
@@ -417,6 +416,8 @@ def vali_field_achi():
                 pri_s(' Thank you! I will give her the medicine now!"\n\n')
                 input(hr_enter)
                 record()
+    else:
+        return
 
 
 def record():
@@ -428,10 +429,9 @@ def record():
     print(player.call_status())
     pri_s(" Accessing the data...\n\n")
     now = datetime.datetime.now()
-    data = str(player.name), str(player.hp), str(player.items), str(
-        player.friends)
-    now.strftime("%x")
-    # spread sheet can use append_row but not list can use
+    data = now.strftime("%x"), str(player.name), play_move, str(
+        player.hp), str(player.items), str(player.friends),  
+    # Spread sheet can use append_row to insert new csv data
     # The datetime object has an unique method for readable strings.
     sp_player.append_row(data)
     player.hp = 0
@@ -491,12 +491,12 @@ pri_s(f'\n {player.name}: "Hi, mother. She is not well again…"\n\n\
  I will be back soon."\n\n\
  Mother: "Oh... Please be careful and stay away from Monsters…"\n')
 input(hr_enter)
-pri_s(f'\n Now {player.name} has left their home and is walking in\
+pri_s(f'\n Now {player.name} has left their home and was walking in\
  the village.\n\n Villager: "Hi {player.name}, how is your sister?\
  Where are you going?"\n\n {player.name}: "Hi, I am going to get\
  Medicinal herbs. She is not well again."\n\n\
  Villager: "Oh I am sorry to hear that.\n\n\
-    Hmm, I heard there were some Medicinal herbs growing around The Northern\
+    Hmm, I heard there were Medicinal herbs growing around The Northern\
  Mountain.\n\n\
     Or if you want to try, the East Woods monsters might have them."\n\n\
  {player.name}: "Thanks!"\n')
@@ -529,22 +529,22 @@ while player.hp > 0:
             print(hr_enter)
         elif answer.lower() == "north" or answer.lower() == "n":
             pri_s(f'\n {player.name} headed North...\n\n')
-            time.sleep(1)
+            play_move += 1
             player.location_y += 1
             field_event()
         elif answer.lower() == "east" or answer.lower() == "e":
             pri_s(f'\n {player.name} headed East...\n\n')
-            time.sleep(1)
+            play_move += 1
             player.location_x += 1
             field_event()
         elif answer.lower() == "south" or answer.lower() == "s":
             pri_s(f'\n {player.name} headed South...\n\n')
-            time.sleep(1)
+            play_move += 1
             player.location_y -= 1
             field_event()
         elif answer.lower() == "west" or answer.lower() == "w":
             pri_s(f'\n {player.name} headed West...\n\n')
-            time.sleep(1)
+            play_move += 1
             player.location_x -= 1
             field_event()
         else:
