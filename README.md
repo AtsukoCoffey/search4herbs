@@ -151,7 +151,7 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 
 # BUGS
 ## The bug in the `pick_monster` function
-On the map, there are mountain, woods, field and water area. And depend on the zone habitate monsters are different. To sort out monsters, I used if statement inside the `pick_monster` function. When I got this error, I completely forgot to add else statement to it. I was so lucky to find it coincidently though, I realised that I should test everything with all the options and posibilities.    
+On the map, there are mountains, woods, fields and water areas. And depending on the zone monsters are different. To sort out monsters, I used if statement inside the `pick_monster` function. When I got this error, I completely forgot to add else statement to it. I was so lucky to find it coincidently though, I realised that I should test everything with all the options and posibilities.    
 ![The bug in the `pick_monster` function (1)](readme/bug-forget-else.png "The bug in the `pick_monster` function (1)")  
 Solution:  
 Add `else` statement  
@@ -160,20 +160,20 @@ Add `else` statement
 
 ## Get instance by the variable that stores chosen instance name
 Luckily, I could find the way to sort out the list of monsters which has specific value attribute smoothly. [CREDIT-> Find instance by value](#credit-ins)  
-However, I needed properly extract the chosen monster’s instance for battle function. While I'm searching for the way, I found it might not possible to use the variable which stores monster’s name that I draw from the random pickup. Because it's not just string, it associated to specified instance. Some article says If it’s dictionary I might able to use the variable as string keyword. So I searched how to make the dictionary from instances. And There are a lot of different way, including using `__dict__` or `dic()` method. But not really success because I didn’t really understand the class object its self. Some web pages explained me those have all the information like system use or doc string etc. It became too complicated to use, it should have more simpler way so finally I went back to the `@classmethod` to make other sort method.  
+However, I needed to properly extract the chosen monster’s instance for battle function. While searching for the way, I found it might not possible to use the variable which stores monster’s name that I draw from the random pickup. Because it's not just string, it associated to specified instance. Some article says If it’s dictionary I might be able to use the variable as string keyword. So I searched how to make the dictionary from instances. And there are a lot of different ways, including using `__dict__` or `dic()` method. But this was not really successful because I didn’t really understand the class object itself. Some web pages explained that class objects have a lot of information. It became too complicated to use, there should have been a simpler way so finally I went back to the `@classmethod` to make another sort method.  
 What I found from this was `Class` is "Object" so it's not that simple like variable as just stored texts.  
 
 Solution:  
 Make another `get_n` `@classmethod` 
 
 ## Refactor get instance by the variable
-From the above bug report, I had two `@classmethods`. One is for randomly picking up monsters that need only the name and the zone attributes, and the other is for handling battles. I found that my biggest mistake was that these methods were not practical at all. I thought there were two different purposes, even though they could be combined into a single method.  
+From the above bug report, I had two `@classmethods`. One is for randomly picking up monsters that needs only the name and the zone attributes, and the other is for handling battles. I found that my biggest mistake was that these methods were not practical at all. I thought there were two different purposes, even though they could be combined into a single method.  
 
 Solution:  
 Simplifyed to extract the instance 
 
 ## Add counter for dictionary items
-When player got items, I thought dictionary format is best though, I couldn't figure it out which method is best to adding items.  I tried "setdefault", "update". Those just swaped the value; couldn't count numbers.  
+When the player received items, I thought dictionary format is best though I couldn't figure it out which method is best to add items.  I tried "setdefault", "update". Those just swapped the value; couldn't count numbers.  
 ![Add counter for dictionary items (1)](readme/bug-add-count-dic-1.png "Add counter for dictionary items (1)")  
 So I looked for another way using "get" and "update" or create a method (function) inside the Class object. But when I found this page I realised that I didn't need any method, simply reassigned it.  
 ![Add counter for dictionary items (3)](readme/bug-add-count-dic-3.png "Add counter for dictionary items (3)")  
@@ -186,7 +186,7 @@ Solution:
 Simply reassigned it with `try` and `except` statement  
 
 ## Title Banner
-Because this project doesn't forcus on graphical aspect, I wanted to add ASCII art at least my favour. However I got the error of the "SyntaxWarning: invalid escape sequence '\/'"   
+Because this project doesn't focus on graphic, I wanted to add ASCII art. However I got the error of the "SyntaxWarning: invalid escape sequence '\/'"   
 I couldn't find out how to avoid this error so I changed the ASCII art to not contain any `\/`.
 ![Bug title banner (1)](readme/bug-backslush-in-string-1.png "Bug title banner (1)")  
 
@@ -198,18 +198,18 @@ First, we make a new repository at GitHub. But that is not really suitable for p
 
 ***Installing additional dependencies***  
 This game app is using Google sheet to save user's data.
-To access to Google Cloud, we need to access Google API and create a new project and enable both Google Drive and Google Sheet API. Below is the instraction sentences from Code Institute template document.  
+To access Google Cloud, we need to access Google API and create a new project and enable both Google Drive and Google Sheet API. Below are the instructions from Code Institute template document.  
 > The first one we need is Google-oauth which will use creds.json file to setup the authentication to access Google Cloud. The second one is gspread that we use to access and update data in the spreadsheet. These packages are included in the standard Python library, simply command `pip3 install gspread google-auth`  
 
 Or we can install this project's requirements using:
 `pip3 install requirements.txt`  
-If you want to check already pip is installed or not, you can check the installed version in the terminal:
+If you want to check if pip is already installed or not, you can check the installed version in the terminal:
 `pip3 --version`
 If it is installed, you’ll see the version information. 
 Pip is a Python Package Manager.  
 
-We need this requirements.txt file for deploy with Heroku.  
-To create this `Pip3 freeze > requirements.txt` and commit this change as "Add: requirement for deployment" then push to the GitHub.  
+We need this requirements.txt file for deployment with Heroku.  
+Create this `Pip3 freeze > requirements.txt` and commit this change as "Add: requirement for deployment" then push to the GitHub.  
   
 <hr>
 
@@ -220,11 +220,11 @@ This is how to get the credentials, based on the Code Institute template documen
 3. Create new credentials for the new project with Editor setting.  
 4. From "APIs and services", choose "Credentials", click the new mail address that has been created.  
 ![Google API Credencial (4)](readme/dep-googleapi-cred-1.png "Google API Credencial (4)")  
-5. Choose "KEYS" from top navigations and "ADD KEY" drop dpwn  
+5. Choose "KEYS" from top navigations and "ADD KEY" drop dpwn.  
 6. Create new key. Key type is JSON, click "CREATE". Then the credential json file is automatically down loaded.  
 ![Google API Credencial (6)](readme/dep-googleapi-cred-2.png "Google API Credencial (6)")  
 
-We use this credeincials to access the spread sheet though, we shouldn't push this confidential file to the GitHub. For preventing this file to be added to the stage, add this file name to the ".gitignore" file and update it.  
+We use these credentials to access the spread sheet though we shouldn't push this confidential file to the GitHub. To prevent this file from being added to the stage, add this file name to the ".gitignore" file and update it.  
   
 <hr>
 
@@ -239,10 +239,10 @@ We use this credeincials to access the spread sheet though, we shouldn't push th
 ![Heroku deployment (3)](readme/dep-heroku-3.png "Heroku deployment (3)")  
 
 4. Goes to "Config Vars". 
-We are using confidential credentials, so copy the contents of credentials in json file and past into the Config Variables. Also set the value of KEY to "PORT", and the value to "8000" then select add.
+We are using confidential credentials, so copy the contents of the credentials in json file and paste into the Config Variables. Also set the value of KEY to "PORT", and the value to "8000" then select add.
 ![Heroku deployment (4)](readme/dep-heroku-4.png "Heroku deployment (4)")  
 
-5. Underneath of "Config Vars" there is "Buildpacks". We will need to add two buildpacks.
+5. Underneath "Config Vars" there is "Buildpacks". We will need to add two buildpacks.
 (The order of the buildpacks is important)  
 
 > 1. `heroku/python`
@@ -259,7 +259,7 @@ We are using confidential credentials, so copy the contents of credentials in js
 And input repository's name to connect to it. 
 ![Heroku deployment (6)](readme/dep-heroku-6.png "Heroku deployment (6)")  
 
-3. Underneath we can choose the options “Automatic deploys” and “Manual deploy”. I chose “Automatic deploys” but it didn’t provide me the new app’s URL. So I assume that the first time to create the app and the URL, we need to click “Manual deploy” once even chose “Automatic deploys”, then after that it deploys automatically.  
+3. Underneath we can choose the options “Automatic deploys” and “Manual deploy”. I chose “Automatic deploys” but it didn’t provide me the new app’s URL. For me it worked so that it deployed automatically after I selected Manual Deploy, I did not have to click on “Automatic deploys” afterwards. 
 
 
 ## Forking  
@@ -267,11 +267,11 @@ And input repository's name to connect to it.
 
 We can make a copy of someone's original repository on our GitHub account, so we can make changes without affecting the original repository.  
 
-1. With my GitHub account locate the objective repository ( I can’t fork my own repository ),
+1. Locate the objective repository using my Github account (I can’t fork my own repository),
 top-right of the Repository (not top of page) just right hand side of the repository title, click the "Fork" Button.  
 ![Forking (1)](readme/dep-fork-1.png "Forking (1)") 
 
-2. Input available new repository name and click “Create fork”. Now have a copy of the original repository in my own GitHub account.
+2. Input available new repository name and click “Create fork”. Now there is a copy of the original repository in my own GitHub account.
 ![Forking (2)](readme/dep-fork-2.png "Forking (2)") 
 
 ## Cloning
@@ -282,27 +282,20 @@ top-right of the Repository (not top of page) just right hand side of the reposi
 
 ### Find instance by value
 These monsters' habitats are different; some of them live in the woods, while others are in the fields or mountains. I want to sort them by their specific class attributes. To make this possible, I will use a @classmethod, as referenced in an article on Stack Overflow.  
-First save all the instances in the list and using `@classmethod` to sort out by specific value. Then randomly pick up by populations' weight.    
-
-![Find instance by value](readme/credit-find-instance-by-value.png "Find instance by value") 
-
-# ACKNOWLEDGEMENTS
+First, save all the instances in the list and using `@classmethod` to sort out by specific value. Then, randomly pick up instances by populations' weight.    
+![Find instance by value](readme/credit-find-instance-by-value.png "Find instance by value")  
 
 
+## Editing and Proofreading
+Since I am not a native English speaker, my family assisted me with editing and proofreading.
+ [ACKNOWLEDGEMENTS](#acknowledgements)  
 
 
-When you create the app, you 
+# ACKNOWLEDGEMENTS  
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+I would like to give great thanks to my mentor Alan Bushell for his exellent advice and support.  
+Also my cohort facilitator Amy Richardson for all the support and assistance.  
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+During this project's period I needed to go back home to support my family. Kindly the Student Care team also supported and worked for me, thank you so much.
 
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
----
-
-Happy coding!
+And also thanks to my family Sean Coffey and Dean Coffey for all the support.
