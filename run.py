@@ -582,27 +582,27 @@ f"""
 f"""No.1-------------------------------------------
  {player_data[player_1_i][0]}, {player_data[player_1_i][1]},
  {player_data[player_1_i][2]} moves, HP {player_data[player_1_i][3]}
- Items {player_data[player_1_i][4]}\n Friends {player_data[player_1_i][5]}\n\
+ Items {player_data[player_1_i][4]}\n Friends {player_data[player_1_i][5]}\n
   
 No.2-------------------------------------------
  {player_data[player_2_i][0]}, {player_data[player_2_i][1]},
  {player_data[player_2_i][2]} moves, HP {player_data[player_2_i][3]}
- Items {player_data[player_2_i][4]}\n Friends {player_data[player_2_i][5]}\n\
+ Items {player_data[player_2_i][4]}\n Friends {player_data[player_2_i][5]}\n
 
 No.3-------------------------------------------
  {player_data[player_3_i][0]}, {player_data[player_3_i][1]},
  {player_data[player_3_i][2]} moves, HP {player_data[player_3_i][3]}
- Items {player_data[player_3_i][4]}\n Friends {player_data[player_3_i][5]}\n\
+ Items {player_data[player_3_i][4]}\n Friends {player_data[player_3_i][5]}\n
 
 No.4-------------------------------------------
  {player_data[player_4_i][0]}, {player_data[player_4_i][1]},
  {player_data[player_4_i][2]} moves, HP {player_data[player_4_i][3]}
- Items {player_data[player_4_i][4]}\n Friends {player_data[player_4_i][5]}\n\
+ Items {player_data[player_4_i][4]}\n Friends {player_data[player_4_i][5]}\n
 
 No.5-------------------------------------------
  {player_data[player_5_i][0]}, {player_data[player_5_i][1]},
  {player_data[player_5_i][2]} moves, HP {player_data[player_5_i][3]}
- Items {player_data[player_5_i][4]}\n Friends {player_data[player_5_i][5]}\n\
+ Items {player_data[player_5_i][4]}\n Friends {player_data[player_5_i][5]}\n
 
 """)
 
