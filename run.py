@@ -1,11 +1,11 @@
-import gspread
+import gspread   # Google spread sheet for save players data 
 from google.oauth2.service_account import Credentials
-import json
-import random
-import time
-import datetime
-import sys
-from copy import deepcopy
+import json   # Convert ot import data to access Google API
+import random   # Used for many functions in this game
+import time   # Used for time.sleep() and slow printing (pri_s) 
+import datetime   # Add the current date when recording player's new data 
+import sys   # Used for slow printing (pri_s)
+from copy import deepcopy   # used for the battle Monster
 
 # Every Google account has as an IAM (Identity and Access Management)
 SCOPE = [
@@ -17,9 +17,9 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('search4herbs')
-# spread sheet
+# Spread sheet - records players data 
 sp_player = SHEET.worksheet('player')
-# list data
+# From spread sheet, extracted as list format
 player_data = sp_player.get_all_values()
 
 TITLE = """
@@ -40,8 +40,8 @@ MAP = """
 
    X -6-5-4-3-2-1 0 1 2 3 4 5 6 7 8 9
    Y+--------------------------------
-   5| M M M M M M M M M M M M M M M M
-   4| M M M M L L L L L L M M M M M M
+   5| L L L L M M M M M M M M L L L L
+   4| L L L L L L L L L L L L L L L L
    3| L L L L L L L L L L L L L L L L
    2| L L L L L L L L L L L L L L L L
    1| L L L L L L L L L L L L L L L L
@@ -70,17 +70,16 @@ CONGRATS = """
  Congratulations!!\n\n\
  You came back to the village safely!\n\n
  """
-play_move = 0
+play_move = 0   # Counter of player's move. Lower moves means better score.
 hr = "\n---------------------------------------\n"
 hr_enter = '\n---------------------------- Press "Enter" to continue.\n'
 
 
-# Controle Printing speed
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
 def pri_s(sentence, speed=0.02):
     '''
-    The sentence will be printed out one by one, adjustable speed argument
-    c is charactor
+    The sentences will be printed out one by one, with an adjustable 
+    speed argument. c (character)
     '''
     for c in sentence:
         sys.stdout.write(c)

@@ -173,9 +173,9 @@ Solution:
 Simplifyed to extract the instance 
 
 ## Add counter for dictionary items
-When the player received items, I thought dictionary format is best though I couldn't figure it out which method is best to add items.  I tried "setdefault", "update". Those just swapped the value; couldn't count numbers.  
+When the player received items, I thought dictionary format is best though I couldn't figure it out which method is best to add items.  I tried `setdefault`, `update`. Those just swapped the value; couldn't count numbers.  
 ![Add counter for dictionary items (1)](readme/bug-add-count-dic-1.png "Add counter for dictionary items (1)")  
-So I looked for another way using "get" and "update" or create a method (function) inside the Class object. But when I found this page I realised that I didn't need any method, simply reassigned it.  
+So I looked for another way using `get` and `update` or create a method (function) inside the Class object. But when I found this page I realised that I didn't need any method, simply reassigned it.  
 ![Add counter for dictionary items (3)](readme/bug-add-count-dic-3.png "Add counter for dictionary items (3)")  
 ![Add counter for dictionary items (4)](readme/bug-add-count-dic-4.png "Add counter for dictionary items (4)")  
 
@@ -189,6 +189,24 @@ Simply reassigned it with `try` and `except` statement
 Because this project doesn't focus on graphic, I wanted to add ASCII art. However I got the error of the "SyntaxWarning: invalid escape sequence '\/'"   
 I couldn't find out how to avoid this error so I changed the ASCII art to not contain any `\/`.
 ![Bug title banner (1)](readme/bug-backslush-in-string-1.png "Bug title banner (1)")  
+
+## Do not use bare "except" 
+I received this error message from the CI Python Linter. I thought it was no surprise to get the error, as I was using the `try-except` statement in a similar way to the `if` statement. I tried to add the `raise` error and catch at `except` also `else` statement but didn't work as I expected. After looking through the information, I assume the `try-except` statement is mainly used for situations involving user input to validate the input.   
+
+![Do not use bare except (1)](readme/bug-bare-except-1.png "Do not use bare except (1)")  
+
+Solution:  
+Change to the `if` statement  
+![Do not use bare except (2)](readme/bug-bare-except-2.png "Do not use bare except (2)")  
+
+## Field achievement validation
+I changed the if condition from using any() in a loop to checking for a specific number: 'Medicinal herb' > 3. I thought that if it wasn't true, the code would just continue, but I got a `KeyError`. Again, since "Medicinal herb" does not exist in the `player.items` dictionary, checking for the key's existence is important before doing anything. 
+
+![Field achievement validation (1)](readme/bug-if-condition-achiev-1.png "Field achievement validation (1)")  
+
+Solution:  
+Add a check for if the `Key` exists before the purpose code  
+![Field achievement validation (2)](readme/bug-if-condition-achiev-2.png "Field achievement validation (2)")  
 
 
 # DEPLOYMENT  
@@ -285,6 +303,33 @@ These monsters' habitats are different; some of them live in the woods, while ot
 First, save all the instances in the list and using `@classmethod` to sort out by specific value. Then, randomly pick up instances by populations' weight.    
 ![Find instance by value](readme/credit-find-instance-by-value.png "Find instance by value")  
 
+### Slow print use standard output write and flush 
+In this kind of text based game, the effects of text display play an important role in user readability. I found this speed controle function code first. However this time I couldn't understand why and how this work. So below are some researches about this.
+![Slow print with speed controle - Stack Oveflow](readme/credit-slow-print-1.png "Slow print with speed controle  - Stack Oveflow")  
+
+<details>
+<summary>Same code structure but import sys - Stack Oveflow >> </summary>  
+
+![Same code structure but import sys - Stack Oveflow](readme/credit-printing-slowly-1.png "Slow print - flush geeksforgeeks")
+</details>  
+<details>
+<summary>More research about sys  >> </summary>  
+
+![Slow print - research Sys - geeksforgeeks](readme/credit-printing-slowly-2.png "Slow print - flush geeksforgeeks")
+</details> 
+<details> 
+<summary>More research about standard output write >> </summary>  
+
+![Slow print - standard output write - geeksforgeeks](readme/credit-slow-print-geeksforgeeks-2.png "Slow print - standard output write - geeksforgeeks")
+</details>  
+<details> 
+<summary>More research about standard output flush >> </summary>  
+
+![Slow print - standard output flush - geeksforgeeks](readme/credit-slow-print-geeksforgeeks-1.png "Slow print - standard output flush - geeksforgeeks")
+</details>  
+
+### 
+
 
 ## Editing and Proofreading
 Since I am not a native English speaker, my family assisted me with editing and proofreading.
@@ -296,6 +341,6 @@ Since I am not a native English speaker, my family assisted me with editing and 
 I would like to give great thanks to my mentor Alan Bushell for his exellent advice and support.  
 Also my cohort facilitator Amy Richardson for all the support and assistance.  
 
-During this project's period I needed to go back home to support my family. Kindly the Student Care team also supported and worked for me, thank you so much.
+During this project's submission period I needed to go back home to support my family. The Student Care team supported and worked with me, thank you so much.
 
 And also thanks to my family Sean Coffey and Dean Coffey for all the support.
