@@ -1,9 +1,9 @@
 # The Search For Herbs  
   
 Welcome to The Search For Herbs game.  
-This is a text based adventure game that is inspired by 80’s popular RPG game “Dragon Quest”.  
+This is a text based adventure game that is inspired by the 80’s popular RPG game “Dragon Quest”.  
   
-The hero of this game is going to collect medicinal herbs for their sick sister with running, fighting or dealing with monsters at the outside of the village.   
+The hero of this game is going to collect medicinal herbs for their sick sister by running, fighting or dealing with outside of the village.   
     
 ## Live site
 [Live site >> https://search-4-herbs-78b993bff664.herokuapp.com/](https://search-4-herbs-78b993bff664.herokuapp.com/)
@@ -12,83 +12,142 @@ The hero of this game is going to collect medicinal herbs for their sick sister 
   
 ## 1. Strategy Plane  
 ***Target users***  
-1. Simply who likes to play games specially text based games.
+1. Simply those who like to play games especially text based games.
 
 ***User value***  
-1. This game is not difficult but plenty of surporise and unexpectedness in the battle. So any user can enjoy a little bit.
+1. This game is not difficult but has plenty of unexpected surprises. So any user can enjoy.
   
 ## 2. Scope Plane  
 USER STORIES  
 ***First time visitor***  
-* As a user, I want to clearly understand what is offered on this website.  
+* As a user, I want to clearly understand what is offered in this game.  
 * As a user, I want to clearly understand how to play this game instinctively.  
 * As a user, I want to see my results clearly.  
 
 ***Frequent visitor***  
-* As a Frequent visitor, I want to collect something rare items
+* As a frequent visitor, I want to collect some rare items.
   
 ***The website owner stories***  
 * As a site owner, I want to give users positive feelings to play games.
 
 ## 3. Structure Plane  
   
-* The landing page should show what this site is offering intuitively.  
-* Code Institute's gave me the template for access the game program.
+* The landing page should show what this game is offering intuitively.  
+* The Code Institute gave me the template to access the game program.  
   
-## 4. Skeleton Plane  
-
-![Algorithm planning](readme/algorithm-plan.webp)  
-
 ***Algorithm planning***  
 As the planning sheet, this game's main parts are the field loop and the battle loop. So before entering the loop ask users their names, and after the game (end the loop) record the user's data to google spread sheet. 
-
+![Algorithm planning](readme/algorithm-plan.webp)  
 
 # FEATURES  
   
 ## Existing Features  
   
-**Titile banner and Introduction**  
-I couldn't use graphical material though I used the ASKII letter for the title banner.
-Also I changed the lead paragraph to a simple short sentence for understanding what this app is.
+**Title banner and Introduction**  
+I couldn't use graphic images though I used the ASKII letters for the title banner.
+Also I changed the lead paragraph to a simple short sentence to understand what this app is.
 
 **Name Input**  
-It is asking user's name. It is used for the hero's name.
-validation is setting more than 3 letter, any charactors can use but not only numbers.  
+It asks the user's name. It is used for the hero's name.
+Validation is set by more than 3 letters, any characters can be used but not just numbers.  
 
 **Story Summary**  
-Before this fantasy story has begun, I wanted to give the user a little mark time, a preparing for the fantasy setting.
+Before this fantasy story begins, I wanted to give the user a little introduction, preparing for the fantasy setting.
 
 **Play Input**  
-This validation is asking the user to play or not. If User choose "No" then the loop stop for a while though, this loop won't be exit untill user type "Yes".  
+This validation is asking the user to play or not. If User choose "No" then the loop stops for a while though this loop won't exit until the user types "Yes".  
 
 **Field Loop**  
-When player went into the field loop, the field option was showed up and asked what is the next player's action.   
+When the player goes into the field loop, the field option shows-up and asks what the player's next action is.   
 
 **Field Option**  
 
 
 **Status Window**  
 
-**Map**  
-This map uses player's location information X, Y. I counldn't make automatic position generator
-so the Players have to find out their position by them selves.
-Also without graphical material, I can't say the map's readability is fantastic though when player become get used to it, it's not so bad, I think.
 
+**Map**  
+This map uses player's location information in X, Y coordinates. I couldn't make an automatic position generator
+so the Players have to find out their position by them-selves.
+Also without graphics, I can't say the map's readability is fantastic though when players get used to it, it's not so bad, I think.  
 
 ## Future Features  
 
+
 **Map**  
-I'd like to have the function that generates the player's position on the map. That will help player to use this map more handy.
+I'd like to have the function that generates the player's position on the map. That will help the player to use this map more easily.
 
-**Heal the HP and Level Up System**
-For making this game more interesting, adding HP healing option (e.g. medicine, or magic) and adding level up system might be work.  
+**Heal the HP and Level Up System**  
+To make this game more interesting, adding HP healing option (e.g. medicine, or magic) and adding level up system might be useful.  
 
-  
-
-
-# TECHNOLOGY USED
+# TECHNOLOGY USED  
+- [Python](https://www.python.org) used for all functionality. Programming language. 
+- [Gitpod](https://gitpod.io) used as a cloud-based IDE for development.
+- [Git](https://git-scm.com) used for recording changes. A version control system.
+- [GitHub](https://github.com) Used for our project's platformused for secure online code storage.
+- [Heroku](https://www.heroku.com) Used for our project's platform. The deployed site.  
 
 # TESTING
+> I performed most of the testing myself and had some support from family members with different mobile devices.   
+
+**Testing for visual display**  
+| Visual display | Outcome  |
+|--|--|
+| The title logo and lead texts are printed correctly | Pass |
+| Stories are printed | Pass |
+| The field option box shows up | Pass |
+| The map shows up | Pass |
+| The status box shows up | Pass |
+| The monsters status shows up | Pass |
+| The battle option shows up | Pass |  
+
+**Testing for functionality**  
+| Name input validation | Outcome |
+|--|--|
+| Alphabets, numbers, symbols can be accepted | Pass |
+| Prevent only numbers input. (No alphabet nor numbers) | Pass |
+| prevent empty value to proceed | Pass |
+
+| Start game input validation | Outcome |
+|--|--|
+| "Yes" "Y" "No" "N" lead to each functions | Pass |
+| Prevent all the other keys, print warning. | Pass |
+| prevent empty value to proceed | Pass |
+
+| Field loop option input validation | Outcome |
+|--|--|
+| "Status" shows the status box | Pass |
+| "Map" shows the map with location X, Y | Pass |
+| "North" / "N" "South" / "S" "East" / "E" "West" / "W" | Pass |
+| Prevent all the other keys, print warning. | Pass |
+| prevent empty value to proceed | Pass |
+
+|Field loop - sorting and selecting Monsters | | Outcome |
+|--|--|--|
+| "North" / "N" | Add counters, lead to the function | Pass |
+| "South" / "S" | Add counters, lead to the function | Pass |
+| "East" / "E" | Add counters, lead to the function | Pass |
+| "West" / "W" | Add counters, lead to the function | Pass |
+| Sort monsters by living area zones | | Pass |
+| Pick up monsters randomly by weight | | Pass |
+
+| Battle loop option input validation | Criteria | Outcome |
+|--|--|--|
+| "Attack"/"A" | "Monster's HP" > 0 leads continue, < 0 lead break the battle | Pass |
+| "Run/"R" | Randomly success and fail | Pass |
+| "Tame"/"T" | Randomly success and fail | Pass |
+| "Surprise"/"S" | 3 options lead to break the battle, 1 option leads to continue | Pass |
+
+| Recording the data and loading the best players data | Criteria | Outcome |
+|--|--|--|
+| Recording new data | Google spread sheet updating | Pass |
+| Loading best 5 lowest moves players data | display | Pass |
+
+
+| Future feature ?  | Outcome |
+|--|--|
+| Prevent to go outside of the map  | - |
+| Find the Medicinal herb at mountain area | - |
 
 # BUGS
 ## The bug in the `pick_monster` function
