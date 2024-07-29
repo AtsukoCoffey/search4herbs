@@ -270,7 +270,7 @@ def field_event():
             input(hr_enter)
             battle_loop(b_monst)
     elif first_move == "falter":
-        pri_s(f'\n {b_monst.name} was hesitating..\n')
+        pri_s(f'\n {b_monst.name} was hesitating..\n\n')
         battle_loop(b_monst)
     input(hr_enter)
 
@@ -551,4 +551,25 @@ while player.hp > 0:
             print(" Invalid input. Please try again.")
         continue
 
+def get_players_data():
+    """
+    Collects best 5 players data in all the data 
+    1. list of colum(3), 2. create dictionary of colm(3) and index
+    """
+    colm_move = sp_player.col_values(3)
+    # Add index numbers and make a list of tuple -> Credit "How to convert.."
+    colm_lis = enumerate(colm_move)
+    # lambda argument x indicate second position of tuple - sorted by x value
+    move_sorted = sorted(colm_lis, key = lambda x: int(x[1]))
+    # move_sorted is like this data [(3, '5'), (0, '6'), (8, '7'), (1, '8'), )]
+    print(move_sorted)
+
+pri_s(f'You completed the game within {play_move} moves.\n')
+pri_s(f'The record is x moves by x \n')
+pri_s("These are the Top 5 best players.\n\n")
+print(f"""
+
+""")
+get_players_data()
+print(hr_enter)
 pri_s(f' Thank you for playing this game {player.name}\n\n\n')
