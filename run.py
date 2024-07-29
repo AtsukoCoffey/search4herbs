@@ -405,7 +405,7 @@ def vali_field_achi():
     and came back to the village
     """
     # Check if the "Medicinal herb" is in the items dictionary before validate
-    if "Medicinal herb" in player.items and player.items["Medicinal herb"] > 3:
+    if "Medicinal herb" in player.items and player.items["Medicinal herb"] > 1:
         if player.location_x == 0:
             if player.location_y == 0:
                 pri_s(CONGRATS)
@@ -436,6 +436,7 @@ def record():
     sp_player.append_row(data)
     player.hp = 0
     pri_s(" Data recorded successfully!!...\n\n")
+    input(hr_enter)
 
 
 # ==================== Story start from here ====================
@@ -551,6 +552,7 @@ while player.hp > 0:
             print(" Invalid input. Please try again.")
         continue
 
+
 def get_players_data():
     """
     Collects best 5 players data in all the data 
@@ -562,14 +564,50 @@ def get_players_data():
     # lambda argument x indicate second position of tuple - sorted by x value
     move_sorted = sorted(colm_lis, key = lambda x: int(x[1]))
     # move_sorted is like this data [(3, '5'), (0, '6'), (8, '7'), (1, '8'), )]
-    print(move_sorted)
+    # print(move_sorted)
+    # Stores best players index numbers
+    player_1_i = move_sorted[0][0]
+    player_2_i = move_sorted[1][0]
+    player_3_i = move_sorted[2][0]
+    player_4_i = move_sorted[3][0]
+    player_5_i = move_sorted[4][0]
 
-pri_s(f'You completed the game within {play_move} moves.\n')
-pri_s(f'The record is x moves by x \n')
-pri_s("These are the Top 5 best players.\n\n")
-print(f"""
+    pri_s(
+f"""
+ The record is {player_data[player_1_i][2]} moves\
+ by {player_data[player_1_i][1]} \n\n"""
+)
+    pri_s(" These are the Top 5 best players.\n\n")
+    pri_s(
+f"""No.1-------------------------------------------
+ {player_data[player_1_i][0]}, {player_data[player_1_i][1]},
+ {player_data[player_1_i][2]} moves, HP {player_data[player_1_i][3]}
+ Items {player_data[player_1_i][4]}\n Friends {player_data[player_1_i][5]}\n\
+  
+No.2-------------------------------------------
+ {player_data[player_2_i][0]}, {player_data[player_2_i][1]},
+ {player_data[player_2_i][2]} moves, HP {player_data[player_2_i][3]}
+ Items {player_data[player_2_i][4]}\n Friends {player_data[player_2_i][5]}\n\
+
+No.3-------------------------------------------
+ {player_data[player_3_i][0]}, {player_data[player_3_i][1]},
+ {player_data[player_3_i][2]} moves, HP {player_data[player_3_i][3]}
+ Items {player_data[player_3_i][4]}\n Friends {player_data[player_3_i][5]}\n\
+
+No.4-------------------------------------------
+ {player_data[player_4_i][0]}, {player_data[player_4_i][1]},
+ {player_data[player_4_i][2]} moves, HP {player_data[player_4_i][3]}
+ Items {player_data[player_4_i][4]}\n Friends {player_data[player_4_i][5]}\n\
+
+No.5-------------------------------------------
+ {player_data[player_5_i][0]}, {player_data[player_5_i][1]},
+ {player_data[player_5_i][2]} moves, HP {player_data[player_5_i][3]}
+ Items {player_data[player_5_i][4]}\n Friends {player_data[player_5_i][5]}\n\
 
 """)
+
+
+pri_s(f'You completed the game within {play_move} moves.\n')
 get_players_data()
 print(hr_enter)
 pri_s(f' Thank you for playing this game {player.name}\n\n\n')
