@@ -45,31 +45,50 @@ As the planning sheet, this game's main parts are the field loop and the battle 
   
 **Title banner and Introduction**  
 I couldn't use graphic images though I used the ASKII letters for the title banner.
-Also I changed the lead paragraph to a simple short sentence to understand what this app is.
+Also I changed the lead paragraph to a simple short sentence to understand what this app is.  
+![Title banner and Introduction](readme/feat-title.png "Title banner and Introduction") 
 
 **Name Input**  
 It asks the user's name. It is used for the hero's name.
 Validation is set by more than 3 letters, any characters can be used but not just numbers.  
 
-**Story Summary**  
-Before this fantasy story begins, I wanted to give the user a little introduction, preparing for the fantasy setting.
+**Story display**  
+Before this fantasy story begins, I wanted to give the user a little introduction, preparing for the fantasy setting. Also all the story sentnces have 2 line break for readability.
+![Story display](readme/feat-story.png "Story display") 
 
-**Play Input**  
+**Would you like to play?  Type “Yes” or “Y” / “No” or “N”u**  
 This validation is asking the user to play or not. If User choose "No" then the loop stops for a while though this loop won't exit until the user types "Yes".  
 
 **Field Loop**  
 When the player goes into the field loop, the field option shows-up and asks what the player's next action is.   
 
 **Field Option**  
+![Field Option](readme/feat-field-op.png "Field Option") 
 
-
-**Status Window**  
-
+**Hero and Monster Status**  
+![Field Option](readme/feat-field-op.png "Field Option") ![Field Option](readme/feat-monster-status.png "Field Option") 
 
 **Map**  
 This map uses player's location information in X, Y coordinates. I couldn't make an automatic position generator
 so the Players have to find out their position by them-selves.
 Also without graphics, I can't say the map's readability is fantastic though when players get used to it, it's not so bad, I think.  
+
+**Function record()**  
+After the player clears the game, the player's status information and the date are recorded in the Google Sheet. [CREDIT-> Function record()](#credit-record)   
+
+**Function get_players_data()**  
+To meet the criteria of 'a working data model' and 'manipulate data,' I created a function that accesses the data and downloads the data of the top 5 players with the lowest moves.  
+ 
+My plan was like this, 
+1. Get the `moves` column data.
+2. Make a dictionary that gets and includes their index number.
+3. Compare and find the top 5 data.
+4. From there, it refers the index number to download the whole data. 
+
+The `moves` column data was list format, so I searched the way how to make the dictionary with the index number together. [CREDIT-> List into dictionary (tuple) - `enumerate`](#credit-lis-into-dic)  
+![The `moves` culomms data](readme/credit-list-into-dic-index-1.png "The `moves` culomms data")  
+After I reached to make the tuple (Not dictionary because the data was made by enumerate), I found the new function `lambda` to use it.
+[CREDIT-> List into dictionary - `lambda`](#credit-lambda) 
 
 ## Future Features  
 
@@ -107,12 +126,14 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | Alphabets, numbers, symbols can be accepted | Pass |
 | Prevent only numbers input. (No alphabet nor numbers) | Pass |
 | prevent empty value to proceed | Pass |
+![Testing name input](readme/tes-name1.png "Testing name input") ![Testing name input](readme/tes-name2.png "Testing name input")
 
 | Start game input validation | Outcome |
 |--|--|
 | "Yes" "Y" "No" "N" lead to each functions | Pass |
 | Prevent all the other keys, print warning. | Pass |
 | prevent empty value to proceed | Pass |
+![Testing - Start game - Yes or No](readme/tes-yes-no1.png "Testing - Start game - Yes or No") ![Testing - Start game - Yes or No](readme/tes-yes-no2.png "Testing - Start game - Yes or No")
 
 | Field loop option input validation | Outcome |
 |--|--|
@@ -121,6 +142,7 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | "North" / "N" "South" / "S" "East" / "E" "West" / "W" | Pass |
 | Prevent all the other keys, print warning. | Pass |
 | prevent empty value to proceed | Pass |
+![Testing - Field option](readme/tes-field1.png "Testing - Field option") ![Testing - Field option](readme/tes-field2.png "Testing - Field option")
 
 |Field loop - sorting and selecting Monsters | | Outcome |
 |--|--|--|
@@ -293,10 +315,11 @@ top-right of the Repository (not top of page) just right hand side of the reposi
 ![Forking (2)](readme/dep-fork-2.png "Forking (2)") 
 
 ## Cloning
+<a id="credit-ins"></a>
 
 # CREDITS
 ## Code References
-<a id="credit-ins"></a>
+
 
 ### Find instance by value
 These monsters' habitats are different; some of them live in the woods, while others are in the fields or mountains. I want to sort them by their specific class attributes. To make this possible, I will use a @classmethod, as referenced in an article on Stack Overflow.  
@@ -328,8 +351,31 @@ In this kind of text based game, the effects of text display play an important r
 ![Slow print - standard output flush - geeksforgeeks](readme/credit-slow-print-geeksforgeeks-1.png "Slow print - standard output flush - geeksforgeeks")
 </details>  
 
-### 
+### Get current time  
+When recording player's data into Google sheet, I wanted to use usuful Date() function like Java Script has. In python we have a `datetime` package, I implemented this into my `record()` function.  
+`datetime.datetime.now()` - I got an error when using single `datetime.now()` I assume the first `datetime` is module name.
+![Get current time -](readme/credit-datetime.png "Get current time -")   
+These are the some format of the datetime object. I used `%x` and display like this `07/29/24`. 
+![Get current time - W3School](readme/credit-datetime-2.png "Get current time - W3School")  
+Also I got an another error when I used `str()` to this when exporting it by JSON; we need to convert into string.
+![Get current time - W3School](readme/credit-datetime-3.png "Get current time - W3School")<a id="credit-lis-into-dic"></a>
 
+### List into dictionary (tuple) with index no. - `enumerate`   
+I found some different ways to achive this though, this `enumerate` method is build-in function so I wanted to get used to it. Note:`enumerate` returns a `tuple` not dictionary.  
+![List into tuple with index no. (1)](readme/credit-list-into-dic-index-2.png "List into tuple with index no. (1)")  
+![List into tuple with index no. (2)](readme/credit-list-into-dic-index-3.png "List into tuple with index no. (2)")<a id="credit-lambda"></a>
+
+### Using `lambda` anonymous function
+To get lowest `moves` value from the dictionary, I tried to use `min()`. There
+were `lambda` in some example code, I changed my mind to use `sorted()` there are `lambda` sample codes again. So learned about this fantastic fanction.
+![Using lambda (1)](readme/credit-lambda-1.png "Using lambda (1)")  
+![Using lambda (2)](readme/credit-lambda-2.png "Using lambda (2)")  
+W3School's `Try it Yourself` space is really useful to try my code as well. When I checked whether my code was working or not, I have to play and clear the game to reach to the `record()` function. Here I could try `enumerate` and `lambda` together. Below screen-shot shows that I got the sorted tuple data. Underneath is getting the index numbers of the top 5.
+![Using lambda (3)](readme/credit-lambda-3.png "Using lambda (3)")  
+![Using lambda (4)](readme/credit-lambda-4.png "Using lambda (4)")<a id="credit-record"></a>  
+
+### Function record()
+This part I referred to from Code Institute's walkthrough project 'Love Sandwich' to learn how to connect to Google Drive and Google Sheets, as well as how to handle the data in the spreadsheet. 
 
 ## Editing and Proofreading
 Since I am not a native English speaker, my family assisted me with editing and proofreading.
