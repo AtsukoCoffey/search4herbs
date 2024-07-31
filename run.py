@@ -240,31 +240,30 @@ def field_event():
     print("  ---------------------------------")
     input(hr_enter)
 
-    # First battle move - Monster's first action - run, attack or hesitate
-    first_move = move()
-    if first_move == "run":
+    first_move = move()   # Monster's first action - run, attack or hesitate
+    if first_move == "run":   # Monster - run
         pri_s(f'\n !! Quickly {b_monst.name} was running away.\n')
-    elif first_move == "attack":
-        attack_probability = attack()
-        if attack_probability == "success":
+    elif first_move == "attack":   # Monster - attack thier first move
+        success_rate = attack()   # calculate the success rate
+        if success_rate == "success":
             pri_s(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n')
             input(hr_enter)
             pri_s(f' You got {b_monst.attack} points damage..\n\n')
             player.hp -= b_monst.attack
             print(f' {player.name} HP : {player.hp}\n\n')
-            if player.hp < 1:
+            if player.hp < 1:   # When player was defeated by monster
                 input(hr_enter)
                 pri_s(
                     f'\n !!! {player.name} was lost the battle...\n\n', 0.5)
                 time.sleep(3)
-            else:
-                battle_loop(b_monst)
-        else:
+            else:   # If player survives the first attack,
+                battle_loop(b_monst)   # bring this monster into battle_loop()
+        else:   # Monster - fail thier first move
             pri_s(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n')
             pri_s(f' But failed...Lucky!\n\n')
             input(hr_enter)
-            battle_loop(b_monst)
-    elif first_move == "falter":
+            battle_loop(b_monst)   # bring this monster into battle_loop()
+    elif first_move == "falter":   # Monster - hesitating thier first move
         pri_s(f'\n {b_monst.name} was hesitating..\n\n')
         battle_loop(b_monst)
     input(hr_enter)
@@ -273,49 +272,50 @@ def field_event():
 def battle_loop(b_monst):
     """
     This loop starts just after the first battle move. Iterate until
-    player's HP runs out or player defeats the monster.
+    player's HP runs out or player defeats the monster. Ask player
+    next action. Attack, Run, Tame, Surprise
     """
     while True:
         print(" What do you want to do?\n")
         player_op = input(BATTLE_OP + "\n ")
-        try:
-            if player_op.lower() not in (
+        player_op = player_op.lower()
+        try:   # If empty value or invalid key raise error
+            if player_op not in (
                 "attack", "a", "run", "r", "tame", "t", "surprise", "s"
             ):
                 raise ValueError(" Invalid input.")
         except ValueError as e:
             pri_s(f'{e} Please try again.')
-
-        if player_op.lower() == "attack" or player_op.lower() == "a":
-            attack_probability = attack()
-            if attack_probability == "success":
+        if player_op in ("attack", "a"):   # If player choose "Attack"
+            success_rate = attack()   # calculate success rate for the attack
+            if success_rate == "success":
                 pri_s(f' {player.name} attacked {b_monst.name}!\n\n')
                 pri_s(
                     f' {b_monst.name} got {b_monst.damage} points damage..\n')
                 b_monst.hp -= b_monst.damage
                 pri_s(f'\n {b_monst.name} HP became {b_monst.hp}')
                 input(hr_enter)
-                if b_monst.hp > 0:
-                    attack_probability = attack()
-                    if attack_probability == "success":
+                if b_monst.hp > 0:   # If Monster wasn't defeated, their turn.
+                    success_rate = attack()   # Monster's return attack rate
+                    if success_rate == "success":
                         pri_s(
                             f'\n {b_monst.name} attacked on you!!\n\n')
                         pri_s(
                             f' You got {b_monst.attack} points damage..\n\n')
                         player.hp -= b_monst.attack
                         pri_s(f' {player.name} HP: {player.hp}\n\n')
-                        if player.hp < 1:
+                        if player.hp < 1:   # When player was defeated
                             input(hr_enter)
                             pri_s(
                                 f' !!! {player.name} was lost the battle...\
                                 \n\n', 0.5)
                             time.sleep(3)
                             break
-                    else:
+                    else:   # Monsters sometimes fail their attack too
                         pri_s(f'\n {b_monst.name} attacked on you!! \n\n')
                         pri_s(f' But failed...Lucky!\n\n')
                         continue
-                else:
+                else:   # When player defeats the monster
                     pri_s(f'\n {player.name} defeated {b_monst.name}!\n\n')
                     pri_s(f' {player.name} got {b_monst.items}')
                     # If there is no same key in the player's items
@@ -324,43 +324,43 @@ def battle_loop(b_monst):
                         player.items[b_monst.items] = 0
                     player.items[b_monst.items] += 1
                     break
-            else:
+            else:   # Player sometimes misses the attack by success rate
                 pri_s(f' Ouch!! {player.name} missed the attack..\n\n')
                 pri_s(f' {b_monst.name} was about to attack {player.name}')
                 input(hr_enter)
-                attack_probability = attack()
-                if attack_probability == "success":
+                success_rate = attack()   # Monster's return attack rate
+                if success_rate == "success":
                     pri_s(f' {b_monst.name} attacked on you!!\n\n')
                     pri_s(f' You got {b_monst.attack} points damage..\n\n')
                     player.hp -= b_monst.attack
                     print(f' {player.name} HP : {player.hp}\n\n')
-                    if player.hp < 1:
+                    if player.hp < 1:   # When player was defeated by monster
                         input(hr_enter)
                         pri_s(f' !!! {player.name} was lost the battle...\
                             \n\n', 0.5)
                         time.sleep(3)
                         break
-                else:
+                else:   # Sometimes player misses, then Monster misses too.
                     pri_s(f' {b_monst.name} attacked on you!!\n\n ')
                     pri_s(f' But failed...Lucky!\n\n')
                     continue
-        elif player_op.lower() == "run" or player_op.lower() == "r":
-            attack_probability = attack()
-            if attack_probability == "success":
+        elif player_op in ("run", "r"):   # If player choose "Run"
+            success_rate = attack()   # calculate success rate for the run
+            if success_rate == "success":
                 pri_s(" Escaped successfully!!\n")
                 break
             else:
                 pri_s(
                     " Unfortunately, couldn't escape successfully..\n\n")
                 continue
-        elif player_op.lower() == "tame" or player_op.lower() == "t":
+        elif player_op in ("tame", "t"):   # If player choose "Tame"
             pri_s(f' {player.name} started to tame {b_monst.name}.\n\n')
             pri_s(" Don't worry, I won't hurt you...\n\n")
             pri_s(
                 f' {b_monst.name} was staring at {player.name} alertly...\n\n')
             pri_s(f' {player.name} sat down and did made eye contact.\n\n')
-            attack_probability = attack()
-            if attack_probability == "success":
+            success_rate = attack()   # calculate success rate for the tame
+            if success_rate == "success":
                 pri_s(f' {b_monst.name} seems calmed down.\n\n')
                 pri_s(
                     f' {player.name} found a biscuit in the pocket.\n\
@@ -377,23 +377,23 @@ def battle_loop(b_monst):
                 pri_s(
                     " \n\nUnfortunately, It didn't work..\n\n")
                 continue
-        elif player_op.lower() == "surprise" or player_op.lower() == "s":
+        elif player_op in ("surprise", "s"):   # If player choose "Surprise"
             pri_s(f' {player.name} tryed to surprise {b_monst.name}.\n\n')
-            how_surp = surprise_op()
-            if how_surp == "fail":
+            how_surp = surprise_op()   # calculate success rate for surprise
+            if how_surp == "fail":   # Fail to surprise
                 pri_s(
                     f' ....."Whaaaaaaaa!" {player.name} shouted loudly..\n\n')
                 pri_s(
                     " \n\nUnfortunately, It didn't work..\n\n")
                 continue
-            elif how_surp == "hawl":
+            elif how_surp == "hawl":   # Surprise version 1
                 pri_s(
                     f' Suddenly {player.name} howled like a wolf.\n\n')
-            elif how_surp == "dash":
+            elif how_surp == "dash":   # Surprise version 2
                 pri_s(
                     f' Suddenly {player.name} dashed towards {b_monst.name}.')
                 print("\n")
-            elif how_surp == "mov":
+            elif how_surp == "mov":   # Surprise version 3
                 pri_s(
                     f' Suddenly {player.name} started weird movement...\n\n')
             pri_s(f' {b_monst.name} was scared!! Quickly run away.\n\n')
@@ -650,6 +650,8 @@ No.5-------------------------------------------
  {player_data[player_5_i][2]} moves, HP {player_data[player_5_i][3]}
  Items {player_data[player_5_i][4]}\n Friends {player_data[player_5_i][5]}\n
     """)
+
+
 pri_s(f'You completed the game within {play_move} moves.\n')
 get_players_data()
 input(hr_enter)
