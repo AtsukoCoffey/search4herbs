@@ -157,16 +157,16 @@ class Monsters:
 # Using capital letter to the python variables is not recomended though
 # These are matching to the name attribute because
 # Identifying from @class method uses name attribute.
-slime = Monsters("Slime", 3, 6, 6, "Stone", 15, "land")
-she_slime = Monsters("She Slime", 4, 7, 6, "Gold", 15, "land")
-iron_scorpion = Monsters("Iron Scorpion", 12, 9, 6, "Iron", 15, "land")
-ghost = Monsters("Ghost", 12, 4, 6, "Medicinal herb", 15, "woods")
-bewarewolf = Monsters("Bewarewolf", 18, 12, 7, "Large fang", 10, "land")
-skeleton = Monsters("Skeleton", 18, 9, 6, "Bone", 10, "land")
-dracky = Monsters("Dracky", 8, 9, 6, "Medicinal herb", 10, "woods")
-drackyma = Monsters("Drackyma", 10, 10, 7, "Medicinal herb", 5, "woods")
+slime = Monsters("Slime", 3, 3, 6, "Stone", 15, "land")
+she_slime = Monsters("She Slime", 4, 4, 6, "Gold", 15, "land")
+iron_scorpion = Monsters("Iron Scorpion", 12, 5, 6, "Iron", 15, "land")
+ghost = Monsters("Ghost", 12, 3, 6, "Medicinal herb", 15, "woods")
+bewarewolf = Monsters("Bewarewolf", 18, 6, 7, "Large fang", 10, "land")
+skeleton = Monsters("Skeleton", 18, 6, 6, "Bone", 10, "land")
+dracky = Monsters("Dracky", 8, 5, 6, "Medicinal herb", 10, "woods")
+drackyma = Monsters("Drackyma", 10, 16, 7, "Medicinal herb", 5, "woods")
 metal_slime = Monsters("Metal Slime", 25, 6, 3, "Metal", 4, "land")
-king_slime = Monsters("King Slime", 40, 20, 5, "Crown", 1, "land")
+king_slime = Monsters("King Slime", 40, 10, 5, "Crown", 1, "land")
 
 
 def pick_monster():
@@ -254,7 +254,7 @@ def field_event():
             if player.hp < 1:   # When player was defeated by monster
                 input(hr_enter)
                 pri_s(
-                    f'\n !!! {player.name} was lost the battle...\n\n', 0.5)
+                    f'\n !!! {player.name} was lost the battle...\n\n', 0.1)
                 time.sleep(3)
             else:   # If player survives the first attack,
                 battle_loop(b_monst)   # bring this monster into battle_loop()
@@ -308,7 +308,7 @@ def battle_loop(b_monst):
                             input(hr_enter)
                             pri_s(
                                 f' !!! {player.name} was lost the battle...\
-                                \n\n', 0.5)
+                                \n\n', 0.1)
                             time.sleep(3)
                             break
                     else:   # Monsters sometimes fail their attack too
@@ -337,7 +337,7 @@ def battle_loop(b_monst):
                     if player.hp < 1:   # When player was defeated by monster
                         input(hr_enter)
                         pri_s(f' !!! {player.name} was lost the battle...\
-                            \n\n', 0.5)
+                            \n\n', 0.1)
                         time.sleep(3)
                         break
                 else:   # Sometimes player misses, then Monster misses too.
@@ -552,7 +552,7 @@ while player.hp > 0:
     if answer == "map":
         print(MAP)
         print(
-            f'Location X:{player.location_x} | Y:{player.location_y}\n')
+            f'  Location X:{player.location_x} | Y:{player.location_y}\n')
         input(hr_enter)
     elif answer == "status":
         print(player.call_status())
