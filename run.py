@@ -279,6 +279,14 @@ def battle_loop(b_monst):
     while True:
         print(" What do you want to do?\n")
         player_op = input(BATTLE_OP + " ")
+        try:
+            if player_op.lower() not in (
+                "attack", "a", "run", "r", "tame", "t", "surprise", "s"
+            ):
+                raise ValueError(" Invalid input.")
+        except ValueError as e:
+            pri_s(f'{e} Please try again.')
+
         if player_op.lower() == "attack" or player_op.lower() == "a":
             attack_probability = attack()
             if attack_probability == "success":
@@ -393,9 +401,6 @@ def battle_loop(b_monst):
                     f' Suddenly {player.name} started weird movement...\n\n')
             pri_s(f' {b_monst.name} was scared!! Quickly run away.\n\n')
             break
-        else:
-            raise ValueError("Invalid input. Please try again.")
-            continue
 
 
 def vali_field_achi():
@@ -436,6 +441,26 @@ def record():
     player.hp = 0
     pri_s(" Data recorded successfully!!...\n\n")
     input(hr_enter)
+
+
+def map_vali(direction):
+    """
+    This function stops the player to go outside of the map
+    """
+    try:
+        if direction == ("north", "n") and player.location_y == 0:
+            raise IndexError("Please stay inside the Map!")
+        elif direction == ("south", "s") and player.location_y == 0:
+            raise IndexError("Please stay inside the Map!")
+        elif direction == ("east", "e") and player.location_x == 0:
+            raise IndexError("Please stay inside the Map!")
+        elif direction == ("west", "w") and player.location_x == 0:
+            raise IndexError("Please stay inside the Map!")
+    except IndexError as e:
+        pri_s(f"{e}")
+        return False
+
+    return True
 
 
 # ==================== Story start from here ====================
@@ -514,45 +539,44 @@ while player.hp > 0:
     field event function. Until player HP runs out.
     When met the Vali_field_achievement() -> exit loop
     """
-    vali_field_achi()
-
-    if player.hp > 0:
-        pri_s("\n Which direction do you want to go?\n")
-        print(' Check your status: "Status" or Look at Map: "Map"')
-        print(FIELD_OP)
-        answer = input(' ')
-
-        if answer.lower() == "map":
-            print(MAP)
-            print(
-                f'Location X:{player.location_x} | Y:{player.location_y}\n')
-            print(hr_enter)
-        elif answer.lower() == "status":
-            print(player.call_status())
-            print(hr_enter)
-        elif answer.lower() == "north" or answer.lower() == "n":
-            pri_s(f'\n {player.name} headed North...\n\n')
-            play_move += 1
-            player.location_y += 1
-            field_event()
-        elif answer.lower() == "east" or answer.lower() == "e":
-            pri_s(f'\n {player.name} headed East...\n\n')
-            play_move += 1
-            player.location_x += 1
-            field_event()
-        elif answer.lower() == "south" or answer.lower() == "s":
-            pri_s(f'\n {player.name} headed South...\n\n')
-            play_move += 1
-            player.location_y -= 1
-            field_event()
-        elif answer.lower() == "west" or answer.lower() == "w":
-            pri_s(f'\n {player.name} headed West...\n\n')
-            play_move += 1
-            player.location_x -= 1
-            field_event()
-        else:
-            print(" Invalid input. Please try again.")
+    pri_s("\n Which direction do you want to go?\n")
+    print(' Check your status: "Status" or Look at Map: "Map"')
+    print(FIELD_OP)
+    answer = input(' ')
+    try:
+        if answer.lower() not in (
+            "status", "map", "north", "n", "east", "e", "south", "s", "west",
+            "w"
+        ):
+            raise ValueError(" Invalid input.")
+    except ValueError as e:
+        pri_s(f'{e} Please try again.')
         continue
+    if answer.lower() == "map":
+        print(MAP)
+        print(
+            f'Location X:{player.location_x} | Y:{player.location_y}\n')
+        print(hr_enter)
+    elif answer.lower() == "status":
+        print(player.call_status())
+        print(hr_enter)
+    elif map_vali(answer.lower()):   # If map validation is True execute below
+        play_move += 1
+        if answer.lower() in ("north", "n"):
+            pri_s(f'\n {player.name} headed North...\n\n')
+            player.location_y += 1
+        elif answer.lower() in ("east", "e"):
+            pri_s(f'\n {player.name} headed East...\n\n')
+            player.location_x += 1
+        elif answer.lower() in ("south", "s"):
+            pri_s(f'\n {player.name} headed South...\n\n')
+            player.location_y -= 1
+        elif answer.lower() in ("west", "w"):
+            pri_s(f'\n {player.name} headed West...\n\n')
+            player.location_x -= 1
+
+        field_event()
+    vali_field_achi()
 
 
 def get_players_data():
