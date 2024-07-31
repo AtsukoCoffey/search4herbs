@@ -1,9 +1,9 @@
-import gspread   # Google spread sheet for save players data 
+import gspread   # Google spread sheet for save players data
 from google.oauth2.service_account import Credentials
 import json   # Convert ot import data to access Google API
 import random   # Used for many functions in this game
-import time   # Used for time.sleep() and slow printing (pri_s) 
-import datetime   # Add the current date when recording player's new data 
+import time   # Used for time.sleep() and slow printing (pri_s)
+import datetime   # Add the current date when recording player's new data
 import sys   # Used for slow printing (pri_s)
 from copy import deepcopy   # used for the battle Monster
 
@@ -17,7 +17,7 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('search4herbs')
-# Spread sheet - records players data 
+# Spread sheet - records players data
 sp_player = SHEET.worksheet('player')
 # From spread sheet, extracted as list format
 player_data = sp_player.get_all_values()
@@ -78,7 +78,7 @@ hr_enter = '\n---------------------------- Press "Enter" to continue.\n'
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
 def pri_s(sentence, speed=0.02):
     '''
-    The sentences will be printed out one by one, with an adjustable 
+    The sentences will be printed out one by one, with an adjustable
     speed argument. c (character)
     '''
     for c in sentence:
@@ -93,11 +93,9 @@ def validate_name(name):
     """
     try:
         if len(name) < 3:
-            raise ValueError(
-                f" Please input 3 or more letters. \n \
-                You input only {len(name)} letter(s).")
+            raise ValueError(f" You input only {len(name)} letter(s).")
         elif name.isnumeric():
-            raise ValueError(" Not all numbers please. 3 or more letters.)\n")
+            raise ValueError(" Not all numbers please.)\n")
     except ValueError as e:
         print(f" Invalid name. {e} Please try again.\n")
         return False
@@ -200,7 +198,7 @@ def get_instance(zone):
 
 def move():
     """
-    Only first move, monster might have a chance to run or attack
+    Only first battle move, monster might have a chance to run or attack
     random choice with weights - run=1, attack=1, falter=3
     """
     move = random.choices(("run", "attack", "falter"), weights=[1, 1, 3], k=1)
@@ -226,14 +224,13 @@ def field_event():
     """
     Field battle start. Received argument is only instance's name
     To get the instance call the @classmethod again
-    After the first move action send the monster to the battle loop function
+    After the first battle move send the monster to the battle loop function
     """
     # Deep copy the Monster's instance
     b_monst = deepcopy(pick_monster())
 
-    pri_s(
-        f' {player.name} noticed ' + b_monst.name + ' appeared...\n\n'
-    )
+    pri_s(   # Print Monster's status
+        f' {player.name} noticed ' + b_monst.name + ' appeared...\n\n')
     time.sleep(0.5)
     print("  ---------------------------------")
     print(f'  Name: {b_monst.name}')
@@ -244,7 +241,7 @@ def field_event():
 
     input(hr_enter)
 
-    # First move
+    # First battle move - Monster's first action - run, attack or hesitate
     first_move = move()
     if first_move == "run":
         pri_s(f'\n !! Quickly {b_monst.name} was running away.\n')
@@ -276,8 +273,8 @@ def field_event():
 
 def battle_loop(b_monst):
     """
-    This loop starts just after the first move action. Iterate until
-    player's HP is run out or defeating the monster.
+    This loop starts just after the first battle move. Iterate until
+    player's HP runs out or player defeats the monster.
     """
     while True:
         print(" What do you want to do?\n")
@@ -396,6 +393,9 @@ def battle_loop(b_monst):
                     f' Suddenly {player.name} started weird movement...\n\n')
             pri_s(f' {b_monst.name} was scared!! Quickly run away.\n\n')
             break
+        else:
+            raise ValueError("Invalid input. Please try again.")
+            continue
 
 
 def vali_field_achi():
@@ -429,7 +429,7 @@ def record():
     pri_s(" Accessing the data...\n\n")
     now = datetime.datetime.now()
     data = now.strftime("%x"), str(player.name), play_move, str(
-        player.hp), str(player.items), str(player.friends),  
+        player.hp), str(player.items), str(player.friends),
     # Spread sheet can use append_row to insert new csv data
     # The datetime object has an unique method for readable strings.
     sp_player.append_row(data)
@@ -458,10 +458,13 @@ while True:
 
 print(hr)
 pri_s(
-    "\n In this game you are going to collect Medicinal herbs outside the\
- village; where there are monsters and other scary beasts. You will\
- have to challenge or escape the monsters to survive. Collect 4 herbs\
- and bring them safely back home for your sister.  \n\n")
+    " In this game you are going to collect Medicinal herbs outside the\n\n")
+pri_s(
+    " village; where there are monsters and other scary beasts. You will\n\n")
+pri_s(
+    " have to challenge or escape the monsters to survive.\n\n")
+pri_s(
+    " Collect 4 herbs and bring them safely back home for your sister.\n\n")
 
 while True:
     pri_s(' Would you like to play?  Type “Yes” or “Y” / “No” or “N”\n')
@@ -497,8 +500,8 @@ pri_s(f'\n Now {player.name} has left their home and was walking in\
  Medicinal herbs. She is not well again."\n\n\
  Villager: "Oh I am sorry to hear that.\n\n\
     Hmm, I heard there were Medicinal herbs growing around The Northern\
- Mountain.\n\n\
-    Or if you want to try, the East Woods monsters might have them."\n\n\
+\n\n\
+    Mountain. Or the East Woods monsters might have them."\n\n\
  {player.name}: "Thanks!"\n')
 input(hr_enter)
 
@@ -554,14 +557,14 @@ while player.hp > 0:
 
 def get_players_data():
     """
-    Collects best 5 players data in all the data 
+    Collects best 5 players data in all the data
     1. list of colum(3), 2. create dictionary of colm(3) and index
     """
     colm_move = sp_player.col_values(3)
     # Add index numbers and make a list of tuple -> Credit "How to convert.."
     colm_lis = enumerate(colm_move)
     # lambda argument x indicate second position of tuple - sorted by x value
-    move_sorted = sorted(colm_lis, key = lambda x: int(x[1]))
+    move_sorted = sorted(colm_lis, key=lambda x: int(x[1]))
     # move_sorted is like this data [(3, '5'), (0, '6'), (8, '7'), (1, '8'), )]
     # print(move_sorted)
     # Stores best players index numbers
@@ -572,17 +575,17 @@ def get_players_data():
     player_5_i = move_sorted[4][0]
 
     pri_s(
-f"""
+        f"""
  The record is {player_data[player_1_i][2]} moves\
  by {player_data[player_1_i][1]} \n\n"""
-)
+    )
     pri_s(" These are the Top 5 best players.\n\n")
     pri_s(
-f"""No.1-------------------------------------------
+        f"""No.1-------------------------------------------
  {player_data[player_1_i][0]}, {player_data[player_1_i][1]},
  {player_data[player_1_i][2]} moves, HP {player_data[player_1_i][3]}
  Items {player_data[player_1_i][4]}\n Friends {player_data[player_1_i][5]}\n
-  
+
 No.2-------------------------------------------
  {player_data[player_2_i][0]}, {player_data[player_2_i][1]},
  {player_data[player_2_i][2]} moves, HP {player_data[player_2_i][3]}
@@ -603,7 +606,7 @@ No.5-------------------------------------------
  {player_data[player_5_i][2]} moves, HP {player_data[player_5_i][3]}
  Items {player_data[player_5_i][4]}\n Friends {player_data[player_5_i][5]}\n
 
-""")
+    """)
 
 
 pri_s(f'You completed the game within {play_move} moves.\n')
