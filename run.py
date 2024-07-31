@@ -251,11 +251,9 @@ def field_event():
             pri_s(f' You got {b_monst.attack} points damage..\n\n')
             player.hp -= b_monst.attack
             print(f' {player.name} HP : {player.hp}\n\n')
+            input(hr_enter)
             if player.hp < 1:   # When player was defeated by monster
-                input(hr_enter)
-                pri_s(
-                    f'\n !!! {player.name} was lost the battle...\n\n', 0.1)
-                time.sleep(3)
+                lost_status()
             else:   # If player survives the first attack,
                 battle_loop(b_monst)   # bring this monster into battle_loop()
         else:   # Monster - fail thier first move
@@ -304,12 +302,9 @@ def battle_loop(b_monst):
                             f' You got {b_monst.attack} points damage..\n\n')
                         player.hp -= b_monst.attack
                         pri_s(f' {player.name} HP: {player.hp}\n\n')
+                        input(hr_enter)
                         if player.hp < 1:   # When player was defeated
-                            input(hr_enter)
-                            pri_s(
-                                f' !!! {player.name} was lost the battle...\
-                                \n\n', 0.1)
-                            time.sleep(3)
+                            lost_status()
                             break
                     else:   # Monsters sometimes fail their attack too
                         pri_s(f'\n {b_monst.name} attacked on you!! \n\n')
@@ -334,11 +329,9 @@ def battle_loop(b_monst):
                     pri_s(f' You got {b_monst.attack} points damage..\n\n')
                     player.hp -= b_monst.attack
                     print(f' {player.name} HP : {player.hp}\n\n')
+                    input(hr_enter)
                     if player.hp < 1:   # When player was defeated by monster
-                        input(hr_enter)
-                        pri_s(f' !!! {player.name} was lost the battle...\
-                            \n\n', 0.1)
-                        time.sleep(3)
+                        lost_status()
                         break
                 else:   # Sometimes player misses, then Monster misses too.
                     pri_s(f' {b_monst.name} attacked on you!!\n\n ')
@@ -428,6 +421,7 @@ def record():
     """
     pri_s(" Now let's record your data.\n\n")
     print(player.call_status())
+    pri_s(f'You completed the game within {play_move} moves.\n')
     pri_s(" Accessing the data...\n\n")
     now = datetime.datetime.now()
     data = now.strftime("%x"), str(player.name), play_move, str(
@@ -451,7 +445,7 @@ def map_vali(direction):
             direction in ("east", "e") and player.location_x == 9 or
             direction in ("west", "w") and player.location_x == -6
         ):
-            raise IndexError("Please stay inside the Map!")
+            raise IndexError(" Please stay inside the Map!\n\n")
     except IndexError as e:
         pri_s(f"{e}")
         return False
@@ -459,8 +453,18 @@ def map_vali(direction):
     return True
 
 
-# ==================== Story start from here ====================
+def lost_status():
+    """
+    When player lost the battle, shows score and message
+    """
+    pri_s(
+        f' !!! {player.name} was lost the battle...\n\n', 0.1)
+    time.sleep(3)
+    pri_s(" This is your score for this round. Fair play!")
+    print(player.call_status())
 
+
+# ==================== Story start from here ====================
 print(TITLE)
 pri_s(" Welcome to The Search For Herbs game.\n\n")
 time.sleep(1)
@@ -621,12 +625,12 @@ def get_players_data():
     player_4_i = move_sorted[3][0]
     player_5_i = move_sorted[4][0]
 
+    pri_s(" These are the Top 5 best players.\n\n")
     pri_s(
         f"""
  The record is {player_data[player_1_i][2]} moves\
  by {player_data[player_1_i][1]} on {player_data[player_1_i][0]}\n\n"""
     )
-    pri_s(" These are the Top 5 best players.\n\n")
     input(hr_enter)
     pri_s(
         f"""No.1-------------------------------------------
@@ -652,7 +656,6 @@ No.5-------------------------------------------
     """)
 
 
-pri_s(f'You completed the game within {play_move} moves.\n')
 get_players_data()
 input(hr_enter)
 pri_s(f' Thank you for playing this game {player.name}\n\n\n')
