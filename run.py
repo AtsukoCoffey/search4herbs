@@ -448,13 +448,13 @@ def map_vali(direction):
     This function stops the player to go outside of the map
     """
     try:
-        if direction == ("north", "n") and player.location_y == 0:
+        if direction in ("north", "n") and player.location_y == 5:
             raise IndexError("Please stay inside the Map!")
-        elif direction == ("south", "s") and player.location_y == 0:
+        elif direction in ("south", "s") and player.location_y == -5:
             raise IndexError("Please stay inside the Map!")
-        elif direction == ("east", "e") and player.location_x == 0:
+        elif direction in ("east", "e") and player.location_x == 9:
             raise IndexError("Please stay inside the Map!")
-        elif direction == ("west", "w") and player.location_x == 0:
+        elif direction in ("west", "w") and player.location_x == -6:
             raise IndexError("Please stay inside the Map!")
     except IndexError as e:
         pri_s(f"{e}")
@@ -556,10 +556,10 @@ while player.hp > 0:
         print(MAP)
         print(
             f'Location X:{player.location_x} | Y:{player.location_y}\n')
-        print(hr_enter)
+        input(hr_enter)
     elif answer.lower() == "status":
         print(player.call_status())
-        print(hr_enter)
+        input(hr_enter)
     elif map_vali(answer.lower()):   # If map validation is True execute below
         play_move += 1
         if answer.lower() in ("north", "n"):
