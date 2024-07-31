@@ -570,9 +570,24 @@ while player.hp > 0:
     elif map_vali(answer):   # If map validation is True execute below
         play_move += 1
         # Add Medicinal Herb growing position in Northern mountain
-        if (player.location_y == 5) and (-2 <= player.location_x <= 5) and \
-            (answer in ("east", "e")):
+        if (
+            player.location_y == 5 and
+            -2 <= player.location_x <= 5 and
+            answer in ("east", "e")
+        ):
             player.location_x += 1
+            pri_s(f' !!! {player.name} found a Medicinal herb in the mountain.\n\n')
+            pri_s(f' {player.name} got a Medicinal herb!\n\n')
+            # Check if the herb is already exist, if not add the key
+            if "Medicinal herb" not in player.items:
+                player.items["Medicinal herb"] = 0
+            player.items["Medicinal herb"] += 1
+        elif (
+            player.location_y == 5 and
+            -2 <= player.location_x <= 5 and
+            answer in ("west", "w")
+        ):
+            player.location_x -= 1
             pri_s(f' !!! {player.name} found a Medicinal herb in the mountain.\n\n')
             pri_s(f' {player.name} got a Medicinal herb!\n\n')
             # Check if the herb is already exist, if not add the key
