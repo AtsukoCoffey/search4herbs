@@ -321,8 +321,7 @@ def battle_loop(b_monst):
                         f'\n {player.name} defeated {b_monst.name}!\
                         \n\n')
                     pri_s(f' {player.name} got {b_monst.items}')
-
-                    # If there is no same key in the items dictionary
+                    # If there is no same key in the player's items
                     # set new key with value of "0"
                     if b_monst.items not in player.items:
                         player.items[b_monst.items] = 0
@@ -371,7 +370,8 @@ def battle_loop(b_monst):
                     And gave it to {b_monst.name}.\n\n')
                 pri_s(
                     f" {b_monst.name} became {player.name}'s friend\n\n")
-
+                # If there is no same key in the player's friends
+                # set new key with value of "0"
                 if b_monst.name not in player.friends:
                     player.friends[b_monst.name] = 0
                 player.friends[b_monst.name] += 1
@@ -549,8 +549,9 @@ while player.hp > 0:
     print(' Check your status: "Status" or Look at Map: "Map"')
     print(FIELD_OP)
     answer = input(' ')
+    answer = answer.lower()
     try:
-        if answer.lower() not in (
+        if answer not in (
             "status", "map", "north", "n", "east", "e", "south", "s", "west",
             "w"
         ):
@@ -558,26 +559,36 @@ while player.hp > 0:
     except ValueError as e:
         pri_s(f'{e} Please try again.')
         continue
-    if answer.lower() == "map":
+    if answer == "map":
         print(MAP)
         print(
             f'Location X:{player.location_x} | Y:{player.location_y}\n')
         input(hr_enter)
-    elif answer.lower() == "status":
+    elif answer == "status":
         print(player.call_status())
         input(hr_enter)
-    elif map_vali(answer.lower()):   # If map validation is True execute below
+    elif map_vali(answer):   # If map validation is True execute below
         play_move += 1
-        if answer.lower() in ("north", "n"):
+        # Add Medicinal Herb growing position in Northern mountain
+        if (player.location_y == 5) and (-2 <= player.location_x <= 5) and \
+            (answer in ("east", "e")):
+            player.location_x += 1
+            pri_s(f' !!! {player.name} found a Medicinal herb in the mountain.\n\n')
+            pri_s(f' {player.name} got a Medicinal herb!\n\n')
+            # Check if the herb is already exist, if not add the key
+            if "Medicinal herb" not in player.items:
+                player.items["Medicinal herb"] = 0
+            player.items["Medicinal herb"] += 1
+        elif answer in ("north", "n"):
             pri_s(f'\n {player.name} headed North...\n\n')
             player.location_y += 1
-        elif answer.lower() in ("east", "e"):
+        elif answer in ("east", "e"):
             pri_s(f'\n {player.name} headed East...\n\n')
             player.location_x += 1
-        elif answer.lower() in ("south", "s"):
+        elif answer in ("south", "s"):
             pri_s(f'\n {player.name} headed South...\n\n')
             player.location_y -= 1
-        elif answer.lower() in ("west", "w"):
+        elif answer in ("west", "w"):
             pri_s(f'\n {player.name} headed West...\n\n')
             player.location_x -= 1
 
