@@ -76,7 +76,7 @@ hr_enter = '\n---------------------------- Press "Enter" to continue.\n'
 
 
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
-def pri_s(sentence, speed=0.02):
+def pri_s(sentence, speed=0.0):
     '''
     The sentences will be printed out one by one, with an adjustable
     speed argument. c (character)
@@ -278,7 +278,7 @@ def battle_loop(b_monst):
     """
     while True:
         print(" What do you want to do?\n")
-        player_op = input(BATTLE_OP + " ")
+        player_op = input(BATTLE_OP + "\n ")
         try:
             if player_op.lower() not in (
                 "attack", "a", "run", "r", "tame", "t", "surprise", "s"
@@ -448,14 +448,20 @@ def map_vali(direction):
     This function stops the player to go outside of the map
     """
     try:
-        if direction in ("north", "n") and player.location_y == 5:
+        if (direction in ("north", "n") and player.location_y == 5) or \
+            (direction in ("south", "s") and player.location_y == -5) or \
+            (direction in ("east", "e") and player.location_x == 9) or \
+            (direction in ("west", "w") and player.location_x == -6):
             raise IndexError("Please stay inside the Map!")
-        elif direction in ("south", "s") and player.location_y == -5:
-            raise IndexError("Please stay inside the Map!")
-        elif direction in ("east", "e") and player.location_x == 9:
-            raise IndexError("Please stay inside the Map!")
-        elif direction in ("west", "w") and player.location_x == -6:
-            raise IndexError("Please stay inside the Map!")
+    # try:
+    #     if direction in ("north", "n") and player.location_y == 5:
+    #         raise IndexError("Please stay inside the Map!")
+    #     elif direction in ("south", "s") and player.location_y == -5:
+    #         raise IndexError("Please stay inside the Map!")
+    #     elif direction in ("east", "e") and player.location_x == 9:
+    #         raise IndexError("Please stay inside the Map!")
+    #     elif direction in ("west", "w") and player.location_x == -6:
+    #         raise IndexError("Please stay inside the Map!")
     except IndexError as e:
         pri_s(f"{e}")
         return False
