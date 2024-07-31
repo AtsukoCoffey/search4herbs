@@ -157,16 +157,16 @@ class Monsters:
 # Using capital letter to the python variables is not recomended though
 # These are matching to the name attribute because
 # Identifying from @class method uses name attribute.
-Slime = Monsters("Slime", 3, 6, 6, "Medicinal herb", 15, "land")
-She_Slime = Monsters("She_Slime", 4, 7, 6, "Gold", 15, "land")
-Iron_Scorpion = Monsters("Iron_Scorpion", 12, 9, 6, "Iron", 15, "land")
-Ghost = Monsters("Ghost", 12, 4, 6, "Medicinal herb", 15, "woods")
-Bewarewolf = Monsters("Bewarewolf", 18, 12, 7, "Medicinal herb", 10, "land")
-Skeleton = Monsters("Skeleton", 18, 9, 6, "Bone", 10, "land")
-Dracky = Monsters("Dracky", 8, 9, 6, "Medicinal herb", 10, "woods")
-Drackyma = Monsters("Drackyma", 10, 10, 7, "Medicinal herb", 5, "woods")
-Metal_Slime = Monsters("Metal_Slime", 100, 6, 3, "Metal", 4, "land")
-King_Slime = Monsters("King_Slime", 120, 20, 5, "Crown", 1, "land")
+slime = Monsters("Slime", 3, 6, 6, "Stone", 15, "land")
+she_slime = Monsters("She Slime", 4, 7, 6, "Gold", 15, "land")
+iron_scorpion = Monsters("Iron Scorpion", 12, 9, 6, "Iron", 15, "land")
+ghost = Monsters("Ghost", 12, 4, 6, "Medicinal herb", 15, "woods")
+bewarewolf = Monsters("Bewarewolf", 18, 12, 7, "Large fang", 10, "land")
+skeleton = Monsters("Skeleton", 18, 9, 6, "Bone", 10, "land")
+dracky = Monsters("Dracky", 8, 9, 6, "Medicinal herb", 10, "woods")
+drackyma = Monsters("Drackyma", 10, 10, 7, "Medicinal herb", 5, "woods")
+metal_slime = Monsters("Metal Slime", 25, 6, 3, "Metal", 4, "land")
+king_slime = Monsters("King Slime", 40, 20, 5, "Crown", 1, "land")
 
 
 def pick_monster():
@@ -238,7 +238,6 @@ def field_event():
     print(f'  Attack power: {b_monst.attack}')
     print(f'  Belongings: {b_monst.items}')
     print("  ---------------------------------")
-
     input(hr_enter)
 
     # First battle move - Monster's first action - run, attack or hesitate
@@ -317,9 +316,7 @@ def battle_loop(b_monst):
                         pri_s(f' But failed...Lucky!\n\n')
                         continue
                 else:
-                    pri_s(
-                        f'\n {player.name} defeated {b_monst.name}!\
-                        \n\n')
+                    pri_s(f'\n {player.name} defeated {b_monst.name}!\n\n')
                     pri_s(f' {player.name} got {b_monst.items}')
                     # If there is no same key in the player's items
                     # set new key with value of "0"
@@ -448,20 +445,13 @@ def map_vali(direction):
     This function stops the player to go outside of the map
     """
     try:
-        if (direction in ("north", "n") and player.location_y == 5) or \
-            (direction in ("south", "s") and player.location_y == -5) or \
-            (direction in ("east", "e") and player.location_x == 9) or \
-            (direction in ("west", "w") and player.location_x == -6):
+        if (
+            direction in ("north", "n") and player.location_y == 5 or
+            direction in ("south", "s") and player.location_y == -5 or
+            direction in ("east", "e") and player.location_x == 9 or
+            direction in ("west", "w") and player.location_x == -6
+        ):
             raise IndexError("Please stay inside the Map!")
-    # try:
-    #     if direction in ("north", "n") and player.location_y == 5:
-    #         raise IndexError("Please stay inside the Map!")
-    #     elif direction in ("south", "s") and player.location_y == -5:
-    #         raise IndexError("Please stay inside the Map!")
-    #     elif direction in ("east", "e") and player.location_x == 9:
-    #         raise IndexError("Please stay inside the Map!")
-    #     elif direction in ("west", "w") and player.location_x == -6:
-    #         raise IndexError("Please stay inside the Map!")
     except IndexError as e:
         pri_s(f"{e}")
         return False
@@ -576,7 +566,8 @@ while player.hp > 0:
             answer in ("east", "e")
         ):
             player.location_x += 1
-            pri_s(f' !!! {player.name} found a Medicinal herb in the mountain.\n\n')
+            pri_s(
+                f' !!! {player.name} found a Medicinal herb !!!\n\n')
             pri_s(f' {player.name} got a Medicinal herb!\n\n')
             # Check if the herb is already exist, if not add the key
             if "Medicinal herb" not in player.items:
@@ -588,7 +579,8 @@ while player.hp > 0:
             answer in ("west", "w")
         ):
             player.location_x -= 1
-            pri_s(f' !!! {player.name} found a Medicinal herb in the mountain.\n\n')
+            pri_s(
+                f' !!! {player.name} found a Medicinal herb !!!\n\n')
             pri_s(f' {player.name} got a Medicinal herb!\n\n')
             # Check if the herb is already exist, if not add the key
             if "Medicinal herb" not in player.items:
@@ -622,7 +614,6 @@ def get_players_data():
     # lambda argument x indicate second position of tuple - sorted by x value
     move_sorted = sorted(colm_lis, key=lambda x: int(x[1]))
     # move_sorted is like this data [(3, '5'), (0, '6'), (8, '7'), (1, '8'), )]
-    # print(move_sorted)
     # Stores best players index numbers
     player_1_i = move_sorted[0][0]
     player_2_i = move_sorted[1][0]
@@ -633,39 +624,33 @@ def get_players_data():
     pri_s(
         f"""
  The record is {player_data[player_1_i][2]} moves\
- by {player_data[player_1_i][1]} \n\n"""
+ by {player_data[player_1_i][1]} on {player_data[player_1_i][0]}\n\n"""
     )
     pri_s(" These are the Top 5 best players.\n\n")
+    input(hr_enter)
     pri_s(
         f"""No.1-------------------------------------------
  {player_data[player_1_i][0]}, {player_data[player_1_i][1]},
  {player_data[player_1_i][2]} moves, HP {player_data[player_1_i][3]}
  Items {player_data[player_1_i][4]}\n Friends {player_data[player_1_i][5]}\n
-
 No.2-------------------------------------------
  {player_data[player_2_i][0]}, {player_data[player_2_i][1]},
  {player_data[player_2_i][2]} moves, HP {player_data[player_2_i][3]}
  Items {player_data[player_2_i][4]}\n Friends {player_data[player_2_i][5]}\n
-
 No.3-------------------------------------------
  {player_data[player_3_i][0]}, {player_data[player_3_i][1]},
  {player_data[player_3_i][2]} moves, HP {player_data[player_3_i][3]}
  Items {player_data[player_3_i][4]}\n Friends {player_data[player_3_i][5]}\n
-
 No.4-------------------------------------------
  {player_data[player_4_i][0]}, {player_data[player_4_i][1]},
  {player_data[player_4_i][2]} moves, HP {player_data[player_4_i][3]}
  Items {player_data[player_4_i][4]}\n Friends {player_data[player_4_i][5]}\n
-
 No.5-------------------------------------------
  {player_data[player_5_i][0]}, {player_data[player_5_i][1]},
  {player_data[player_5_i][2]} moves, HP {player_data[player_5_i][3]}
  Items {player_data[player_5_i][4]}\n Friends {player_data[player_5_i][5]}\n
-
     """)
-
-
 pri_s(f'You completed the game within {play_move} moves.\n')
 get_players_data()
-print(hr_enter)
+input(hr_enter)
 pri_s(f' Thank you for playing this game {player.name}\n\n\n')
