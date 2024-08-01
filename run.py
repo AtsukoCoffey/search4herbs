@@ -421,7 +421,7 @@ def record():
     """
     pri_s(" Now let's record your data.\n\n")
     print(player.call_status())
-    pri_s(f'You completed the game within {play_move} moves.\n')
+    pri_s(f' You completed the game within {play_move} moves.\n')
     pri_s(" Accessing the data...\n\n")
     now = datetime.datetime.now()
     data = now.strftime("%x"), str(player.name), play_move, str(
@@ -590,6 +590,7 @@ while player.hp > 0:
             if "Medicinal herb" not in player.items:
                 player.items["Medicinal herb"] = 0
             player.items["Medicinal herb"] += 1
+            input(hr_enter)
         elif answer in ("north", "n"):
             pri_s(f'\n {player.name} headed North...\n\n')
             player.location_y += 1

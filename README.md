@@ -85,6 +85,7 @@ When encountering Monsters, I gave them the opportunity to choose their first ac
 
 **Function record()**  
 After the player has cleared the game, the player's status information and the date are recorded in the Google Sheet. [CREDIT-> Function record()](#credit-record)   
+![Function record()](readme/feat-record.png "Function record()")   
 
 **Function get_players_data()**  
 To meet the criteria of 'a working data model' and 'manipulate data,' I created a function that accesses the data and downloads the data of the top 5 players with the lowest moves.  
@@ -162,7 +163,7 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | Sort monsters by living area zones | | Pass |
 | Pick up monsters randomly by weight | | Pass |
 | After the battle event | Validate field achievemt (4 herbs and back to village) | Pass |
-
+![Testing - Map validation](readme/tes-map-vali.png "Testing - Map validation")![Testing - North Mountain](readme/tes-north-mount.png "Testing - North Mountain")![Testing - Field Achievement](readme/tes-field-achi.png "Testing - Field Achievement")
 | Battle loop option input validation | Criteria | Outcome |
 |--|--|--|
 | "Attack"/"A" | "Monster's HP" > 0 leads continue, < 0 lead break the battle | Pass |
