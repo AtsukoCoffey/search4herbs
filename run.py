@@ -575,6 +575,7 @@ while player.hp > 0:
             if "Medicinal herb" not in player.items:
                 player.items["Medicinal herb"] = 0
             player.items["Medicinal herb"] += 1
+            input(hr_enter)
         elif (
             player.location_y == 5 and
             -2 <= player.location_x <= 5 and

@@ -169,7 +169,7 @@ Add events or functions that use other collected items and tamed monsters. Those
 | Sort monsters by living area zones | | Pass |
 | Pick up monsters randomly by weight | | Pass |
 | After the battle event | Validate field achievement (4 herbs and back to village) | Pass |
-![Testing - Map validation](readme/tes-map-vali.png "Testing - Map validation")![Testing - North Mountain](readme/tes-north-mount.png "Testing - North Mountain")![Testing - Field Achievement](readme/tes-field-achi.png "Testing - Field Achievement")
+![Testing - Map validation](readme/tes-map-vali.png "Testing - Map validation")![Testing - North Mountain](readme/tes-north-mount.png "Testing - North Mountain")![Testing - Field Achievement - Achived](readme/tes-field-achi.png "Testing - Field Achievement - Achived")![Testing - Field Achievement - Not achived](readme/test-field-achi.png "Testing - Field Achievement - Not achived")
 | Battle loop option input validation | Criteria | Outcome |
 |--|--|--|
 | "Attack"/"A" | "Monster's HP" > 0 leads continue, < 0 lead break the battle | Pass |
