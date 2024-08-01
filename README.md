@@ -36,7 +36,7 @@ USER STORIES
 * The Code Institute gave me the template to access the game program.  
   
 ***Algorithm planning***  
-As the planning sheet, this game's main parts are the field loop and the battle loop. So before entering the loop ask users their names, and after the game (end the loop) record the user's data to google spread sheet. 
+As the planning sheet, this game's main parts are the field loop and the battle loop. So before entering the loop ask users their names, and after the game (end the loop) record the user's data to google spread sheet.  
 ![Algorithm planning](readme/algorithm-plan.webp)  
 
 # FEATURES  
@@ -46,52 +46,61 @@ As the planning sheet, this game's main parts are the field loop and the battle 
 **Title banner and Introduction**  
 I couldn't use graphic images though I used the ASKII letters for the title banner.
 Also I changed the lead paragraph to a simple short sentence to understand what this app is.  
-![Title banner and Introduction](readme/feat-title.png "Title banner and Introduction") 
 
 **Name Input**  
 It asks the user's name. It is used for the hero's name.
 Validation is set by more than 3 letters, any characters can be used but not just numbers.  
+![Title banner and Introduction](readme/feat-title.png "Title banner and Introduction")  
+
+**Would you like to play?**  
+Before this fantasy story begins, I wanted to give the user a little introduction, preparing for the fantasy setting. Then ask the player to play or not. If User choose "No" then the loop stops for a while though this loop won't exit until the user types "Yes".  
+![Would you like to play?](readme/feat-play.png "Would you like to play?") 
 
 **Story display**  
-Before this fantasy story begins, I wanted to give the user a little introduction, preparing for the fantasy setting. Also all the story sentnces have 2 line break for readability.
+All the story sentnces have 2 line break for readability.
 ![Story display](readme/feat-story.png "Story display") 
 
-**Would you like to play?  Type “Yes” or “Y” / “No” or “N”u**  
-This validation is asking the user to play or not. If User choose "No" then the loop stops for a while though this loop won't exit until the user types "Yes".  
+ 
 
 **Field Loop**  
-When the player goes into the field loop, the field option shows-up and asks what the player's next action is.   
+When the player enters the field loop, the field options appear and ask what the player's next action is. When player selects an action, there are four validations: first, validation for a valid key; next, validation of the map's range; then, a check to see if the location is in the Mountain or not; and finally, proceeding to the cardinal directions `if` statement. Each option calls the `field_event()` function, which sorts the Monsters list based on the location
+and selects a Monster for the battle event to start.      
 
 **Field Option**  
-![Field Option](readme/feat-field-op.png "Field Option") 
+![Field Option](readme/feat-monster-status.png "Field Option") 
 
 **Hero and Monster Status**  
-![Field Option](readme/feat-field-op.png "Field Option") ![Field Option](readme/feat-monster-status.png "Field Option") 
+![Field Option](readme/feat-player-status.png "Field Option") ![Field Option](readme/feat-monster-status.png "Field Option") 
 
 **Map**  
 This map uses player's location information in X, Y coordinates. I couldn't make an automatic position generator
 so the Players have to find out their position by them-selves.
 Also without graphics, I can't say the map's readability is fantastic though when players get used to it, it's not so bad, I think.  
+![Map](readme/feat-map.png "Map") 
+
+**Battle first move and Battle loop**
+When encountering Monsters, I gave them the opportunity to choose their first action. After that, if the Monster didn't run away, the Battle_loop() function starts, and now the Player can also choose an action. This battle loop has one validation for a valid key, all of the actions have a success rate, so sometimes the attack fails also the escape fails too. After the battle event, the code checks the field achievement every time; If the Player has four herbs and the location (X Y) is (0, 0) (the village), an ending story and record() function is triggerd.   
+
+**Battle Option**  
+![Battle Option](readme/feat-battle-op.png "Battle Option")  
 
 **Function record()**  
-After the player clears the game, the player's status information and the date are recorded in the Google Sheet. [CREDIT-> Function record()](#credit-record)   
+After the player have cleared the game, the player's status information and the date are recorded in the Google Sheet. [CREDIT-> Function record()](#credit-record)   
 
 **Function get_players_data()**  
 To meet the criteria of 'a working data model' and 'manipulate data,' I created a function that accesses the data and downloads the data of the top 5 players with the lowest moves.  
  
-My plan was like this, 
 1. Get the `moves` column data.
 2. Make a dictionary that gets and includes their index number.
 3. Compare and find the top 5 data.
-4. From there, it refers the index number to download the whole data. 
+4. From there, it refers the index number to download the top 5 whole data. 
 
-The `moves` column data was list format, so I searched the way how to make the dictionary with the index number together. [CREDIT-> List into dictionary (tuple) - `enumerate`](#credit-lis-into-dic)  
+The `moves` column data was list format, so I searched the way how to make the dictionary with the index number together. 
 ![The `moves` culomms data](readme/credit-list-into-dic-index-1.png "The `moves` culomms data")  
-After I reached to make the tuple (Not dictionary because the data was made by enumerate), I found the new function `lambda` to use it.
+[CREDIT-> List into dictionary (tuple) - `enumerate`](#credit-lis-into-dic)  After I reached to make the tuple (Not dictionary because the data was made by enumerate), I found the new function `lambda` to use it.
 [CREDIT-> List into dictionary - `lambda`](#credit-lambda) 
 
 ## Future Features  
-
 
 **Map**  
 I'd like to have the function that generates the player's position on the map. That will help the player to use this map more easily.

@@ -240,7 +240,7 @@ def field_event():
     print("  ---------------------------------")
     input(hr_enter)
 
-    first_move = move()   # Monster's first action - run, attack or hesitate
+    first_move = move()   # Monster's first action - run, attack or squaringup
     if first_move == "run":   # Monster - run
         pri_s(f'\n !! Quickly {b_monst.name} was running away.\n')
     elif first_move == "attack":   # Monster - attack thier first move
@@ -262,7 +262,7 @@ def field_event():
             input(hr_enter)
             battle_loop(b_monst)   # bring this monster into battle_loop()
     elif first_move == "falter":   # Monster - hesitating thier first move
-        pri_s(f'\n {b_monst.name} was hesitating..\n\n')
+        pri_s(f'\n {b_monst.name} was squaring up to you.\n\n')
         battle_loop(b_monst)
     input(hr_enter)
 
@@ -351,10 +351,10 @@ def battle_loop(b_monst):
             pri_s(" Don't worry, I won't hurt you...\n\n")
             pri_s(
                 f' {b_monst.name} was staring at {player.name} alertly...\n\n')
-            pri_s(f' {player.name} sat down and did made eye contact.\n\n')
+            pri_s(f' {player.name} sat down and made eye contact.\n\n')
             success_rate = attack()   # calculate success rate for the tame
             if success_rate == "success":
-                pri_s(f' {b_monst.name} seems calmed down.\n\n')
+                pri_s(f' {b_monst.name} appears to have calmed down.\n\n')
                 pri_s(
                     f' {player.name} found a biscuit in the pocket.\n\
                     And gave it to {b_monst.name}.\n\n')
@@ -377,7 +377,7 @@ def battle_loop(b_monst):
                 pri_s(
                     f' ....."Whaaaaaaaa!" {player.name} shouted loudly..\n\n')
                 pri_s(
-                    " \n\nUnfortunately, It didn't work..\n\n")
+                    "\n\n Unfortunately, It didn't work..\n\n")
                 continue
             elif how_surp == "hawl":   # Surprise version 1
                 pri_s(
@@ -445,7 +445,7 @@ def map_vali(direction):
             direction in ("east", "e") and player.location_x == 9 or
             direction in ("west", "w") and player.location_x == -6
         ):
-            raise IndexError(" Please stay inside the Map!\n\n")
+            raise IndexError(" Please stay inside the Map!\n")
     except IndexError as e:
         pri_s(f"{e}")
         return False
@@ -563,7 +563,7 @@ while player.hp > 0:
         input(hr_enter)
     elif map_vali(answer):   # If map validation is True execute below
         play_move += 1
-        # Add Medicinal Herb growing position in Northern mountain
+        # Medicinal Herb growing position in Northern mountain
         if (
             player.location_y == 5 and
             -2 <= player.location_x <= 5 and
