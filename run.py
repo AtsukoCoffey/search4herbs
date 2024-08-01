@@ -76,7 +76,7 @@ hr_enter = '\n---------------------------- Press "Enter" to continue.\n'
 
 
 # Referenced from Stack Overflow and Geeksforgeeks.org -> Credit in README
-def pri_s(sentence, speed=0.0):
+def pri_s(sentence, speed=0.04):
     '''
     The sentences will be printed out one by one, with an adjustable
     speed argument. c (character)
@@ -154,8 +154,6 @@ class Monsters:
 
 
 # Create monsters instances
-# Using capital letter to the python variables is not recomended though
-# These are matching to the name attribute because
 # Identifying from @class method uses name attribute.
 slime = Monsters("Slime", 3, 3, 6, "Stone", 15, "land")
 she_slime = Monsters("She Slime", 4, 4, 6, "Gold", 15, "land")
@@ -218,6 +216,25 @@ def surprise_op():
     """
     return random.choices(
         ["hawl", "dash", "mov", "fail"], weights=[2, 2, 2, 4], k=1)[0]
+
+
+def map_vali(direction):
+    """
+    This function stops the player to go outside of the map
+    """
+    try:
+        if (
+            direction in ("north", "n") and player.location_y == 5 or
+            direction in ("south", "s") and player.location_y == -5 or
+            direction in ("east", "e") and player.location_x == 9 or
+            direction in ("west", "w") and player.location_x == -6
+        ):
+            raise IndexError(" Please stay inside the Map!\n")
+    except IndexError as e:
+        pri_s(f"{e}")
+        return False
+
+    return True
 
 
 def field_event():
@@ -417,7 +434,6 @@ def vali_field_achi():
 def record():
     """
     Access the spread sheet and record the player's data
-    calculate the average hp point last 5 players
     """
     pri_s(" Now let's record your data.\n\n")
     print(player.call_status())
@@ -432,25 +448,6 @@ def record():
     player.hp = 0
     pri_s(" Data recorded successfully!!...\n\n")
     input(hr_enter)
-
-
-def map_vali(direction):
-    """
-    This function stops the player to go outside of the map
-    """
-    try:
-        if (
-            direction in ("north", "n") and player.location_y == 5 or
-            direction in ("south", "s") and player.location_y == -5 or
-            direction in ("east", "e") and player.location_x == 9 or
-            direction in ("west", "w") and player.location_x == -6
-        ):
-            raise IndexError(" Please stay inside the Map!\n")
-    except IndexError as e:
-        pri_s(f"{e}")
-        return False
-
-    return True
 
 
 def lost_status():
