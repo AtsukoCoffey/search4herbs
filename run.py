@@ -246,7 +246,7 @@ def field_event():
     elif first_move == "attack":   # Monster - attack thier first move
         success_rate = attack()   # calculate the success rate
         if success_rate == "success":
-            pri_s(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n')
+            pri_s(f'\n Suddenly, {b_monst.name} attacked you!!\n\n')
             input(hr_enter)
             pri_s(f' You got {b_monst.attack} points damage..\n\n')
             player.hp -= b_monst.attack
@@ -257,7 +257,7 @@ def field_event():
             else:   # If player survives the first attack,
                 battle_loop(b_monst)   # bring this monster into battle_loop()
         else:   # Monster - fail thier first move
-            pri_s(f'\n Suddenly, {b_monst.name} attacked on you!!\n\n')
+            pri_s(f'\n Suddenly, {b_monst.name} attacked you!!\n\n')
             pri_s(f' But failed...Lucky!\n\n')
             input(hr_enter)
             battle_loop(b_monst)   # bring this monster into battle_loop()
@@ -297,7 +297,7 @@ def battle_loop(b_monst):
                     success_rate = attack()   # Monster's return attack rate
                     if success_rate == "success":
                         pri_s(
-                            f'\n {b_monst.name} attacked on you!!\n\n')
+                            f'\n {b_monst.name} attacked you!!\n\n')
                         pri_s(
                             f' You got {b_monst.attack} points damage..\n\n')
                         player.hp -= b_monst.attack
@@ -307,7 +307,7 @@ def battle_loop(b_monst):
                             lost_status()
                             break
                     else:   # Monsters sometimes fail their attack too
-                        pri_s(f'\n {b_monst.name} attacked on you!! \n\n')
+                        pri_s(f'\n {b_monst.name} attacked you!! \n\n')
                         pri_s(f' But failed...Lucky!\n\n')
                         continue
                 else:   # When player defeats the monster
@@ -325,7 +325,7 @@ def battle_loop(b_monst):
                 input(hr_enter)
                 success_rate = attack()   # Monster's return attack rate
                 if success_rate == "success":
-                    pri_s(f' {b_monst.name} attacked on you!!\n\n')
+                    pri_s(f' {b_monst.name} attacked you!!\n\n')
                     pri_s(f' You got {b_monst.attack} points damage..\n\n')
                     player.hp -= b_monst.attack
                     print(f' {player.name} HP : {player.hp}\n\n')
@@ -334,7 +334,7 @@ def battle_loop(b_monst):
                         lost_status()
                         break
                 else:   # Sometimes player misses, then Monster misses too.
-                    pri_s(f' {b_monst.name} attacked on you!!\n\n ')
+                    pri_s(f' {b_monst.name} attacked you!!\n\n ')
                     pri_s(f' But failed...Lucky!\n\n')
                     continue
         elif player_op in ("run", "r"):   # If player choose "Run"

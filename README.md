@@ -78,14 +78,14 @@ so the Players have to find out their position by them-selves.
 Also without graphics, I can't say the map's readability is fantastic though when players get used to it, it's not so bad, I think.  
 ![Map](readme/feat-map.png "Map") 
 
-**Battle first move and Battle loop**
+**Battle first move and Battle loop**  
 When encountering Monsters, I gave them the opportunity to choose their first action. After that, if the Monster didn't run away, the Battle_loop() function starts, and now the Player can also choose an action. This battle loop has one validation for a valid key, all of the actions have a success rate, so sometimes the attack fails also the escape fails too. After the battle event, the code checks the field achievement every time; If the Player has four herbs and the location (X Y) is (0, 0) (the village), an ending story and record() function is triggerd.   
 
 **Battle Option**  
 ![Battle Option](readme/feat-battle-op.png "Battle Option")  
 
 **Function record()**  
-After the player have cleared the game, the player's status information and the date are recorded in the Google Sheet. [CREDIT-> Function record()](#credit-record)   
+After the player has cleared the game, the player's status information and the date are recorded in the Google Sheet. [CREDIT-> Function record()](#credit-record)   
 
 **Function get_players_data()**  
 To meet the criteria of 'a working data model' and 'manipulate data,' I created a function that accesses the data and downloads the data of the top 5 players with the lowest moves.  
@@ -95,9 +95,10 @@ To meet the criteria of 'a working data model' and 'manipulate data,' I created 
 3. Compare and find the top 5 data.
 4. From there, it refers the index number to download the top 5 whole data. 
 
-The `moves` column data was list format, so I searched the way how to make the dictionary with the index number together. 
-![The `moves` culomms data](readme/credit-list-into-dic-index-1.png "The `moves` culomms data")  
-[CREDIT-> List into dictionary (tuple) - `enumerate`](#credit-lis-into-dic)  After I reached to make the tuple (Not dictionary because the data was made by enumerate), I found the new function `lambda` to use it.
+The `moves` column data was list format, so I searched the way how to make the dictionary with the index number together.  
+[CREDIT-> List into dictionary (tuple) - `enumerate`](#credit-lis-into-dic)   ![The `moves` culomms data](readme/credit-list-into-dic-index-1.png "The `moves` culomms data")    
+
+After I reached to make the tuple (Not dictionary because the data was made by enumerate), I found the new function `lambda` to use it.  
 [CREDIT-> List into dictionary - `lambda`](#credit-lambda) 
 
 ## Future Features  
@@ -180,6 +181,10 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | Prevent to go outside of the map  | - |
 | Find the Medicinal herb at mountain area | - |
 
+**Code Institute - CI Python Linter**  
+![Code Institute - CI Python Linter](readme/test-ci-linter.png "Code Institute - CI Python Linter")  
+
+
 # BUGS
 ## The bug in the `pick_monster` function
 On the map, there are mountains, woods, fields and water areas. And depending on the zone monsters are different. To sort out monsters, I used if statement inside the `pick_monster` function. When I got this error, I completely forgot to add else statement to it. I was so lucky to find it coincidently though, I realised that I should test everything with all the options and posibilities.    
@@ -216,11 +221,6 @@ To implement this I use `try` and `except` for incase of no key exist.
 Solution:  
 Simply reassigned it with `try` and `except` statement  
 
-## Title Banner
-Because this project doesn't focus on graphic, I wanted to add ASCII art. However I got the error of the "SyntaxWarning: invalid escape sequence '\/'"   
-I couldn't find out how to avoid this error so I changed the ASCII art to not contain any `\/`.
-![Bug title banner (1)](readme/bug-backslush-in-string-1.png "Bug title banner (1)")  
-
 ## Do not use bare "except" 
 I received this error message from the CI Python Linter. I thought it was no surprise to get the error, as I was using the `try-except` statement in a similar way to the `if` statement. I tried to add the `raise` error and catch at `except` also `else` statement but didn't work as I expected. After looking through the information, I assume the `try-except` statement is mainly used for situations involving user input to validate the input.   
 
@@ -229,6 +229,11 @@ I received this error message from the CI Python Linter. I thought it was no sur
 Solution:  
 Change to the `if` statement  
 ![Do not use bare except (2)](readme/bug-bare-except-2.png "Do not use bare except (2)")  
+
+## Title Banner
+Because this project doesn't focus on graphic, I wanted to add ASCII art. However I got the error of the "SyntaxWarning: invalid escape sequence '\/'"   
+I couldn't find out how to avoid this error so I changed the ASCII art to not contain any `\/`.
+![Bug title banner (1)](readme/bug-backslush-in-string-1.png "Bug title banner (1)")  
 
 ## Field achievement validation
 I changed the if condition from using any() in a loop to checking for a specific number: 'Medicinal herb' > 3. I thought that if it wasn't true, the code would just continue, but I got a `KeyError`. Again, since "Medicinal herb" does not exist in the `player.items` dictionary, checking for the key's existence is important before doing anything. 
@@ -239,6 +244,12 @@ Solution:
 Add a check for if the `Key` exists before the purpose code  
 ![Field achievement validation (2)](readme/bug-if-condition-achiev-2.png "Field achievement validation (2)")  
 
+## The bug after lost the game
+When I was tensting to loose the game, I found the ending is not properly devided for completed version and lost version.  
+
+Solution:  
+Made a function lost_status() that shows the players score and get lid of the sentences related to completed version from the ending role.   
+![The bug after lost the game](readme/bug-ending-display-lost.png "The bug after lost the game")
 
 # DEPLOYMENT  
 First, we make a new repository at GitHub. But that is not really suitable for python apps to deploy there, it suits for front-end web sites. So we should make an account for Heroku service to deploy it.  
@@ -328,7 +339,18 @@ top-right of the Repository (not top of page) just right hand side of the reposi
 
 # CREDITS
 ## Code References
+### `isnumeric` Method
+For my name input validation, I needed a method to check if the user input consists only of numbers.  
+![ `isnumeric` Method](readme/credit-isnumeric-input-name.png " `isnumeric` Method")   
 
+### Deepcopy 
+To get a copy without affecting any of the original instances, I used a shallow copy in JavaScript for my PP2 project, though I found that it only copies the first level. If we need a complete copy, then the deep copy is the correct answer.    
+![Deepcopy](readme/credit-deepcopy.png "Deepcopy")  
+
+### Custom validation
+`try` and `except` is useful for user input validation; however, what if I want to validate without raising any errors? I was writing with `if` statement; it was a long statement until I found this useful option.  
+`if *** not in ["**", "**", "**"]` This works for my tuples, lists and dictionaries.
+![Deepcopy](readme/credit-custom-validation.png "Deepcopy")  
 
 ### Find instance by value
 These monsters' habitats are different; some of them live in the woods, while others are in the fields or mountains. I want to sort them by their specific class attributes. To make this possible, I will use a @classmethod, as referenced in an article on Stack Overflow.  
