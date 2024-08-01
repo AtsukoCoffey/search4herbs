@@ -279,7 +279,7 @@ def field_event():
             input(hr_enter)
             battle_loop(b_monst)   # bring this monster into battle_loop()
     elif first_move == "falter":   # Monster - hesitating thier first move
-        pri_s(f'\n {b_monst.name} was squaring up to you.\n\n')
+        pri_s(f'\n {b_monst.name} is squaring up to you.\n\n')
         battle_loop(b_monst)
     input(hr_enter)
 
@@ -388,7 +388,7 @@ def battle_loop(b_monst):
                     " \n\nUnfortunately, It didn't work..\n\n")
                 continue
         elif player_op in ("surprise", "s"):   # If player choose "Surprise"
-            pri_s(f' {player.name} tryed to surprise {b_monst.name}.\n\n')
+            pri_s(f' {player.name} tried to surprise {b_monst.name}.\n\n')
             how_surp = surprise_op()   # calculate success rate for surprise
             if how_surp == "fail":   # Fail to surprise
                 pri_s(
@@ -405,8 +405,9 @@ def battle_loop(b_monst):
                 print("\n")
             elif how_surp == "mov":   # Surprise version 3
                 pri_s(
-                    f' Suddenly {player.name} started weird movement...\n\n')
-            pri_s(f' {b_monst.name} was scared!! Quickly run away.\n\n')
+                    f' Suddenly {player.name} started doing weird movement...\
+                    \n\n')
+            pri_s(f' {b_monst.name} was scared!! Quickly ran away.\n\n')
             break
 
 

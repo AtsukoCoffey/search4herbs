@@ -3,7 +3,7 @@
 Welcome to The Search For Herbs game.  
 This is a text based adventure game that is inspired by the 80’s popular RPG game “Dragon Quest”.  
   
-The hero of this game is going to collect medicinal herbs for their sick sister by running, fighting or dealing with outside of the village.   
+The hero of this game is going to collect medicinal herbs for their sick sister by running, fighting or dealing with monsters outside of the village.   
     
 ## Live site
 [Live site >> https://search-4-herbs-78b993bff664.herokuapp.com/](https://search-4-herbs-78b993bff664.herokuapp.com/)
@@ -32,11 +32,11 @@ USER STORIES
 
 ## 3. Structure Plane  
   
-* The landing page should show what this game is offering intuitively.  
-* The Code Institute gave me the template to access the game program.  
+* The landing page should intuitively show what this game is offering.  
+* The Code Institute provided the template to access the game program.  
   
 ***Algorithm planning***  
-As the planning sheet, this game's main parts are the field loop and the battle loop. So before entering the loop ask users their names, and after the game (end the loop) record the user's data to google spread sheet.  
+The game's main parts are the field loop and the battle loop. Before entering the loop, the game asks users for their names. After the game (end of the loop), it records the user's data to a Google spreadsheet.  
 ![Algorithm planning](readme/algorithm-plan.webp)  
 
 # FEATURES  
@@ -45,19 +45,19 @@ As the planning sheet, this game's main parts are the field loop and the battle 
   
 **Title banner and Introduction**  
 I couldn't use graphic images though I used the ASKII letters for the title banner.
-Also I changed the lead paragraph to a simple short sentence to understand what this app is.  
+Also I changed the lead paragraph to a simple short sentence to explain what this app is.  
 
 **Name Input**  
-It asks the user's name. It is used for the hero's name.
-Validation is set by more than 3 letters, any characters can be used but not just numbers.  
+It asks for the user's name which is used for the hero's name.
+Validation requires more than 3 letters, any characters can be used, but not just numbers.  
 ![Title banner and Introduction](readme/feat-title.png "Title banner and Introduction")  
 
 **Would you like to play?**  
-Before this fantasy story begins, I wanted to give the user a little introduction, preparing for the fantasy setting. Then ask the player to play or not. If User choose "No" then the loop stops for a while though this loop won't exit until the user types "Yes".  
+Before this fantasy story begins, I wanted to give the user a little introduction, preparing for the fantasy setting. Then ask the player to play or not. If the user choose "No" then the loop stops for a while but won't exit until the user types "Yes".  
 ![Would you like to play?](readme/feat-play.png "Would you like to play?") 
 
 **Story display**  
-All the story sentnces have 2 line break for readability.
+All the story sentences have 2 line breaks for readability.  
 ![Story display](readme/feat-story.png "Story display") 
 
  
@@ -74,11 +74,11 @@ and selects a Monster for the battle event to start.
 **Map**  
 This map uses player's location information in X, Y coordinates. I couldn't make an automatic position generator
 so the Players have to find out their position by them-selves.
-Also without graphics, I can't say the map's readability is fantastic though when players get used to it, it's not so bad, I think.  
+Although the map's readability isn't fantastic without graphics, it's not too bad once players get used to it.  
 ![Map](readme/feat-map.png "Map") 
 
 **Battle first move and Battle loop**  
-When encountering Monsters, I gave them the opportunity to choose their first action. After that, if the Monster didn't run away, the Battle_loop() function starts, and now the Player can also choose an action. This battle loop has one validation for a valid key, all of the actions have a success rate, so sometimes the attack fails also the escape fails too. After the battle event, the code checks the field achievement every time; If the Player has four herbs and the location (X Y) is (0, 0) (the village), an ending story and record() function is triggerd.   
+When encountering Monsters, they have the opportunity to choose their first action. After that, if the Monster doesn’t run away, the Battle_loop() function starts, and the Player can choose an action. This battle loop has one validation for a valid key, all of the actions have a success rate, so sometimes the attack fails and escape can fail too. After the battle event, the code checks the field achievement every time; If the Player has four herbs and the location (X Y) is (0, 0) (the village), an ending story and record() function is triggered.   
 
 **Battle Option**  
 ![Battle Option](readme/feat-battle-op.png "Battle Option")  
@@ -104,10 +104,16 @@ After I had created the tuple (Not dictionary because the data was generated usi
 ## Future Features  
 
 **Map**  
-I'd like to have the function that generates the player's position on the map. That will help the player to use this map more easily.
+I'd like to include a function that generates the player's position on the map. That will help the player to use this map more easily.
 
-**Heal the HP and Level Up System**  
+**Heal HP and Level Up System**  
 To make this game more interesting, adding HP healing option (e.g. medicine, or magic) and adding level up system might be useful.  
+
+**Help button**  
+Create a help page and having a link button on the page will help first time players.  
+
+**Add events or functions**  
+Add events or functions that use other collected items and tamed monsters. Those might enhance enjoyment.  
 
 # TECHNOLOGY USED  
 - [Python](https://www.python.org) used for all functionality. Programming language. 
@@ -123,9 +129,9 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | Visual display | Outcome  |
 |--|--|
 | The title logo and lead texts are printed correctly | Pass |
-| Some stories are printed with time controled (slow) | Pass |
-| The field option, battle option, status box, map shows up | Pass |
-| After the game, Top 5 best data is deisplayed | Pass |
+| Some stories are printed with time control (slow) | Pass |
+| The field option, battle option, status box, map show up | Pass |
+| After the game, Top 5 best data is displayed | Pass |
 
 **Testing for functionality**  
 | Name input validation | Outcome |
@@ -154,7 +160,7 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 
 |Field loop - other validations | | Outcome |
 |--|--|--|
-| Map range validation | when player try to go out side - alert & prevent the move | Pass |
+| Map range validation | when player tries to go out side - alert & prevent the move | Pass |
 | Northern Mountain | when player is in Northern Mountain position - special event | Pass |
 | "North" / "N" | Add counters, lead to the battle event function | Pass |
 | "South" / "S" | Add counters, lead to the battle event function | Pass |
@@ -162,7 +168,7 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | "West" / "W" | Add counters, lead to the battle event function | Pass |
 | Sort monsters by living area zones | | Pass |
 | Pick up monsters randomly by weight | | Pass |
-| After the battle event | Validate field achievemt (4 herbs and back to village) | Pass |
+| After the battle event | Validate field achievement (4 herbs and back to village) | Pass |
 ![Testing - Map validation](readme/tes-map-vali.png "Testing - Map validation")![Testing - North Mountain](readme/tes-north-mount.png "Testing - North Mountain")![Testing - Field Achievement](readme/tes-field-achi.png "Testing - Field Achievement")
 | Battle loop option input validation | Criteria | Outcome |
 |--|--|--|
@@ -190,7 +196,7 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 
 # BUGS
 ## The bug in the `pick_monster` function
-On the map, there are mountains, woods, fields and water areas. And depending on the zone monsters are different. To sort out monsters, I used if statement inside the `pick_monster` function. When I got this error, I completely forgot to add else statement to it. I was so lucky to find it coincidently though, I realised that I should test everything with all the options and posibilities.    
+On the map, there are mountains, woods, fields and water areas. And depending on the zone the monsters are different. To sort out monsters, I used if statement inside the `pick_monster` function. When I got this error, I completely forgot to add else statement to it. I was so lucky to find it coincidently though, I realised that I should test everything with all the options and possibilities.    
 ![The bug in the `pick_monster` function (1)](readme/bug-forget-else.png "The bug in the `pick_monster` function (1)")  
 Solution:  
 Add `else` statement  
@@ -248,7 +254,7 @@ Add a check for if the `Key` exists before the purpose code
 ![Field achievement validation (2)](readme/bug-if-condition-achiev-2.png "Field achievement validation (2)")  
 
 ## The bug after lost the game
-When I was tensting to loose the game, I found the ending is not properly devided for completed version and lost version.  
+When I was testing to purposefully lose the game, I found that the ending is not properly devided for completed version and lost version.  
 
 Solution:  
 Made a function lost_status() that shows the players score and get lid of the sentences related to completed version from the ending role.   
@@ -283,7 +289,7 @@ This is how to get the credentials, based on the Code Institute template documen
 3. Create new credentials for the new project with Editor setting.  
 4. From "APIs and services", choose "Credentials", click the new mail address that has been created.  
 ![Google API Credencial (4)](readme/dep-googleapi-cred-1.png "Google API Credencial (4)")  
-5. Choose "KEYS" from top navigations and "ADD KEY" drop dpwn.  
+5. Choose "KEYS" from top navigations and "ADD KEY" drop down.  
 6. Create new key. Key type is JSON, click "CREATE". Then the credential json file is automatically down loaded.  
 ![Google API Credencial (6)](readme/dep-googleapi-cred-2.png "Google API Credencial (6)")  
 
@@ -335,10 +341,8 @@ top-right of the Repository (not top of page) just right hand side of the reposi
 ![Forking (1)](readme/dep-fork-1.png "Forking (1)") 
 
 2. Input available new repository name and click “Create fork”. Now there is a copy of the original repository in my own GitHub account.
-![Forking (2)](readme/dep-fork-2.png "Forking (2)") 
+![Forking (2)](readme/dep-fork-2.png "Forking (2)") <a id="credit-ins"></a>
 
-## Cloning
-<a id="credit-ins"></a>
 
 # CREDITS
 ## Code References
@@ -360,8 +364,8 @@ These monsters' habitats are different; some of them live in the woods, while ot
 First, save all the instances in the list and using `@classmethod` to sort out by specific value. Then, randomly pick up instances by populations' weight.    
 ![Find instance by value](readme/credit-find-instance-by-value.png "Find instance by value")  
 
-### Slow print use standard output write and flush 
-In this kind of text based game, the effects of text display play an important role in user readability. I found this speed controle function code first. However this time I couldn't understand why and how this work. So below are some researches about this.
+### Slow print use standard output `write` and `flush` 
+In this kind of text based game, the effects of text display play an important role in user readability. I found this speed control function code first. However this time I couldn't understand why and how this work. So below are some researches about this.
 ![Slow print with speed controle - Stack Oveflow](readme/credit-slow-print-1.png "Slow print with speed controle  - Stack Oveflow")  
 
 <details>
@@ -386,7 +390,7 @@ In this kind of text based game, the effects of text display play an important r
 </details>  
 
 ### Get current time  
-When recording player's data into Google sheet, I wanted to use usuful Date() function like Java Script has. In python we have a `datetime` package, I implemented this into my `record()` function.  
+When recording player's data into Google sheet, I wanted to use useful Date() function like Java Script has. In python we have a `datetime` package, I implemented this into my `record()` function.  
 `datetime.datetime.now()` - I got an error when using single `datetime.now()` I assume the first `datetime` is module name.
 ![Get current time -](readme/credit-datetime.png "Get current time -")   
 These are the some format of the datetime object. I used `%x` and display like this `07/29/24`. 
@@ -395,13 +399,13 @@ Also I got an another error when I used `str()` to this when exporting it by JSO
 ![Get current time - W3School](readme/credit-datetime-3.png "Get current time - W3School")<a id="credit-lis-into-dic"></a>
 
 ### List into dictionary (tuple) with index no. - `enumerate`   
-I found some different ways to achive this though, this `enumerate` method is build-in function so I wanted to get used to it. Note:`enumerate` returns a `tuple` not dictionary.  
+I found some different ways to achieve this though, this `enumerate` method is build-in function so I wanted to get used to it. Note:`enumerate` returns a `tuple` not dictionary.  
 ![List into tuple with index no. (1)](readme/credit-list-into-dic-index-2.png "List into tuple with index no. (1)")  
 ![List into tuple with index no. (2)](readme/credit-list-into-dic-index-3.png "List into tuple with index no. (2)")<a id="credit-lambda"></a>
 
 ### Using `lambda` anonymous function
 To get lowest `moves` value from the dictionary, I tried to use `min()`. There
-were `lambda` in some example code, I changed my mind to use `sorted()` there are `lambda` sample codes again. So learned about this fantastic fanction.
+were `lambda` in some example code, I changed my mind to use `sorted()` there are `lambda` sample codes again. So learned about this fantastic function.
 ![Using lambda (1)](readme/credit-lambda-1.png "Using lambda (1)")  
 ![Using lambda (2)](readme/credit-lambda-2.png "Using lambda (2)")  
 W3School's `Try it Yourself` space is really useful to try my code as well. When I checked whether my code was working or not, I have to play and clear the game to reach to the `record()` function. Here I could try `enumerate` and `lambda` together. Below screen-shot shows that I got the sorted tuple data. Underneath is getting the index numbers of the top 5.
