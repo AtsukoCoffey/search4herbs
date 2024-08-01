@@ -61,16 +61,15 @@ All the story sentnces have 2 line break for readability.
 ![Story display](readme/feat-story.png "Story display") 
 
  
-
 **Field Loop**  
 When the player enters the field loop, the field options appear and ask what the player's next action is. When player selects an action, there are four validations: first, validation for a valid key; next, validation of the map's range; then, a check to see if the location is in the Mountain or not; and finally, proceeding to the cardinal directions `if` statement. Each option calls the `field_event()` function, which sorts the Monsters list based on the location
 and selects a Monster for the battle event to start.      
 
 **Field Option**  
-![Field Option](readme/feat-monster-status.png "Field Option") 
+![Field Option](readme/feat-field-op.png "Field Option") 
 
 **Hero and Monster Status**  
-![Field Option](readme/feat-player-status.png "Field Option") ![Field Option](readme/feat-monster-status.png "Field Option") 
+![Player's status](readme/feat-player-status.png "Player's status")![Monster's status](readme/feat-monster-status.png "Monster's status") 
 
 **Map**  
 This map uses player's location information in X, Y coordinates. I couldn't make an automatic position generator
@@ -91,14 +90,14 @@ After the player has cleared the game, the player's status information and the d
 To meet the criteria of 'a working data model' and 'manipulate data,' I created a function that accesses the data and downloads the data of the top 5 players with the lowest moves.  
  
 1. Get the `moves` column data.
-2. Make a dictionary that gets and includes their index number.
-3. Compare and find the top 5 data.
-4. From there, it refers the index number to download the top 5 whole data. 
+2. Create a dictionary that includes the index number of the data as a "key".
+3. Compare the values and retrieve the top 5 index numbers of the best data.
+4. From there, it refers to the index numbers to download the complete data for the top 5 entries. 
 
-The `moves` column data was list format, so I searched the way how to make the dictionary with the index number together.  
+The `moves` column data was in list format, so I searched for a way to convert it into a dictionary that includes the index numbers together.  
 [CREDIT-> List into dictionary (tuple) - `enumerate`](#credit-lis-into-dic)   ![The `moves` culomms data](readme/credit-list-into-dic-index-1.png "The `moves` culomms data")    
 
-After I reached to make the tuple (Not dictionary because the data was made by enumerate), I found the new function `lambda` to use it.  
+After I had created the tuple (Not dictionary because the data was generated using `enumerate()`), I found the new `lambda` function and decided to use it.  
 [CREDIT-> List into dictionary - `lambda`](#credit-lambda) 
 
 ## Future Features  
@@ -123,20 +122,18 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | Visual display | Outcome  |
 |--|--|
 | The title logo and lead texts are printed correctly | Pass |
-| Stories are printed | Pass |
-| The field option box shows up | Pass |
-| The map shows up | Pass |
-| The status box shows up | Pass |
-| The monsters status shows up | Pass |
-| The battle option shows up | Pass |  
+| Some stories are printed with time controled (slow) | Pass |
+| The field option, battle option, status box, map shows up | Pass |
+| After the game, Top 5 best data is deisplayed | Pass |
 
 **Testing for functionality**  
 | Name input validation | Outcome |
 |--|--|
 | Alphabets, numbers, symbols can be accepted | Pass |
+| Prevent less than 3 letters input. | Pass |
 | Prevent only numbers input. (No alphabet nor numbers) | Pass |
 | prevent empty value to proceed | Pass |
-![Testing name input](readme/tes-name1.png "Testing name input") ![Testing name input](readme/tes-name2.png "Testing name input")
+![Testing name input](readme/tes-name3.png "Testing name input") ![Testing name input](readme/tes-name1.png "Testing name input") ![Testing name input](readme/tes-name2.png "Testing name input")
 
 | Start game input validation | Outcome |
 |--|--|
@@ -145,7 +142,7 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | prevent empty value to proceed | Pass |
 ![Testing - Start game - Yes or No](readme/tes-yes-no1.png "Testing - Start game - Yes or No") ![Testing - Start game - Yes or No](readme/tes-yes-no2.png "Testing - Start game - Yes or No")
 
-| Field loop option input validation | Outcome |
+| Field loop option - input validation | Outcome |
 |--|--|
 | "Status" shows the status box | Pass |
 | "Map" shows the map with location X, Y | Pass |
@@ -154,14 +151,17 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | prevent empty value to proceed | Pass |
 ![Testing - Field option](readme/tes-field1.png "Testing - Field option") ![Testing - Field option](readme/tes-field2.png "Testing - Field option")
 
-|Field loop - sorting and selecting Monsters | | Outcome |
+|Field loop - other validations | | Outcome |
 |--|--|--|
-| "North" / "N" | Add counters, lead to the function | Pass |
-| "South" / "S" | Add counters, lead to the function | Pass |
-| "East" / "E" | Add counters, lead to the function | Pass |
-| "West" / "W" | Add counters, lead to the function | Pass |
+| Map range validation | when player try to go out side - alert & prevent the move | Pass |
+| Northern Mountain | when player is in Northern Mountain position - special event | Pass |
+| "North" / "N" | Add counters, lead to the battle event function | Pass |
+| "South" / "S" | Add counters, lead to the battle event function | Pass |
+| "East" / "E" | Add counters, lead to the battle event function | Pass |
+| "West" / "W" | Add counters, lead to the battle event function | Pass |
 | Sort monsters by living area zones | | Pass |
 | Pick up monsters randomly by weight | | Pass |
+| After the battle event | Validate field achievemt (4 herbs and back to village) | Pass |
 
 | Battle loop option input validation | Criteria | Outcome |
 |--|--|--|
@@ -169,6 +169,8 @@ To make this game more interesting, adding HP healing option (e.g. medicine, or 
 | "Run/"R" | Randomly success and fail | Pass |
 | "Tame"/"T" | Randomly success and fail | Pass |
 | "Surprise"/"S" | 3 options lead to break the battle, 1 option leads to continue | Pass |
+| Prevent all the other keys, print warning. || Pass |
+| prevent empty value to proceed || Pass |
 
 | Recording the data and loading the best players data | Criteria | Outcome |
 |--|--|--|
