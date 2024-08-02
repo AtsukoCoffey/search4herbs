@@ -415,6 +415,27 @@ W3School's `Try it Yourself` space is really useful to try my code as well. When
 ### Function record()
 This part I referred to from Code Institute's walkthrough project 'Love Sandwich' to learn how to connect to Google Drive and Google Sheets, as well as how to handle the data in the spreadsheet. 
 
+## Content References
+* Code Institute Learning Material
+> [Link to Code Institute Full-Stack Software Development Program](https://codeinstitute.net/?nab=0 "Code Institute Full-Stack Software Development Program")
+
+* Text to ASCII Art Generator - patorjk.com
+> [ASKII letter art](https://www.patorjk.com/software/taag/#p=display&f=Thick&t=The%20Search%20For%20Herbs "ASKII letter art")
+Thick by Randall Ransom 2/94
+
+* W3schools
+> Used to research codes
+
+* GeeksforGeeks
+> Used to research codes
+
+* stackoverflow
+> Used to research codes
+
+* perplexity
+> Used for general questions
+
+
 ## Editing and Proofreading
 Since I am not a native English speaker, my family assisted me with editing and proofreading.
  [ACKNOWLEDGEMENTS](#acknowledgements)  
